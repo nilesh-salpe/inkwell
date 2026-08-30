@@ -8,7 +8,8 @@
 
   const $ = Shell.$;
   const escapeHtml = Shell.escapeHtml;
-  let mode = 'encode';
+  const MODE_KEY = 'inkwell.escape.mode';
+  let mode = Shell.lsGet(MODE_KEY, 'encode');
 
   const enc = new TextEncoder();
   const dec = new TextDecoder();
@@ -192,6 +193,7 @@
 
   function setMode(next) {
     mode = next;
+    Shell.lsSet(MODE_KEY, mode);
     Shell.$$('.esc-mode').forEach((b) => b.classList.toggle('is-active', b.dataset.mode === mode));
     api.render();
   }
@@ -210,5 +212,5 @@
     }
   });
 
-  setMode('encode');
+  setMode(mode);
 })();

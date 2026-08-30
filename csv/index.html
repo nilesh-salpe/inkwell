@@ -106,6 +106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="../escape/"><span class="tool-name">Escape</span><span class="tool-blurb">Escape &amp; unescape</span></a>
         <hr>
         <a href="../guides/"><span class="tool-name">Guides</span><span class="tool-blurb">How-to articles</span></a>
+        <p class="palette-tip">Press <kbd>Ctrl</kbd> <kbd>K</kbd> to search every tool and command</p>
       </div>
     </div>
     <div class="doc-title-wrap">
@@ -202,14 +203,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </select>
         </div>
         <div class="qbar">
-          <select id="c-delim" class="mini-select" data-tip="Delimiter" aria-label="Delimiter">
+          <select id="c-delim" data-remember class="mini-select" data-tip="Delimiter" aria-label="Delimiter">
             <option value="auto" selected>Auto</option>
             <option value=",">Comma</option>
             <option value=";">Semicolon</option>
             <option value="&#9;">Tab</option>
             <option value="|">Pipe</option>
           </select>
-          <label class="c-check"><input type="checkbox" id="c-header" checked> First row is a header</label>
+          <label class="c-check"><input type="checkbox" id="c-header" data-remember checked> First row is a header</label>
           <input id="c-filter" placeholder="Filter rows…" spellcheck="false" autocomplete="off" aria-label="Filter rows">
           <span class="q-count" id="c-count"></span>
         </div>

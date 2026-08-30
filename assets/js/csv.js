@@ -216,6 +216,22 @@
       return r.body.length + ' rows × ' + r.width + ' cols';
     },
     updateStatus: setStatus,
+    /* going out to a tool that expects JSON, hand over JSON */
+    payloadFor: (target, source) => {
+      if (target !== 'json' && target !== 'yaml') return source;
+      const r = analyse(source);
+      return r.empty ? source : JSON.stringify(toObjects(r), null, 2) + '\n';
+    },
+    /* arriving from a tool that speaks JSON, become a table */
+    onHandoff: (text) => {
+      let v;
+      try { v = JSON.parse(text); } catch (e) { return null; }
+      if (!Array.isArray(v) || !v.length || typeof v[0] !== 'object') return null;
+      const keys = [];
+      v.forEach((o) => Object.keys(o || {}).forEach((k) => { if (keys.indexOf(k) === -1) keys.push(k); }));
+      const body = v.map((o) => keys.map((k) => (o && o[k] != null ? String(o[k]) : '')));
+      return { text: toCsv(keys, body, ','), note: 'Converted from JSON to CSV' };
+    },
     render: (src, preview) => {
       const r = analyse(src);
       if (r.empty) {

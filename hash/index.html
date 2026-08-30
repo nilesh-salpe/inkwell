@@ -106,6 +106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="../escape/"><span class="tool-name">Escape</span><span class="tool-blurb">Escape &amp; unescape</span></a>
         <hr>
         <a href="../guides/"><span class="tool-name">Guides</span><span class="tool-blurb">How-to articles</span></a>
+        <p class="palette-tip">Press <kbd>Ctrl</kbd> <kbd>K</kbd> to search every tool and command</p>
       </div>
     </div>
     <div class="doc-title-wrap">
@@ -199,11 +200,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="gbar">
           <span class="q-label">HMAC key</span>
           <input id="h-key" type="text" placeholder="leave empty for a plain hash" spellcheck="false" autocomplete="off" aria-label="HMAC key">
-          <select id="h-format" class="mini-select" data-tip="Output encoding" aria-label="Output encoding">
+          <select id="h-format" data-remember class="mini-select" data-tip="Output encoding" aria-label="Output encoding">
             <option value="hex" selected>Hex</option>
             <option value="base64">Base64</option>
           </select>
-          <label class="c-check"><input type="checkbox" id="h-upper"> Uppercase</label>
+          <label class="c-check"><input type="checkbox" id="h-upper" data-remember> Uppercase</label>
         </div>
         <div class="gbar">
           <span class="q-label">Expected</span>

@@ -223,19 +223,41 @@
     return html + '</tbody></table>';
   }
 
+  /* ---------- state, kept between visits ----------
+     This page has no document sidebar, so without this a reload threw
+     away both pastes. */
+  const KEY = 'inkwell.diff.state';
+
+  function saveState() {
+    Shell.lsSet(KEY, {
+      a: els.a.value, b: els.b.value,
+      view: els.view.value, ws: els.ws.checked, ci: els.ci.checked
+    });
+  }
+  function restoreState() {
+    const st = Shell.lsGet(KEY, null);
+    if (!st) return;
+    els.a.value = st.a || '';
+    els.b.value = st.b || '';
+    if (st.view) els.view.value = st.view;
+    els.ws.checked = !!st.ws;
+    els.ci.checked = !!st.ci;
+  }
+
   /* ---------- wiring ---------- */
   let t = null;
-  const bump = () => { clearTimeout(t); t = setTimeout(render, 180); };
+  const bump = () => { clearTimeout(t); t = setTimeout(() => { render(); saveState(); }, 180); };
   [els.a, els.b].forEach((n) => n.addEventListener('input', bump));
-  [els.ws, els.ci, els.view].forEach((n) => n.addEventListener('change', render));
+  [els.ws, els.ci, els.view].forEach((n) => n.addEventListener('change', () => { render(); saveState(); }));
+  window.addEventListener('beforeunload', saveState);
 
   $('#d-swap').addEventListener('click', () => {
     const tmp = els.a.value; els.a.value = els.b.value; els.b.value = tmp;
-    render();
+    render(); saveState();
     Shell.toast('Swapped sides');
   });
   $('#d-clear').addEventListener('click', () => {
-    els.a.value = ''; els.b.value = ''; render(); els.a.focus();
+    els.a.value = ''; els.b.value = ''; render(); saveState(); els.a.focus();
   });
   $('#d-copy').addEventListener('click', async () => {
     Shell.toast(await Shell.copyText(els.out.textContent.trim()) ? 'Copied the diff' : 'Copy failed');
@@ -252,13 +274,25 @@
       const f = e.dataTransfer.files && e.dataTransfer.files[0];
       if (!f) return;
       const r = new FileReader();
-      r.onload = () => { box.value = String(r.result); render(); };
+      r.onload = () => { box.value = String(r.result); render(); saveState(); };
       r.readAsText(f);
     });
   });
 
   Shell.initTheme();
   Shell.initMenus();
+  Shell.initPalette();
+  restoreState();
+
+  /* text sent from another tool lands in whichever side is free */
+  const incoming = Shell.takeHandoff('diff');
+  if (incoming) {
+    if (!els.a.value.trim()) els.a.value = incoming.text;
+    else els.b.value = incoming.text;
+    saveState();
+    Shell.toast('Brought over from ' + (incoming.from || 'another tool'));
+  }
+
   render();
 
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {

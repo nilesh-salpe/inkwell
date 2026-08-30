@@ -106,6 +106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="../escape/"><span class="tool-name">Escape</span><span class="tool-blurb">Escape &amp; unescape</span></a>
         <hr>
         <a href="../guides/"><span class="tool-name">Guides</span><span class="tool-blurb">How-to articles</span></a>
+        <p class="palette-tip">Press <kbd>Ctrl</kbd> <kbd>K</kbd> to search every tool and command</p>
       </div>
     </div>
     <div class="doc-title-wrap">
@@ -200,7 +201,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </select>
         </div>
         <div class="gbar">
-          <select id="g-type" class="mini-select" aria-label="Identifier type">
+          <select id="g-type" data-remember class="mini-select" aria-label="Identifier type">
             <optgroup label="UUID — 128 bits, fixed length">
               <option value="v4" selected>v4 — random</option>
               <option value="v7">v7 — time-ordered (recommended for new work)</option>
@@ -219,19 +220,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <option value="base64">Random base64url</option>
             </optgroup>
           </select>
-          <label class="c-check">Count <input type="number" id="g-count" value="10" min="1" max="10000"></label>
-          <label class="c-check" id="g-len-wrap" hidden>Length <input type="number" id="g-len" value="21" min="1" max="256"></label>
-          <label class="c-check"><input type="checkbox" id="g-hyphens" checked> Hyphens</label>
-          <label class="c-check"><input type="checkbox" id="g-upper"> Uppercase</label>
+          <label class="c-check">Count <input type="number" id="g-count" data-remember value="10" min="1" max="10000"></label>
+          <label class="c-check" id="g-len-wrap" hidden>Length <input type="number" id="g-len" data-remember value="21" min="1" max="256"></label>
+          <label class="c-check"><input type="checkbox" id="g-hyphens" data-remember checked> Hyphens</label>
+          <label class="c-check"><input type="checkbox" id="g-upper" data-remember> Uppercase</label>
         </div>
         <div class="gbar" id="g-name-wrap" hidden>
           <span class="q-label">Namespace</span>
-          <input id="g-ns" value="6ba7b810-9dad-11d1-80b4-00c04fd430c8" spellcheck="false" aria-label="Namespace UUID">
+          <input id="g-ns" data-remember value="6ba7b810-9dad-11d1-80b4-00c04fd430c8" spellcheck="false" aria-label="Namespace UUID">
           <button class="mini" data-ns="DNS" data-tip="Standard DNS namespace">DNS</button>
           <button class="mini" data-ns="URL" data-tip="Standard URL namespace">URL</button>
           <button class="mini" data-ns="OID" data-tip="Standard OID namespace">OID</button>
           <button class="mini" data-ns="X500" data-tip="Standard X.500 namespace">X500</button>
-          <input id="g-name" value="www.example.com" spellcheck="false" placeholder="Name" aria-label="Name">
+          <input id="g-name" data-remember value="www.example.com" spellcheck="false" placeholder="Name" aria-label="Name">
         </div>
         <div class="preview-scroll" id="preview-scroll">
           <article id="preview" class="markdown-body json-body"></article>

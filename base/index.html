@@ -106,6 +106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="../escape/"><span class="tool-name">Escape</span><span class="tool-blurb">Escape &amp; unescape</span></a>
         <hr>
         <a href="../guides/"><span class="tool-name">Guides</span><span class="tool-blurb">How-to articles</span></a>
+        <p class="palette-tip">Press <kbd>Ctrl</kbd> <kbd>K</kbd> to search every tool and command</p>
       </div>
     </div>
     <div class="doc-title-wrap">
@@ -196,27 +197,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="gbar">
           <span class="q-label">Input base</span>
-          <select id="b-base" class="mini-select" aria-label="Input base">
+          <select id="b-base" data-remember class="mini-select" aria-label="Input base">
             <option value="auto" selected>Auto</option>
             <option value="2">Binary</option><option value="8">Octal</option>
             <option value="10">Decimal</option><option value="16">Hex</option>
             <option value="36">Base 36</option>
           </select>
           <span class="q-label">Width</span>
-          <select id="b-width" class="mini-select" aria-label="Bit width">
+          <select id="b-width" data-remember class="mini-select" aria-label="Bit width">
             <option value="8">8-bit</option><option value="16">16-bit</option>
             <option value="32" selected>32-bit</option><option value="64">64-bit</option>
           </select>
         </div>
         <div class="gbar">
           <span class="q-label">Bitwise</span>
-          <select id="b-op" class="mini-select" aria-label="Operation">
+          <select id="b-op" data-remember class="mini-select" aria-label="Operation">
             <option value="none" selected>None</option>
             <option value="and">AND</option><option value="or">OR</option><option value="xor">XOR</option>
             <option value="not">NOT</option><option value="shl">Shift left</option><option value="shr">Shift right</option>
             <option value="add">Add</option><option value="sub">Subtract</option><option value="mul">Multiply</option>
           </select>
-          <input id="b-operand" placeholder="second value" spellcheck="false" autocomplete="off" aria-label="Second value">
+          <input id="b-operand" data-remember placeholder="second value" spellcheck="false" autocomplete="off" aria-label="Second value">
         </div>
         <div class="preview-scroll" id="preview-scroll">
           <article id="preview" class="markdown-body json-body"></article>

@@ -295,6 +295,19 @@
       return s.keys + ' keys · depth ' + s.depth;
     },
     updateStatus: setStatus,
+    /* an array of flat objects is exactly what a CSV is */
+    payloadFor: (target, source) => {
+      if (target !== 'csv') return source;
+      const r = parse(source);
+      if (r.error || r.empty || !Array.isArray(r.value) || !r.value.length) return source;
+      const keys = [];
+      r.value.forEach((o) => Object.keys(o || {}).forEach((k) => { if (keys.indexOf(k) === -1) keys.push(k); }));
+      const cell = (v) => {
+        const s = v == null ? '' : String(v);
+        return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+      };
+      return [keys.join(',')].concat(r.value.map((o) => keys.map((k) => cell(o && o[k])).join(','))).join('\n') + '\n';
+    },
     render: (src, preview) => {
       const r = parse(src);
       lastMatches = null;

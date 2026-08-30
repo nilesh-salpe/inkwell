@@ -250,6 +250,11 @@
       return s.elements + ' elements · depth ' + s.depth;
     },
     updateStatus: setStatus,
+    payloadFor: (target, source) => {
+      if (target !== 'json' && target !== 'csv') return source;
+      const r = parse(source);
+      return r.empty || r.error ? source : JSON.stringify(asValue(r.doc), null, 2) + '\n';
+    },
     render: (src, preview) => {
       const r = parse(src);
       lastMatches = null;

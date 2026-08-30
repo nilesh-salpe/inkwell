@@ -139,6 +139,17 @@
       return s.keys + ' keys · depth ' + s.depth;
     },
     updateStatus: setStatus,
+    payloadFor: (target, source) => {
+      if (target !== 'json' && target !== 'csv') return source;
+      const r = parse(source);
+      return r.empty || r.error ? source : JSON.stringify(subject(r), null, 2) + '\n';
+    },
+    onHandoff: (text) => {
+      let v;
+      try { v = JSON.parse(text); } catch (e) { return null; }
+      return { text: window.jsyaml.dump(v, Object.assign({}, DUMP, { indent: 2 })),
+               note: 'Converted from JSON to YAML' };
+    },
     render: (src, preview) => {
       const r = parse(src);
       lastMatches = null;

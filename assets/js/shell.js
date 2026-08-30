@@ -247,6 +247,185 @@ window.Shell = (function () {
     window.addEventListener('resize', closeMenus);
   }
 
+
+  /* ---------- cross-tool handoff ----------
+     Passing the buffer through sessionStorage means a tool can send its
+     output to another without either of them knowing about the other. */
+  const HANDOFF = 'inkwell.handoff';
+
+  function sendTo(slug, text, from) {
+    try { sessionStorage.setItem(HANDOFF, JSON.stringify({ text, to: slug, from })); }
+    catch (e) { toast('Could not hand that over'); return; }
+    location.href = '../' + slug + '/';
+  }
+
+  function takeHandoff(tool) {
+    try {
+      const raw = sessionStorage.getItem(HANDOFF);
+      if (!raw) return null;
+      const h = JSON.parse(raw);
+      if (!h || h.to !== tool) return null;
+      sessionStorage.removeItem(HANDOFF);
+      return h;
+    } catch (e) { return null; }
+  }
+
+  /* ---------- command palette ----------
+     Everything it offers is scraped from the page, so it can never drift
+     out of step with the buttons that are actually there. */
+  let palette = null;
+
+  function buildPalette() {
+    if (palette) return palette;
+    const wrap = document.createElement('div');
+    wrap.className = 'palette';
+    wrap.hidden = true;
+    wrap.innerHTML =
+      '<div class="palette-box" role="dialog" aria-modal="true" aria-label="Command palette">' +
+      '<input class="palette-input" placeholder="Search tools and commands…" aria-label="Search tools and commands" spellcheck="false">' +
+      '<ul class="palette-list" role="listbox"></ul>' +
+      '<div class="palette-foot"><kbd>↑</kbd><kbd>↓</kbd> to move · <kbd>Enter</kbd> to run · <kbd>Esc</kbd> to close</div>' +
+      '</div>';
+    document.body.appendChild(wrap);
+    palette = {
+      wrap, input: wrap.querySelector('.palette-input'), list: wrap.querySelector('.palette-list'),
+      items: [], filtered: [], index: 0
+    };
+
+    palette.input.addEventListener('input', () => filterPalette());
+    palette.input.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { closePalette(); return; }
+      if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+      else if (e.key === 'Enter') { e.preventDefault(); runPaletteItem(palette.filtered[palette.index]); }
+    });
+    wrap.addEventListener('click', (e) => { if (e.target === wrap) closePalette(); });
+    palette.list.addEventListener('click', (e) => {
+      const li = e.target.closest('li[data-i]');
+      if (li) runPaletteItem(palette.filtered[+li.dataset.i]);
+    });
+    return palette;
+  }
+
+  const labelOf = (el) =>
+    el.getAttribute('data-tip') || el.getAttribute('aria-label') || el.textContent.trim();
+
+  function collectItems() {
+    const items = [];
+    $$('#menu-tools a').forEach((a) => {
+      const name = a.querySelector('.tool-name');
+      if (!name) return;
+      items.push({
+        kind: 'Go to', label: name.textContent.trim(),
+        hint: (a.querySelector('.tool-blurb') || {}).textContent || '',
+        current: a.classList.contains('is-current'),
+        run: () => { location.href = a.getAttribute('href'); }
+      });
+    });
+    $$('[data-cmd]').forEach((el) => {
+      const label = labelOf(el);
+      if (!label) return;
+      items.push({ kind: 'Command', label, hint: '', run: () => el.click() });
+    });
+    $$('[data-export]').forEach((el) => {
+      const label = labelOf(el).replace(/Ctrl [A-Z]$/, '').trim();
+      if (!label) return;
+      items.push({ kind: 'Export', label, hint: '', run: () => el.click() });
+    });
+    const theme = $('#btn-theme'), help = $('#btn-help');
+    if (theme) items.push({ kind: 'Command', label: 'Toggle theme', hint: '', run: () => theme.click() });
+    if (help) items.push({ kind: 'Command', label: 'Open help', hint: '', run: () => help.click() });
+    return items;
+  }
+
+  /* subsequence match, so "sk" finds "Sort keys" */
+  function score(query, text) {
+    if (!query) return 1;
+    const q = query.toLowerCase(), t = text.toLowerCase();
+    const direct = t.indexOf(q);
+    if (direct === 0) return 1000;
+    if (direct > 0) return 500 - direct;
+    let qi = 0, hits = 0;
+    for (let i = 0; i < t.length && qi < q.length; i++) {
+      if (t[i] === q[qi]) { qi++; hits++; }
+    }
+    return qi === q.length ? 100 + hits : 0;
+  }
+
+  function filterPalette() {
+    const p = palette;
+    const q = p.input.value.trim();
+    p.filtered = p.items
+      .map((it) => ({
+        it,
+        s: Math.max(
+          score(q, it.label),
+          score(q, it.kind + ' ' + it.label) - 20,
+          it.hint ? score(q, it.hint) - 40 : 0      /* "hex" should find the Base tool */
+        )
+      }))
+      .filter((x) => x.s > 0)
+      .sort((a, b) => b.s - a.s)
+      .slice(0, 40)
+      .map((x) => x.it);
+    p.index = 0;
+    drawPalette();
+  }
+
+  function drawPalette() {
+    const p = palette;
+    if (!p.filtered.length) {
+      p.list.innerHTML = '<li class="palette-empty">Nothing matches.</li>';
+      return;
+    }
+    p.list.innerHTML = p.filtered.map((it, i) =>
+      '<li data-i="' + i + '" role="option"' + (i === p.index ? ' class="is-active" aria-selected="true"' : '') + '>' +
+      '<span class="palette-kind">' + escapeHtml(it.kind) + '</span>' +
+      '<span class="palette-label">' + escapeHtml(it.label) + '</span>' +
+      (it.current ? '<span class="palette-hint">current</span>'
+                  : it.hint ? '<span class="palette-hint">' + escapeHtml(it.hint) + '</span>' : '') +
+      '</li>').join('');
+    const active = p.list.querySelector('.is-active');
+    if (active) active.scrollIntoView({ block: 'nearest' });
+  }
+
+  function move(d) {
+    const p = palette;
+    if (!p.filtered.length) return;
+    p.index = (p.index + d + p.filtered.length) % p.filtered.length;
+    drawPalette();
+  }
+
+  function runPaletteItem(item) {
+    if (!item) return;
+    closePalette();
+    setTimeout(() => item.run(), 0);
+  }
+
+  function openPalette() {
+    const p = buildPalette();
+    closeMenus();
+    p.items = collectItems();
+    p.input.value = '';
+    p.wrap.hidden = false;
+    filterPalette();
+    p.input.focus();
+  }
+  function closePalette() {
+    if (palette) palette.wrap.hidden = true;
+  }
+
+  function initPalette() {
+    document.addEventListener('keydown', (e) => {
+      if (!(e.metaKey || e.ctrlKey) || e.key.toLowerCase() !== 'k') return;
+      /* the Markdown editor uses Ctrl+K for links, so leave it alone there */
+      const ed = document.getElementById('editor');
+      if (ed && document.activeElement === ed && /\/markdown\//.test(location.pathname)) return;
+      e.preventDefault();
+      openPalette();
+    });
+  }
+
   /* ============================================================
      create(config) — wires a full editor page
      ============================================================ */
@@ -272,10 +451,30 @@ window.Shell = (function () {
     };
 
     const prefs = Object.assign(
-      { mode: 'split', sidebar: true, split: 50, sync: true, pvWidth: 'normal' },
+      { mode: 'split', sidebar: true, split: 50, sync: true, pvWidth: 'normal', controls: {} },
       lsGet(LS.prefs, {})
     );
+    if (!prefs.controls) prefs.controls = {};
     const savePrefs = () => lsSet(LS.prefs, prefs);
+
+    /* Any control marked data-remember keeps its value between visits.
+       Deliberately not applied to passphrases, HMAC keys or JWT secrets. */
+    function initControls() {
+      $$('[data-remember]').forEach((node) => {
+        const key = node.id || node.getAttribute('data-remember');
+        const saved = prefs.controls[key];
+        if (saved !== undefined && saved !== null) {
+          if (node.type === 'checkbox') node.checked = !!saved;
+          else node.value = saved;
+        }
+        const save = () => {
+          prefs.controls[key] = node.type === 'checkbox' ? node.checked : node.value;
+          savePrefs();
+        };
+        node.addEventListener('change', save);
+        node.addEventListener('input', save);
+      });
+    }
 
     /* A tool handling credentials (see the JWT page) opts out of persistence:
        its documents live in memory for the session and are never written to disk. */
@@ -613,6 +812,8 @@ window.Shell = (function () {
     });
 
     initMenus();
+    initPalette();
+    initControls();
 
     /* one-click copy of the current document */
     const btnCopy = $('#btn-copy');
@@ -876,6 +1077,40 @@ window.Shell = (function () {
       toast(ok ? 'Share link copied (the document travels inside the link)' : 'Could not copy the link');
     }
 
+    /* "Send to" is appended to the export menu at runtime, so no page
+       needs to know which other tools exist. */
+    const SEND_DEFAULT = ['diff', 'hash', 'escape', 'text'];
+    const SEND_EXTRA = {
+      json: ['csv', 'yaml', 'xml'], yaml: ['json'], xml: ['json'], csv: ['json'],
+      markdown: ['text'], text: ['diff'], escape: ['hash'], hash: ['escape']
+    };
+    const SEND_NAME = {
+      diff: 'Diff', hash: 'Hash', escape: 'Escape', text: 'Text utilities',
+      csv: 'CSV', yaml: 'YAML', json: 'JSON', xml: 'XML'
+    };
+
+    function buildSendMenu() {
+      const targets = (SEND_EXTRA[TOOL] || []).concat(SEND_DEFAULT)
+        .filter((t, i, arr) => t !== TOOL && arr.indexOf(t) === i);
+      if (!targets.length || config.sendTo === false) return;
+      const hr = document.createElement('hr');
+      el.menuExport.appendChild(hr);
+      targets.forEach((t) => {
+        const b = document.createElement('button');
+        b.setAttribute('role', 'menuitem');
+        b.innerHTML = '<svg class="ico"><use href="#i-share"/></svg>Send to ' + (SEND_NAME[t] || t);
+        b.addEventListener('click', () => {
+          closeMenus();
+          let payload = el.editor.value;
+          if (config.payloadFor) {
+            try { payload = config.payloadFor(t, payload, api) || payload; } catch (err) { /* send as-is */ }
+          }
+          sendTo(t, payload, TOOL);
+        });
+        el.menuExport.appendChild(b);
+      });
+    }
+
     const exporters = {
       pdf: exportPdf,
       source: exportSource,
@@ -942,6 +1177,9 @@ window.Shell = (function () {
     if (el.btnSync) el.btnSync.setAttribute('aria-pressed', String(prefs.sync !== false));
     initTheme();
 
+    buildSendMenu();
+
+    const incoming = takeHandoff(TOOL);
     const hash = location.hash || '';
     const shared = hash.indexOf('#doc=') === 0 ? hash.slice(5) : null;
     let booted = false;
@@ -951,6 +1189,22 @@ window.Shell = (function () {
       try { text = decodeShare(shared); } catch (e) { text = ''; }
       history.replaceState(null, '', location.pathname);
       if (text) { newDoc(text, 'Shared document', true); toast('Opened a shared document'); booted = true; }
+    }
+
+    if (!booted && incoming) {
+      let text = incoming.text;
+      let note = '';
+      if (config.onHandoff) {
+        try {
+          const r = config.onHandoff(text, incoming.from);
+          if (r && typeof r === 'object') { text = r.text != null ? r.text : text; note = r.note || ''; }
+          else if (typeof r === 'string') text = r;
+        } catch (e) { /* keep the original text */ }
+      }
+      const label = SEND_NAME[incoming.from] || incoming.from || 'another tool';
+      newDoc(text, 'From ' + label, true);
+      toast(note || ('Brought over from ' + label));
+      booted = true;
     }
 
     if (!booted) {
@@ -980,6 +1234,6 @@ window.Shell = (function () {
   return {
     $: $, $$: $$, create, toast, escapeHtml, download, copyText, loadScript,
     lsGet, lsSet, effectiveTheme, onTheme, initTheme, safeFilename, relTime, initTooltips,
-    initMenus, closeMenus, encodeShare, decodeShare
+    initMenus, closeMenus, encodeShare, decodeShare, initPalette, openPalette, sendTo, takeHandoff
   };
 })();

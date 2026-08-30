@@ -16,7 +16,8 @@
   const dec = new TextDecoder();
 
   const els = { pass: $('#a-pass'), iter: $('#a-iter'), status: $('#a-status') };
-  let mode = 'encrypt';
+  const MODE_KEY = 'inkwell.aes.mode';
+  let mode = Shell.lsGet(MODE_KEY, 'encrypt');
 
   const SALT_LEN = 16, IV_LEN = 12;
   const MAGIC = [0x49, 0x57, 0x31];        /* "IW1" — so we can recognise our own output */
@@ -172,6 +173,7 @@
 
   function setMode(next) {
     mode = next;
+    Shell.lsSet(MODE_KEY, mode);
     Shell.$$('.esc-mode').forEach((b) => b.classList.toggle('is-active', b.dataset.mode === mode));
     api.el.editor.placeholder = mode === 'encrypt'
       ? 'Type the message to encrypt…' : 'Paste the encrypted message…';
@@ -196,5 +198,5 @@
     }
   });
 
-  setMode('encrypt');
+  setMode(mode);
 })();

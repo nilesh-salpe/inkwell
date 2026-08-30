@@ -106,6 +106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="../escape/"><span class="tool-name">Escape</span><span class="tool-blurb">Escape &amp; unescape</span></a>
         <hr>
         <a href="../guides/"><span class="tool-name">Guides</span><span class="tool-blurb">How-to articles</span></a>
+        <p class="palette-tip">Press <kbd>Ctrl</kbd> <kbd>K</kbd> to search every tool and command</p>
       </div>
     </div>
     <div class="doc-title-wrap">
@@ -197,22 +198,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="gbar">
           <span class="q-label">Pattern</span>
           <span class="r-slash">/</span>
-          <input id="r-pattern" placeholder="\b\w+@\w+\.\w+\b" spellcheck="false" autocomplete="off" aria-label="Regular expression">
+          <input id="r-pattern" data-remember placeholder="\b\w+@\w+\.\w+\b" spellcheck="false" autocomplete="off" aria-label="Regular expression">
           <span class="r-slash">/</span>
           <span class="v-status" id="r-status"></span>
         </div>
         <div class="gbar">
-          <label class="c-check" data-tip="Find every match, not just the first"><input type="checkbox" class="r-flag" value="g" checked> global</label>
-          <label class="c-check" data-tip=""><input type="checkbox" class="r-flag" value="i"> ignore case</label>
-          <label class="c-check" data-tip="^ and $ match at line breaks"><input type="checkbox" class="r-flag" value="m" checked> multiline</label>
-          <label class="c-check" data-tip=". also matches a newline"><input type="checkbox" class="r-flag" value="s"> dotall</label>
-          <label class="c-check" data-tip=""><input type="checkbox" class="r-flag" value="u"> unicode</label>
-          <label class="c-check" data-tip=""><input type="checkbox" class="r-flag" value="y"> sticky</label>
+          <label class="c-check" data-tip="Find every match, not just the first"><input type="checkbox" class="r-flag" value="g" data-remember="r-flag-g" checked> global</label>
+          <label class="c-check" data-tip=""><input type="checkbox" class="r-flag" value="i" data-remember="r-flag-i"> ignore case</label>
+          <label class="c-check" data-tip="^ and $ match at line breaks"><input type="checkbox" class="r-flag" value="m" data-remember="r-flag-m" checked> multiline</label>
+          <label class="c-check" data-tip=". also matches a newline"><input type="checkbox" class="r-flag" value="s" data-remember="r-flag-s"> dotall</label>
+          <label class="c-check" data-tip=""><input type="checkbox" class="r-flag" value="u" data-remember="r-flag-u"> unicode</label>
+          <label class="c-check" data-tip=""><input type="checkbox" class="r-flag" value="y" data-remember="r-flag-y"> sticky</label>
           
         </div>
         <div class="gbar">
           <span class="q-label">Replace</span>
-          <input id="r-replace" placeholder="optional — $1, $&amp;, $&lt;name&gt;" spellcheck="false" autocomplete="off" aria-label="Replacement">
+          <input id="r-replace" data-remember placeholder="optional — $1, $&amp;, $&lt;name&gt;" spellcheck="false" autocomplete="off" aria-label="Replacement">
         </div>
         <div class="preview-scroll" id="preview-scroll">
           <article id="preview" class="markdown-body json-body"></article>

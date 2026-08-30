@@ -3,7 +3,7 @@
 A single-page, zero-backend Markdown workspace built for GitHub Pages.
 Write on the left, read on the right, export a real PDF when you're done.
 
-**Live:** `https://<your-username>.github.io/inkwell/`
+**Live:** <https://nilesh-salpe.github.io/inkwell/>
 
 Nothing is uploaded. Documents live in your browser's `localStorage`, and after
 the first visit the app runs completely offline.

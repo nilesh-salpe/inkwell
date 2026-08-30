@@ -10,15 +10,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
 <!-- End Google Tag Manager -->
-<title>JSON Formatter, Validator &amp; Viewer — Inkwell</title>
-<meta name="description" content="Format, validate, minify and explore JSON in your browser. Precise error locations, a collapsible tree view, key sorting and PDF export. Nothing is uploaded.">
+<title>YAML Formatter, Validator &amp; Viewer — Inkwell</title>
+<meta name="description" content="Validate, format and explore YAML in your browser. Exact error locations, a collapsible tree view, JSONPath queries and YAML&#8596;JSON conversion. Nothing is uploaded.">
 <meta name="color-scheme" content="light dark">
-<meta property="og:title" content="JSON Formatter, Validator &amp; Viewer">
-<meta property="og:description" content="Format, validate and explore JSON entirely in your browser.">
+<meta property="og:title" content="YAML Formatter, Validator &amp; Viewer">
+<meta property="og:description" content="Validate, format and explore YAML entirely in your browser.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/json/">
-<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/json/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230ea5a0'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='white' text-anchor='middle'%3E%7B%7D%3C/text%3E%3C/svg%3E">
+<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/yaml/">
+<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/yaml/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23e0761a'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='white' text-anchor='middle'%3EY%3C/text%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -82,8 +82,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <header class="topbar">
     <button class="icon-btn" id="btn-sidebar" title="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
     <a class="brand" href="../" title="All tools">
-      <span class="brand-mark brand-json">{}</span>
-      <span class="brand-name">JSON</span>
+      <span class="brand-mark brand-yaml">Y</span>
+      <span class="brand-name">YAML</span>
     </a>
     <div class="doc-title-wrap">
       <input id="doc-title" class="doc-title" value="Untitled" spellcheck="false" aria-label="Document title">
@@ -98,16 +98,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="spacer"></div>
 
-    <button class="btn btn-ghost" id="btn-open" title="Open a .json file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
+    <button class="btn btn-ghost" id="btn-open" title="Open a .yaml file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
     <div class="menu-wrap">
       <button class="btn btn-ghost" id="btn-export" aria-haspopup="true" aria-expanded="false"><svg class="ico"><use href="#i-download"/></svg><span>Export</span></button>
       <div class="menu" id="menu-export" role="menu" hidden>
-        <button role="menuitem" data-export="source"><svg class="ico"><use href="#i-download"/></svg>JSON file<kbd>Ctrl S</kbd></button>
-        <button role="menuitem" data-export="minified"><svg class="ico"><use href="#i-minify"/></svg>Minified .json</button>
+        <button role="menuitem" data-export="source"><svg class="ico"><use href="#i-download"/></svg>YAML file<kbd>Ctrl S</kbd></button>
+        <button role="menuitem" data-export="json"><svg class="ico"><use href="#i-braces"/></svg>Converted .json</button>
         <button role="menuitem" data-export="pdf"><svg class="ico"><use href="#i-pdf"/></svg>PDF of the tree<kbd>Ctrl P</kbd></button>
         <button role="menuitem" data-export="html"><svg class="ico"><use href="#i-download"/></svg>Standalone HTML</button>
         <hr>
-        <button role="menuitem" data-export="copy-source"><svg class="ico"><use href="#i-copy"/></svg>Copy JSON</button>
+        <button role="menuitem" data-export="copy-source"><svg class="ico"><use href="#i-copy"/></svg>Copy YAML</button>
+        <button role="menuitem" data-export="copy-json"><svg class="ico"><use href="#i-copy"/></svg>Copy as JSON</button>
         <button role="menuitem" data-export="share"><svg class="ico"><use href="#i-share"/></svg>Copy share link</button>
       </div>
     </div>
@@ -136,15 +137,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="pane editor-pane" id="editor-pane">
         <div class="pane-head">
           <div class="toolbar" id="toolbar">
-            <button class="tb" data-cmd="format2" title="Format, 2-space indent (Ctrl+B)"><svg class="ico"><use href="#i-braces"/></svg></button>
+            <button class="tb" data-cmd="format2" title="Format, 2-space indent (Ctrl+B)"><svg class="ico"><use href="#i-list"/></svg></button>
             <button class="tb" data-cmd="format4" title="Format, 4-space indent"><svg class="ico"><use href="#i-codeblock"/></svg></button>
-            <button class="tb" data-cmd="minify" title="Minify (Ctrl+M)"><svg class="ico"><use href="#i-minify"/></svg></button>
-            <span class="tb-sep"></span>
             <button class="tb" data-cmd="sort" title="Sort keys A→Z"><svg class="ico"><use href="#i-sort"/></svg></button>
-            <button class="tb" data-cmd="repair" title="Remove comments and trailing commas"><svg class="ico"><use href="#i-wand"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="escape" title="Escape as a JSON string"><svg class="ico"><use href="#i-quotes"/></svg></button>
-            <button class="tb" data-cmd="unescape" title="Unescape a JSON string"><svg class="ico"><use href="#i-code"/></svg></button>
+            <button class="tb" data-cmd="toJson" title="Convert to JSON (Ctrl+J)"><svg class="ico"><use href="#i-braces"/></svg></button>
+            <button class="tb" data-cmd="fromJson" title="Convert JSON in the editor to YAML"><svg class="ico"><use href="#i-undo"/></svg></button>
             <span class="tb-sep"></span>
             <button class="tb" data-cmd="expandAll" title="Expand the whole tree"><svg class="ico"><use href="#i-expand"/></svg></button>
             <button class="tb" data-cmd="collapseAll" title="Collapse the tree"><svg class="ico"><use href="#i-collapse"/></svg></button>
@@ -168,7 +166,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="editor-wrap">
           <div class="gutter" id="gutter" aria-hidden="true"></div>
           <textarea id="editor" class="editor" spellcheck="false" autocomplete="off" autocapitalize="off"
-            placeholder="Paste JSON here…"></textarea>
+            placeholder="Paste YAML here…"></textarea>
         </div>
       </section>
 
@@ -186,7 +184,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="qbar">
           <span class="q-label">JSONPath</span>
-          <input id="q-input" placeholder="$..note   or   $.changelog[*].date" spellcheck="false" autocomplete="off" aria-label="JSONPath query">
+          <input id="q-input" placeholder="$..image   or   $.services.web.ports[0]" spellcheck="false" autocomplete="off" aria-label="JSONPath query">
           <span class="q-count" id="q-count"></span>
           <button class="mini" id="q-copy" title="Copy the matched values as JSON">Copy</button>
           <button class="mini" id="q-clear" title="Clear the query">Clear</button>
@@ -213,22 +211,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </footer>
 </div>
 
-<div class="drop-overlay" id="drop-overlay"><div><svg class="ico"><use href="#i-folder"/></svg><p>Drop your JSON file to open</p></div></div>
-<input type="file" id="file-input" accept=".json,.jsonc,.txt,application/json,text/plain" hidden>
+<div class="drop-overlay" id="drop-overlay"><div><svg class="ico"><use href="#i-folder"/></svg><p>Drop your YAML file to open</p></div></div>
+<input type="file" id="file-input" accept=".yaml,.yml,.txt,text/yaml,application/x-yaml,text/plain" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <div class="modal" id="modal-help" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Help">
-    <header><h2>JSON tools &amp; shortcuts</h2><button class="icon-btn" data-close><svg class="ico"><use href="#i-x"/></svg></button></header>
+    <header><h2>YAML tools &amp; shortcuts</h2><button class="icon-btn" data-close><svg class="ico"><use href="#i-x"/></svg></button></header>
     <div class="modal-body">
       <div class="help-cols">
         <section>
           <h3>Keyboard</h3>
           <table class="kbd-table">
             <tr><td><kbd>Ctrl/⌘ B</kbd></td><td>Format with 2-space indent</td></tr>
-            <tr><td><kbd>Ctrl/⌘ M</kbd></td><td>Minify</td></tr>
+            <tr><td><kbd>Ctrl/⌘ J</kbd></td><td>Convert to JSON</td></tr>
             <tr><td><kbd>Ctrl/⌘ F</kbd></td><td>Find &amp; replace</td></tr>
-            <tr><td><kbd>Ctrl/⌘ S</kbd></td><td>Download .json</td></tr>
+            <tr><td><kbd>Ctrl/⌘ S</kbd></td><td>Download .yaml</td></tr>
             <tr><td><kbd>Ctrl/⌘ P</kbd></td><td>Export the tree as PDF</td></tr>
             <tr><td><kbd>Ctrl/⌘ 1/2/3</kbd></td><td>Edit / Split / Tree</td></tr>
             <tr><td><kbd>Ctrl/⌘ \</kbd></td><td>Toggle sidebar</td></tr>
@@ -237,10 +235,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <section>
           <h3>What the buttons do</h3>
           <table class="kbd-table">
-            <tr><td><strong>Sort</strong></td><td>Orders every object's keys A→Z, recursively</td></tr>
-            <tr><td><strong>Repair</strong></td><td>Strips comments and trailing commas — the two things that usually break hand-written JSON</td></tr>
-            <tr><td><strong>Escape</strong></td><td>Turns the document into a JSON string literal</td></tr>
-            <tr><td><strong>Tree</strong></td><td>Click any key to copy its path, e.g. <code>$.limits.maxNodes</code></td></tr>
+            <tr><td><strong>Format</strong></td><td>Rewrites the document with consistent indentation and quoting</td></tr>
+            <tr><td><strong>Sort</strong></td><td>Orders every mapping's keys A→Z, recursively</td></tr>
+            <tr><td><strong>→ JSON</strong></td><td>Converts the document to JSON; <strong>↩</strong> converts JSON back to YAML</td></tr>
+            <tr><td><strong>Multi-document</strong></td><td>Files split by <code>---</code> are parsed and shown separately</td></tr>
+            <tr><td><strong>Tree</strong></td><td>Click any key to copy its path, e.g. <code>$.services.web.image</code></td></tr>
           </table>
         </section>
       </div>
@@ -257,25 +256,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <tr><td><code>$.items[?(@.isbn)]</code></td><td>Elements where a field exists</td></tr>
         </table>
       </section>
-      <p class="help-foot">Invalid JSON? The tree pane shows the exact line and column, with the offending line marked.</p>
+      <p class="help-foot">Invalid YAML? The tree pane shows the exact line and column, with the offending line marked. Indentation mistakes are the usual culprit — tabs are not valid YAML indentation.</p>
       <p class="help-about">Built and maintained by <strong>SALPE Global Tech</strong>. Your data stays in this browser — we never see it.</p>
     </div>
   </div>
 </div>
 
-<script type="application/json" id="sample-doc">{
-  "product": "Inkwell JSON",
-  "version": 1,
-  "private": true,
-  "features": ["validate", "format", "minify", "tree view"],
-  "limits": { "maxNodes": 20000, "uploadsToServer": null },
-  "pricing": { "free": true, "currency": "USD", "amount": 0 },
-  "changelog": [
-    { "date": "2026-08-30", "note": "First release", "breaking": false }
-  ]
-}</script>
+<script type="text/yaml" id="sample-doc">
+# docker-compose style example — edit freely
+version: "3.9"
+
+services:
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      NODE_ENV: production
+      DEBUG: false
+    depends_on: [api, cache]
+  api:
+    build: ./api
+    replicas: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+  cache:
+    image: redis:7
+    volumes:
+      - cache-data:/data
+
+volumes:
+  cache-data: null
+</script>
 <script src="../assets/js/shell.js"></script>
 <script src="../assets/js/data-tools.js"></script>
-<script src="../assets/js/json.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+<script src="../assets/js/yaml.js"></script>
 </body>
 </html>

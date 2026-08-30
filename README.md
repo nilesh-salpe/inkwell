@@ -1,8 +1,8 @@
-# Inkwell — browser-only Markdown & JSON tools
+# Inkwell — browser-only Markdown, JSON & YAML tools
 
-Two zero-backend developer tools on one static site, built for GitHub Pages:
-a **Markdown editor** with live preview and real PDF export, and a **JSON
-formatter** with validation, a tree view and JSONPath queries.
+Three zero-backend developer tools on one static site, built for GitHub Pages:
+a **Markdown editor** with live preview and real PDF export, and **JSON** and
+**YAML** tools with validation, tree views and JSONPath queries.
 
 **Live:** <https://nilesh-salpe.github.io/inkwell/>
 
@@ -18,6 +18,7 @@ Markdown you write.
 | `/` | Hub — picks a tool |
 | `/markdown/` | View, edit and export Markdown (PDF, HTML, `.md`, share links) |
 | `/json/` | Validate, format, minify, sort, explore and **query** JSON |
+| `/yaml/` | Validate, format, sort, explore and **query** YAML; convert to and from JSON |
 
 ### Markdown
 
@@ -27,7 +28,10 @@ Markdown you write.
 | **Edit** | Split editor with formatting toolbar, shortcuts, list auto-continuation, find & replace, wrap-aware line numbers |
 | **Export** | **PDF** (print-quality, selectable text), `.md`, standalone styled HTML, rich-text clipboard, share links |
 
-### JSON
+### JSON and YAML
+
+Both pages share one tree renderer, one statistics pass and one JSONPath
+engine (`data-tools.js`); they differ only in how text becomes a value.
 
 | | |
 |---|---|
@@ -35,6 +39,7 @@ Markdown you write.
 | **Query** | JSONPath: `$.a.b`, `$..deep`, `[*]`, `[0]`, `[-1]`, `[1:3]`, `[0,2]`, `[?(@.price < 10)]`, `[?(@.isbn)]` |
 | **View** | Collapsible tree, typed colouring, click any key to copy its path |
 | **Edit** | Format (2/4 space), minify, sort keys recursively, repair (strips comments and trailing commas), escape/unescape |
+| **YAML extras** | Multi-document files (`---`) parsed separately, YAML ↔ JSON conversion in both directions, `.json` export |
 
 ### Beyond markdownlivepreview.com
 
@@ -91,12 +96,14 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 - `markdown/index.html`, `json/index.html` — one page per tool, each with its own sprite and sample document
 - `assets/js/shell.js` — everything language-agnostic: layout, documents, storage, theme, splitter, gutter, scroll sync, find & replace, exports, shortcuts
 - `assets/js/markdown.js` — Markdown pipeline and preview enhancement
-- `assets/js/json.js` — JSON scanner, JSONPath engine and tree renderer
+- `assets/js/data-tools.js` — tree renderer, structure statistics and the JSONPath engine, shared by JSON and YAML
+- `assets/js/json.js` — JSON scanner and transforms
+- `assets/js/yaml.js` — YAML parsing (js-yaml), formatting and conversion
 - `assets/css/app.css` — theme tokens, layout, and the print stylesheet used for PDF export
 - `sw.js` — offline cache
 
 A tool supplies a `render` function and a set of toolbar commands; the shell
-owns everything else. That is why both tools have identical keyboard
+owns everything else. That is why all three tools have identical keyboard
 shortcuts, autosave and theming without duplicating any of it. (same-origin + jsdelivr only; the analytics tag is never cached)
 
 Markdown is parsed with [marked](https://marked.js.org/) **block by block**, so every

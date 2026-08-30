@@ -724,3 +724,9 @@ body.hub-page { overflow: auto; background: var(--bg); }
 .help-jsonpath h3 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-mute); }
 
 @media print { .qbar { display: none !important; } }
+
+.brand-yaml {
+  background: linear-gradient(140deg, #f59e0b, #d97706);
+  font: 800 13px var(--sans);
+}
+.hub-icon-yaml { background: linear-gradient(140deg, #f59e0b, #d97706); font: 800 17px var(--sans); }

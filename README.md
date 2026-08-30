@@ -1,9 +1,10 @@
 # Inkwell — developer tools on one static site
 
-Six developer tools on one static site, built for GitHub Pages: a **Markdown
+Eight developer tools on one static site, built for GitHub Pages: a **Markdown
 editor** with live preview and real PDF export; **JSON**, **YAML** and **XML**
 tools with validation, tree views and JSONPath queries; a **CSV** viewer and
-converter; and a **JWT decoder** with signature verification.
+converter; a **JWT decoder** with signature verification; an **ID generator**;
+and a **string escaper**.
 
 **Live:** <https://nilesh-salpe.github.io/inkwell/>
 
@@ -22,6 +23,8 @@ analytics; it records page views, not document contents.
 | `/jwt/` | Decode a JSON Web Token, read its claims, check expiry, verify the signature |
 | `/xml/` | Check well-formedness, format, minify, explore and convert XML to JSON |
 | `/csv/` | View CSV as a table, catch ragged rows, filter, convert to and from JSON |
+| `/id/` | Generate UUID v1–v7, ULID, NanoID, ObjectId and tokens; identify any ID |
+| `/escape/` | Escape and unescape strings across JSON, HTML, URL, Base64, hex, Unicode, backslash, regex and SQL |
 
 ### Markdown
 
@@ -105,6 +108,8 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 - `assets/js/jwt.js` — JWT decoding, claim reading and WebCrypto signature verification
 - `assets/js/xml.js` — XML parsing via DOMParser, formatting and the XML-to-value mapping
 - `assets/js/csv.js` — RFC 4180 parser, delimiter sniffing, table rendering and JSON conversion
+- `assets/js/ids.js` — UUID versions with hand-written MD5 and SHA-1, ULID, NanoID and the ID inspector
+- `assets/js/escape.js` — the encoders, decoders and the plausibility check that stops plain words decoding as Base64
 - `assets/css/app.css` — theme tokens, layout, and the print stylesheet used for PDF export
 - `sw.js` — offline cache
 
@@ -124,6 +129,24 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 | **Parse** | RFC 4180 quoting, with the delimiter sniffed from the first lines (comma, semicolon, tab, pipe) and overridable |
 | **View** | A real table with a sticky header, right-aligned numbers, and a row filter |
 | **Convert** | CSV → JSON with type coercion, and JSON arrays back to CSV |
+
+### Identifiers
+
+| | |
+|---|---|
+| **UUID** | v1, v3, v4, v5, v6, v7 per RFC 9562. v3 and v5 match the published test vectors — MD5 and SHA-1 are implemented here rather than pulled from WebCrypto, which has no MD5 and whose async API stalls under test |
+| **Ordering** | v7 and ULID carry a monotonic counter, so a batch generated inside one millisecond still sorts correctly |
+| **Other** | ULID, ObjectId, NanoID and random hex/base64url tokens — the only formats where a length is yours to choose. A UUID is always 128 bits |
+| **Inspect** | Paste any identifier and it is named, with its variant and creation time where one is encoded |
+| **Privacy** | v1/v6 use a random node with the multicast bit set, so no MAC address leaks. Generated values are not persisted |
+
+### Escaping
+
+| | |
+|---|---|
+| **Escape** | JSON, HTML entities, URL component and full URL, Base64 and Base64url, hex, Unicode escapes, backslash, regex and SQL — all at once |
+| **Unescape** | Every decoder is tried and only the ones that apply are shown, so you can identify unknown input |
+| **Correctness** | Decoded output must look like text before it is offered, otherwise any run of letters "decodes" as Base64 |
 
 ### JWT
 

@@ -5,8 +5,10 @@ Write on the left, read on the right, export a real PDF when you're done.
 
 **Live:** <https://nilesh-salpe.github.io/inkwell/>
 
-Nothing is uploaded. Documents live in your browser's `localStorage`, and after
-the first visit the app runs completely offline.
+Your documents are never uploaded — they live in your browser's `localStorage`,
+and after the first visit the editor runs offline. The page itself loads Google
+Tag Manager (`GTM-N5QTT4NV`) for visit analytics; it sees page views, not the
+Markdown you write.
 
 ## What it does
 
@@ -70,7 +72,7 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 - `index.html` — shell, icon sprite, and the welcome document (in a `text/markdown` script tag)
 - `assets/js/app.js` — editor, Markdown pipeline, preview enhancement, exports (no framework)
 - `assets/css/app.css` — theme tokens, layout, and the print stylesheet used for PDF export
-- `sw.js` — offline cache
+- `sw.js` — offline cache (same-origin + jsdelivr only; the analytics tag is never cached)
 
 Markdown is parsed with [marked](https://marked.js.org/) **block by block**, so every
 top-level element carries the source line it came from — that is what powers the

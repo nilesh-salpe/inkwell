@@ -195,6 +195,58 @@ window.Shell = (function () {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initTooltips);
   else initTooltips();
 
+
+  /* ---------- header menus ----------
+     Right-aligned to their button, which puts a menu near the left of the
+     bar off the edge of the screen, so clamp after opening. */
+  function closeMenus() {
+    $$('.menu').forEach((m) => {
+      m.hidden = true;
+      const btn = m.parentElement.querySelector('button[aria-haspopup]');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function positionMenu(menu, btn) {
+    menu.style.left = '';
+    menu.style.right = '';
+    menu.style.maxHeight = '';
+    const wrap = btn.parentElement.getBoundingClientRect();
+    const margin = 8;
+    const width = menu.offsetWidth;
+    let left = wrap.right - width;
+    if (left + width > window.innerWidth - margin) left = window.innerWidth - margin - width;
+    if (left < margin) left = margin;
+    menu.style.left = (left - wrap.left) + 'px';
+    menu.style.right = 'auto';
+    const room = window.innerHeight - menu.getBoundingClientRect().top - margin;
+    if (menu.offsetHeight > room) {
+      menu.style.maxHeight = Math.max(160, room) + 'px';
+      menu.style.overflowY = 'auto';
+    }
+  }
+
+  let menusReady = false;
+  function initMenus() {
+    if (menusReady) return;
+    menusReady = true;
+    $$('.menu-wrap > button[aria-haspopup]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const menu = btn.parentElement.querySelector('.menu');
+        const willOpen = menu.hidden;
+        closeMenus();
+        if (willOpen) {
+          menu.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+          positionMenu(menu, btn);
+        }
+      });
+    });
+    document.addEventListener('click', closeMenus);
+    window.addEventListener('resize', closeMenus);
+  }
+
   /* ============================================================
      create(config) — wires a full editor page
      ============================================================ */
@@ -560,6 +612,8 @@ window.Shell = (function () {
       if (fn) fn(api);
     });
 
+    initMenus();
+
     /* one-click copy of the current document */
     const btnCopy = $('#btn-copy');
     if (btnCopy) btnCopy.addEventListener('click', async () => {
@@ -831,50 +885,6 @@ window.Shell = (function () {
       share: shareLink
     };
 
-    /* every .menu-wrap in the header behaves the same way */
-    function closeMenus() {
-      $$('.menu').forEach((m) => {
-        m.hidden = true;
-        const btn = m.parentElement.querySelector('button[aria-haspopup]');
-        if (btn) btn.setAttribute('aria-expanded', 'false');
-      });
-    }
-    /* Menus are right-aligned to their button, which works for a button near
-       the right of the bar and hangs off-screen for one near the left. Clamp
-       to the viewport after opening, and cap the height on short windows. */
-    function positionMenu(menu, btn) {
-      menu.style.left = '';
-      menu.style.right = '';
-      menu.style.maxHeight = '';
-      const wrap = btn.parentElement.getBoundingClientRect();
-      const margin = 8;
-      const width = menu.offsetWidth;
-      let left = wrap.right - width;                       /* the default alignment */
-      if (left + width > window.innerWidth - margin) left = window.innerWidth - margin - width;
-      if (left < margin) left = margin;
-      menu.style.left = (left - wrap.left) + 'px';
-      menu.style.right = 'auto';
-      const room = window.innerHeight - menu.getBoundingClientRect().top - margin;
-      if (menu.offsetHeight > room) {
-        menu.style.maxHeight = Math.max(160, room) + 'px';
-        menu.style.overflowY = 'auto';
-      }
-    }
-
-    $$('.menu-wrap > button[aria-haspopup]').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const menu = btn.parentElement.querySelector('.menu');
-        const willOpen = menu.hidden;
-        closeMenus();
-        if (willOpen) {
-          menu.hidden = false;
-          btn.setAttribute('aria-expanded', 'true');
-          positionMenu(menu, btn);
-        }
-      });
-    });
-    window.addEventListener('resize', closeMenus);
     el.menuExport.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-export]');
       if (!btn) return;
@@ -969,6 +979,7 @@ window.Shell = (function () {
 
   return {
     $: $, $$: $$, create, toast, escapeHtml, download, copyText, loadScript,
-    lsGet, lsSet, effectiveTheme, onTheme, initTheme, safeFilename, relTime, initTooltips
+    lsGet, lsSet, effectiveTheme, onTheme, initTheme, safeFilename, relTime, initTooltips,
+    initMenus, closeMenus, encodeShare, decodeShare
   };
 })();

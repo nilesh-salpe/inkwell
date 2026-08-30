@@ -10,15 +10,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
 <!-- End Google Tag Manager -->
-<title>YAML Formatter, Validator &amp; Viewer — Inkwell</title>
-<meta name="description" content="Validate, format and explore YAML. Exact error locations, a collapsible tree view, JSONPath queries and YAML&#8596;JSON conversion.">
+<title>Number Base Converter — binary, octal, hex, decimal — Inkwell</title>
+<meta name="description" content="Convert numbers between binary, octal, decimal, hexadecimal and any base to 36, with bitwise operations and two’s complement.">
 <meta name="color-scheme" content="light dark">
-<meta property="og:title" content="YAML Formatter, Validator &amp; Viewer">
-<meta property="og:description" content="Validate, format, query and explore YAML.">
+<meta property="og:title" content="Number Base Converter">
+<meta property="og:description" content="Binary, octal, decimal and hex, with bitwise operations.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/yaml/">
-<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/yaml/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23e0761a'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='white' text-anchor='middle'%3EY%3C/text%3E%3C/svg%3E">
+<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/base/">
+<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/base/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23475569'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='white' text-anchor='middle'%3E10%3C/text%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -83,21 +83,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <header class="topbar">
     <button class="icon-btn" id="btn-sidebar" data-tip="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
     <a class="brand" href="../" data-tip="All tools" aria-label="All tools">
-      <span class="brand-mark brand-yaml">Y</span>
-      <span class="brand-name">YAML</span>
+      <span class="brand-mark brand-base">01</span>
+      <span class="brand-name">Base</span>
     </a>
     <div class="menu-wrap">
       <button class="btn btn-ghost" id="btn-tools" aria-haspopup="true" aria-expanded="false" data-tip="Switch to another tool" aria-label="Switch to another tool"><svg class="ico"><use href="#i-grid"/></svg><span>Tools</span></button>
       <div class="menu menu-tools" id="menu-tools" role="menu" hidden>
         <a href="../markdown/"><span class="tool-name">Markdown</span><span class="tool-blurb">Editor &amp; PDF export</span></a>
         <a href="../json/"><span class="tool-name">JSON</span><span class="tool-blurb">Format, validate, query</span></a>
-        <a href="../yaml/" class="is-current" aria-current="page"><span class="tool-name">YAML</span><span class="tool-blurb">Format, validate, convert</span></a>
+        <a href="../yaml/"><span class="tool-name">YAML</span><span class="tool-blurb">Format, validate, convert</span></a>
         <a href="../xml/"><span class="tool-name">XML</span><span class="tool-blurb">Format, validate, convert</span></a>
         <a href="../csv/"><span class="tool-name">CSV</span><span class="tool-blurb">Table view &amp; conversion</span></a>
         <a href="../diff/"><span class="tool-name">Diff</span><span class="tool-blurb">Compare two texts</span></a>
         <a href="../regex/"><span class="tool-name">Regex</span><span class="tool-blurb">Test patterns live</span></a>
         <a href="../text/"><span class="tool-name">Text</span><span class="tool-blurb">Case, sort, count</span></a>
-        <a href="../base/"><span class="tool-name">Base</span><span class="tool-blurb">Binary, hex, bitwise</span></a>
+        <a href="../base/" class="is-current" aria-current="page"><span class="tool-name">Base</span><span class="tool-blurb">Binary, hex, bitwise</span></a>
         <a href="../color/"><span class="tool-name">Colour</span><span class="tool-blurb">hex, RGB, OKLCH, contrast</span></a>
         <a href="../id/"><span class="tool-name">IDs</span><span class="tool-blurb">UUID, ULID, NanoID</span></a>
         <a href="../jwt/"><span class="tool-name">JWT</span><span class="tool-blurb">Decode &amp; verify tokens</span></a>
@@ -116,27 +116,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="viewmodes" role="group" aria-label="View mode">
       <button class="vm" data-mode="editor" data-tip="Editor only (Ctrl+1)" aria-label="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
       <button class="vm is-active" data-mode="split" data-tip="Split view (Ctrl+2)" aria-label="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
-      <button class="vm" data-mode="preview" data-tip="Tree only (Ctrl+3)" aria-label="Tree only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Tree</span></button>
+      <button class="vm" data-mode="preview" data-tip="Result only (Ctrl+3)" aria-label="Result only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Result</span></button>
     </div>
 
     <div class="spacer"></div>
 
-    <button class="btn btn-ghost" id="btn-open" data-tip="Open a .yaml file" aria-label="Open a .yaml file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
+    <button class="btn btn-ghost" id="btn-open" data-tip="Open a list of numbers" aria-label="Open a list of numbers"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
     <div class="menu-wrap">
       <button class="btn btn-ghost" id="btn-export" aria-haspopup="true" aria-expanded="false"><svg class="ico"><use href="#i-download"/></svg><span>Export</span></button>
       <div class="menu" id="menu-export" role="menu" hidden>
-        <button role="menuitem" data-export="source"><svg class="ico"><use href="#i-download"/></svg>YAML file<kbd>Ctrl S</kbd></button>
-        <button role="menuitem" data-export="json"><svg class="ico"><use href="#i-braces"/></svg>Converted .json</button>
-        <button role="menuitem" data-export="pdf"><svg class="ico"><use href="#i-pdf"/></svg>PDF of the tree<kbd>Ctrl P</kbd></button>
+        <button role="menuitem" data-export="source"><svg class="ico"><use href="#i-download"/></svg>Text file<kbd>Ctrl S</kbd></button>
+        <button role="menuitem" data-export="pdf"><svg class="ico"><use href="#i-pdf"/></svg>PDF of the conversions<kbd>Ctrl P</kbd></button>
         <button role="menuitem" data-export="html"><svg class="ico"><use href="#i-download"/></svg>Standalone HTML</button>
-        <hr>
-        <button role="menuitem" data-export="copy-source"><svg class="ico"><use href="#i-copy"/></svg>Copy YAML</button>
-        <button role="menuitem" data-export="copy-json"><svg class="ico"><use href="#i-copy"/></svg>Copy as JSON</button>
-        <button role="menuitem" data-export="share"><svg class="ico"><use href="#i-share"/></svg>Copy share link</button>
+        <button role="menuitem" data-export="copy-source"><svg class="ico"><use href="#i-copy"/></svg>Copy the input</button>
       </div>
     </div>
     <button class="btn btn-ghost" id="btn-copy" data-tip="Copy the whole document" aria-label="Copy the whole document"><svg class="ico"><use href="#i-copy"/></svg><span>Copy</span></button>
-    <button class="btn btn-primary" id="btn-format" data-tip="Format (Ctrl+B)" aria-label="Format (Ctrl+B)"><svg class="ico"><use href="#i-braces"/></svg><span>Format</span></button>
+    
     <button class="icon-btn" id="btn-theme" data-tip="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
     <button class="icon-btn" id="btn-help" data-tip="Help" aria-label="Help"><svg class="ico"><use href="#i-help"/></svg></button>
   </header>
@@ -161,12 +157,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="pane editor-pane" id="editor-pane">
         <div class="pane-head">
           <div class="toolbar" id="toolbar">
-            <button class="tb" data-cmd="format2" data-tip="Format, 2-space indent (Ctrl+B)" aria-label="Format, 2-space indent (Ctrl+B)"><svg class="ico"><use href="#i-list"/></svg></button>
-            <button class="tb" data-cmd="format4" data-tip="Format, 4-space indent" aria-label="Format, 4-space indent"><svg class="ico"><use href="#i-codeblock"/></svg></button>
-            <button class="tb" data-cmd="sort" data-tip="Sort keys A→Z" aria-label="Sort keys A→Z"><svg class="ico"><use href="#i-sort"/></svg></button>
-            <span class="tb-sep"></span>
-            <button class="tb" data-cmd="toJson" data-tip="Convert to JSON (Ctrl+J)" aria-label="Convert to JSON (Ctrl+J)"><svg class="ico"><use href="#i-braces"/></svg></button>
-            <button class="tb" data-cmd="fromJson" data-tip="Convert JSON in the editor to YAML" aria-label="Convert JSON in the editor to YAML"><svg class="ico"><use href="#i-undo"/></svg></button>
+            <button class="tb" data-cmd="clear" data-tip="Clear" aria-label="Clear"><svg class="ico"><use href="#i-trash"/></svg></button>
             <span class="tb-sep"></span>
             <button class="tb" data-cmd="find" data-tip="Find &amp; replace (Ctrl+F)" aria-label="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
           </div>
@@ -187,7 +178,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="editor-wrap">
           <div class="gutter" id="gutter" aria-hidden="true"></div>
           <textarea id="editor" class="editor" spellcheck="false" autocomplete="off" autocapitalize="off"
-            placeholder="Paste YAML here…"></textarea>
+            placeholder="One number per line — 255, 0xff, 0b1010…"></textarea>
         </div>
       </section>
 
@@ -195,22 +186,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <section class="pane preview-pane" id="preview-pane">
         <div class="pane-head preview-head">
-          <span class="pane-label">Tree</span>
-          <button class="tb" data-cmd="expandAll" data-tip="Expand the whole tree" aria-label="Expand the whole tree"><svg class="ico"><use href="#i-expand"/></svg></button>
-          <button class="tb" data-cmd="collapseAll" data-tip="Collapse the tree" aria-label="Collapse the tree"><svg class="ico"><use href="#i-collapse"/></svg></button>
+          <span class="pane-label">Conversions</span>
           <div class="spacer"></div>
-          <select id="pv-width" class="mini-select" data-tip="Width" aria-label="Tree width">
+          <select id="pv-width" class="mini-select" data-tip="Width" aria-label="Width">
             <option value="narrow">Narrow</option>
             <option value="normal" selected>Normal</option>
             <option value="wide">Wide</option>
           </select>
         </div>
-        <div class="qbar">
-          <span class="q-label">JSONPath</span>
-          <input id="q-input" placeholder="$..image   or   $.services.web.ports[0]" spellcheck="false" autocomplete="off" aria-label="JSONPath query">
-          <span class="q-count" id="q-count"></span>
-          <button class="mini" id="q-copy" data-tip="Copy the matched values as JSON" aria-label="Copy the matched values as JSON">Copy</button>
-          <button class="mini" id="q-clear" data-tip="Clear the query" aria-label="Clear the query">Clear</button>
+        <div class="gbar">
+          <span class="q-label">Input base</span>
+          <select id="b-base" class="mini-select" aria-label="Input base">
+            <option value="auto" selected>Auto</option>
+            <option value="2">Binary</option><option value="8">Octal</option>
+            <option value="10">Decimal</option><option value="16">Hex</option>
+            <option value="36">Base 36</option>
+          </select>
+          <span class="q-label">Width</span>
+          <select id="b-width" class="mini-select" aria-label="Bit width">
+            <option value="8">8-bit</option><option value="16">16-bit</option>
+            <option value="32" selected>32-bit</option><option value="64">64-bit</option>
+          </select>
+        </div>
+        <div class="gbar">
+          <span class="q-label">Bitwise</span>
+          <select id="b-op" class="mini-select" aria-label="Operation">
+            <option value="none" selected>None</option>
+            <option value="and">AND</option><option value="or">OR</option><option value="xor">XOR</option>
+            <option value="not">NOT</option><option value="shl">Shift left</option><option value="shr">Shift right</option>
+            <option value="add">Add</option><option value="sub">Subtract</option><option value="mul">Multiply</option>
+          </select>
+          <input id="b-operand" placeholder="second value" spellcheck="false" autocomplete="off" aria-label="Second value">
         </div>
         <div class="preview-scroll" id="preview-scroll">
           <article id="preview" class="markdown-body json-body"></article>
@@ -222,98 +228,54 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <footer class="statusbar">
     <span id="st-valid" class="badge">Empty</span>
     <span class="dot">·</span>
-    <span id="st-shape">—</span>
-    <span class="dot">·</span>
-    <span id="st-size">0 B</span>
-    <span class="dot">·</span>
-    <span id="st-lines">1 line</span>
+<span id="st-count">0 values</span>
     <div class="spacer"></div>
     <span id="st-pos">Ln 1, Col 1</span>
   </footer>
 </div>
 
-<div class="drop-overlay" id="drop-overlay"><div><svg class="ico"><use href="#i-folder"/></svg><p>Drop your YAML file to open</p></div></div>
-<input type="file" id="file-input" accept=".yaml,.yml,.txt,text/yaml,application/x-yaml,text/plain" hidden>
+<div class="drop-overlay" id="drop-overlay"><div><svg class="ico"><use href="#i-folder"/></svg><p>Drop a file of numbers</p></div></div>
+<input type="file" id="file-input" accept=".txt,.csv,text/plain" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <div class="modal" id="modal-help" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Help">
-    <header><h2>YAML tools &amp; shortcuts</h2><button class="icon-btn" data-close data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></header>
+    <header><h2>Bases and bitwise</h2><button class="icon-btn" data-close data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></header>
     <div class="modal-body">
       <div class="help-cols">
         <section>
-          <h3>Keyboard</h3>
+          <h3>Input</h3>
           <table class="kbd-table">
-            <tr><td><kbd>Ctrl/⌘ B</kbd></td><td>Format with 2-space indent</td></tr>
-            <tr><td><kbd>Ctrl/⌘ J</kbd></td><td>Convert to JSON</td></tr>
-            <tr><td><kbd>Ctrl/⌘ F</kbd></td><td>Find &amp; replace</td></tr>
-            <tr><td><kbd>Ctrl/⌘ S</kbd></td><td>Download .yaml</td></tr>
-            <tr><td><kbd>Ctrl/⌘ P</kbd></td><td>Export the tree as PDF</td></tr>
-            <tr><td><kbd>Ctrl/⌘ 1/2/3</kbd></td><td>Edit / Split / Tree</td></tr>
-            <tr><td><kbd>Ctrl/⌘ \</kbd></td><td>Toggle sidebar</td></tr>
+            <tr><td><code>0x1f</code> <code>0b1010</code> <code>0o17</code></td><td>Prefixes are recognised automatically</td></tr>
+            <tr><td>Auto</td><td>Digits only is read as decimal; anything with a–f as hex. Set the base explicitly when that guess is wrong</td></tr>
+            <tr><td>Separators</td><td>Spaces, underscores and commas in the input are ignored</td></tr>
+            <tr><td>Size</td><td>BigInt throughout, so values past 2<sup>53</sup> keep every digit</td></tr>
           </table>
         </section>
         <section>
-          <h3>What the buttons do</h3>
+          <h3>Bitwise</h3>
           <table class="kbd-table">
-            <tr><td><strong>Format</strong></td><td>Rewrites the document with consistent indentation and quoting</td></tr>
-            <tr><td><strong>Sort</strong></td><td>Orders every mapping's keys A→Z, recursively</td></tr>
-            <tr><td><strong>→ JSON</strong></td><td>Converts the document to JSON; <strong>↩</strong> converts JSON back to YAML</td></tr>
-            <tr><td><strong>Multi-document</strong></td><td>Files split by <code>---</code> are parsed and shown separately</td></tr>
-            <tr><td><strong>Tree</strong></td><td>Click any key to copy its path, e.g. <code>$.services.web.image</code></td></tr>
+            <tr><td><strong>Width</strong></td><td>Masks the result and decides how two’s complement is shown</td></tr>
+            <tr><td><strong>NOT</strong></td><td>Needs no second value</td></tr>
+            <tr><td><strong>Shift</strong></td><td>The second value is the number of places</td></tr>
+            <tr><td>Negatives</td><td>Shown both as a signed value and as two’s complement at the chosen width</td></tr>
           </table>
         </section>
       </div>
-      <section class="help-jsonpath">
-        <h3>JSONPath</h3>
-        <table class="kbd-table">
-          <tr><td><code>$.a.b</code></td><td>Child by name</td></tr>
-          <tr><td><code>$.items[0]</code> <code>[-1]</code></td><td>Array index, negative counts from the end</td></tr>
-          <tr><td><code>$.items[*]</code> <code>$.*</code></td><td>Every element or every value</td></tr>
-          <tr><td><code>$..author</code></td><td>Recursive search at any depth</td></tr>
-          <tr><td><code>$.items[1:3]</code></td><td>Slice</td></tr>
-          <tr><td><code>$.items[0,2]</code></td><td>Union of several keys or indexes</td></tr>
-          <tr><td><code>$.items[?(@.price &lt; 10)]</code></td><td>Filter — <code>==</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td></tr>
-          <tr><td><code>$.items[?(@.isbn)]</code></td><td>Elements where a field exists</td></tr>
-        </table>
-      </section>
-      <p class="help-foot">Invalid YAML? The tree pane shows the exact line and column, with the offending line marked. Indentation mistakes are the usual culprit — tabs are not valid YAML indentation.</p>
+            <p class="help-foot">Each line is converted independently, so you can paste a column of values straight in.</p>
       <p class="help-about">Built and maintained by <strong>SALPE Global Tech</strong>.</p>
     </div>
   </div>
 </div>
 
-<script type="text/yaml" id="sample-doc">
-# docker-compose style example — edit freely
-version: "3.9"
-
-services:
-  web:
-    image: nginx:1.27-alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    environment:
-      NODE_ENV: production
-      DEBUG: false
-    depends_on: [api, cache]
-  api:
-    build: ./api
-    replicas: 3
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
-      interval: 30s
-  cache:
-    image: redis:7
-    volumes:
-      - cache-data:/data
-
-volumes:
-  cache-data: null
-</script>
+<script type="text/plain" id="sample-doc">255
+0xdeadbeef
+0b1011_0110
+0o755
+-42
+9007199254740993</script>
 <script src="../assets/js/shell.js"></script>
 <script src="../assets/js/data-tools.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-<script src="../assets/js/yaml.js"></script>
+<script src="../assets/js/base.js"></script>
 </body>
 </html>

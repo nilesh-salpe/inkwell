@@ -10,17 +10,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
 <!-- End Google Tag Manager -->
-<title>Hash &amp; HMAC Generator — Inkwell</title>
-<meta name="description" content="Compute MD5, SHA-1, SHA-256, SHA-384, SHA-512 and CRC32 of text or a file, generate HMACs with a key, and check a digest against an expected checksum.">
+<title>Diff Viewer — compare two texts side by side — Inkwell</title>
+<meta name="description" content="Compare two texts or files line by line with word-level highlighting inside changed lines, side-by-side or unified, ignoring whitespace or case.">
 <meta name="color-scheme" content="light dark">
-<meta property="og:title" content="Hash &amp; HMAC Generator">
-<meta property="og:description" content="MD5, SHA-1, SHA-256, SHA-384, SHA-512, CRC32 and HMAC — for text or a file.">
+<meta property="og:title" content="Diff Viewer">
+<meta property="og:description" content="Compare two texts line by line, with word-level detail.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/hash/">
-<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/hash/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230891b2'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='white' text-anchor='middle'%3E%23%3C/text%3E%3C/svg%3E">
-
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/diff/">
+<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/diff/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23059669'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='19' font-weight='bold' fill='white' text-anchor='middle'%3E%C2%B1%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="stylesheet" href="../assets/css/app.css">
 </head>
@@ -81,10 +79,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="app" id="app">
   <header class="topbar">
-    <button class="icon-btn" id="btn-sidebar" data-tip="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
     <a class="brand" href="../" data-tip="All tools" aria-label="All tools">
-      <span class="brand-mark brand-hash">#</span>
-      <span class="brand-name">Hash</span>
+      <span class="brand-mark brand-diff">±</span>
+      <span class="brand-name">Diff</span>
     </a>
     <div class="menu-wrap">
       <button class="btn btn-ghost" id="btn-tools" aria-haspopup="true" aria-expanded="false" data-tip="Switch to another tool" aria-label="Switch to another tool"><svg class="ico"><use href="#i-grid"/></svg><span>Tools</span></button>
@@ -94,181 +91,108 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="../yaml/"><span class="tool-name">YAML</span><span class="tool-blurb">Format, validate, convert</span></a>
         <a href="../xml/"><span class="tool-name">XML</span><span class="tool-blurb">Format, validate, convert</span></a>
         <a href="../csv/"><span class="tool-name">CSV</span><span class="tool-blurb">Table view &amp; conversion</span></a>
-        <a href="../diff/"><span class="tool-name">Diff</span><span class="tool-blurb">Compare two texts</span></a>
+        <a href="../diff/" class="is-current" aria-current="page"><span class="tool-name">Diff</span><span class="tool-blurb">Compare two texts</span></a>
         <a href="../regex/"><span class="tool-name">Regex</span><span class="tool-blurb">Test patterns live</span></a>
         <a href="../text/"><span class="tool-name">Text</span><span class="tool-blurb">Case, sort, count</span></a>
         <a href="../base/"><span class="tool-name">Base</span><span class="tool-blurb">Binary, hex, bitwise</span></a>
         <a href="../color/"><span class="tool-name">Colour</span><span class="tool-blurb">hex, RGB, OKLCH, contrast</span></a>
         <a href="../id/"><span class="tool-name">IDs</span><span class="tool-blurb">UUID, ULID, NanoID</span></a>
         <a href="../jwt/"><span class="tool-name">JWT</span><span class="tool-blurb">Decode &amp; verify tokens</span></a>
-        <a href="../hash/" class="is-current" aria-current="page"><span class="tool-name">Hash</span><span class="tool-blurb">MD5, SHA, HMAC</span></a>
+        <a href="../hash/"><span class="tool-name">Hash</span><span class="tool-blurb">MD5, SHA, HMAC</span></a>
         <a href="../aes/"><span class="tool-name">AES</span><span class="tool-blurb">Encrypt with a passphrase</span></a>
         <a href="../escape/"><span class="tool-name">Escape</span><span class="tool-blurb">Escape &amp; unescape</span></a>
         <hr>
         <a href="../guides/"><span class="tool-name">Guides</span><span class="tool-blurb">How-to articles</span></a>
       </div>
     </div>
-    <div class="doc-title-wrap">
-      <input id="doc-title" class="doc-title" value="Untitled" spellcheck="false" aria-label="Document title">
-      <span class="save-state" id="save-state">Saved</span>
-    </div>
-
-    <div class="viewmodes" role="group" aria-label="View mode">
-      <button class="vm" data-mode="editor" data-tip="Editor only (Ctrl+1)" aria-label="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
-      <button class="vm is-active" data-mode="split" data-tip="Split view (Ctrl+2)" aria-label="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
-      <button class="vm" data-mode="preview" data-tip="Digests only (Ctrl+3)" aria-label="Digests only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Digests</span></button>
-    </div>
 
     <div class="spacer"></div>
 
-    <button class="btn btn-ghost" id="btn-open" data-tip="Open a file to checksum" aria-label="Open a file to checksum"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
-    <div class="menu-wrap">
-      <button class="btn btn-ghost" id="btn-export" aria-haspopup="true" aria-expanded="false"><svg class="ico"><use href="#i-download"/></svg><span>Export</span></button>
-      <div class="menu" id="menu-export" role="menu" hidden>
-        <button role="menuitem" data-export="source"><svg class="ico"><use href="#i-download"/></svg>Input as text<kbd>Ctrl S</kbd></button>
-        <button role="menuitem" data-export="pdf"><svg class="ico"><use href="#i-pdf"/></svg>PDF of the digests<kbd>Ctrl P</kbd></button>
-        <button role="menuitem" data-export="html"><svg class="ico"><use href="#i-download"/></svg>Standalone HTML</button>
-        <hr>
-        <button role="menuitem" data-export="copy-source"><svg class="ico"><use href="#i-copy"/></svg>Copy the input</button>
-      </div>
-    </div>
-    <button class="btn btn-ghost" id="btn-copy" data-tip="Copy the whole document" aria-label="Copy the whole document"><svg class="ico"><use href="#i-copy"/></svg><span>Copy</span></button>
-    
-    <button class="icon-btn" id="btn-theme" data-tip="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
+    <select id="d-view" class="mini-select" data-tip="Layout" aria-label="Layout">
+      <option value="split" selected>Side by side</option>
+      <option value="unified">Unified</option>
+    </select>
+    <label class="c-check" data-tip="Treat runs of spaces and tabs as equal"><input type="checkbox" id="d-ws"> Ignore whitespace</label>
+    <label class="c-check" data-tip="Treat upper and lower case as equal"><input type="checkbox" id="d-ci"> Ignore case</label>
+
+    <button class="icon-btn" id="d-swap" data-tip="Swap the two sides" aria-label="Swap the two sides"><svg class="ico"><use href="#i-sync"/></svg></button>
+    <button class="icon-btn" id="d-copy" data-tip="Copy the diff as text" aria-label="Copy the diff as text"><svg class="ico"><use href="#i-copy"/></svg></button>
+    <button class="icon-btn" id="btn-print" data-tip="Print or save as PDF" aria-label="Print or save as PDF"><svg class="ico"><use href="#i-pdf"/></svg></button>
+    <button class="icon-btn" id="d-clear" data-tip="Clear both sides" aria-label="Clear both sides"><svg class="ico"><use href="#i-trash"/></svg></button>
+    <button class="icon-btn" id="btn-theme" data-tip="Toggle theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
     <button class="icon-btn" id="btn-help" data-tip="Help" aria-label="Help"><svg class="ico"><use href="#i-help"/></svg></button>
   </header>
 
-  <div class="body">
-    <aside class="sidebar" id="sidebar">
-      <div class="side-tabs" role="tablist">
-        <button class="side-tab is-active" data-tab="docs" role="tab">Documents</button>
-      </div>
-      <div class="side-panel" id="panel-docs">
-        <button class="new-doc" id="btn-new"><svg class="ico"><use href="#i-plus"/></svg>New document</button>
-        <ul class="doc-list" id="doc-list"></ul>
-        <p class="side-note">Documents are saved on this device. Export anything you want to keep.</p>
-      </div>
-      <div class="side-foot">
-        <strong>SALPE Global Tech</strong>
-        <span>Built and maintained by us</span>
-      </div>
-    </aside>
-
-    <main class="workspace" id="workspace">
-      <section class="pane editor-pane" id="editor-pane">
-        <div class="pane-head">
-          <div class="toolbar" id="toolbar">
-            <button class="tb" data-cmd="clear" data-tip="Clear the input" aria-label="Clear the input"><svg class="ico"><use href="#i-trash"/></svg></button>
-            <button class="tb" id="h-file" data-tip="Checksum a file instead" aria-label="Checksum a file instead"><svg class="ico"><use href="#i-folder"/></svg></button>
-            <span class="tb-sep"></span>
-            <button class="tb" data-cmd="find" data-tip="Find &amp; replace (Ctrl+F)" aria-label="Find and replace"><svg class="ico"><use href="#i-search"/></svg></button>
-          </div>
-        </div>
-
-        <div class="findbar" id="findbar" hidden>
-          <svg class="ico"><use href="#i-search"/></svg>
-          <input id="find-input" placeholder="Find" spellcheck="false">
-          <input id="replace-input" placeholder="Replace with" spellcheck="false">
-          <span class="find-count" id="find-count">0/0</span>
-          <button class="mini" id="find-prev" data-tip="Previous" aria-label="Previous">↑</button>
-          <button class="mini" id="find-next" data-tip="Next" aria-label="Next">↓</button>
-          <button class="mini" id="replace-one" data-tip="Replace this match and find the next">Replace</button>
-          <button class="mini" id="replace-all" data-tip="Replace every match">All</button>
-          <button class="mini" id="find-close" data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button>
-        </div>
-
-        <div class="editor-wrap">
-          <div class="gutter" id="gutter" aria-hidden="true"></div>
-          <textarea id="editor" class="editor" spellcheck="false" autocomplete="off" autocapitalize="off"
-            placeholder="Type text to hash, or drop a file anywhere…"></textarea>
-        </div>
+  <div class="body diff-body">
+    <div class="diff-inputs">
+      <section class="diff-pane">
+        <div class="pane-head"><span class="pane-label">Original</span></div>
+        <textarea id="d-a" class="editor" spellcheck="false" placeholder="Paste the original here, or drop a file…"></textarea>
       </section>
-
-      <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" tabindex="0" title="Drag to resize · double-click to reset"></div>
-
-      <section class="pane preview-pane" id="preview-pane">
-        <div class="pane-head preview-head">
-          <span class="pane-label">Digests</span>
-          <div class="spacer"></div>
-          <select id="pv-width" class="mini-select" data-tip="Width" aria-label="Width">
-            <option value="narrow">Narrow</option>
-            <option value="normal" selected>Normal</option>
-            <option value="wide">Wide</option>
-          </select>
-        </div>
-        <div class="gbar">
-          <span class="q-label">HMAC key</span>
-          <input id="h-key" type="text" placeholder="leave empty for a plain hash" spellcheck="false" autocomplete="off" aria-label="HMAC key">
-          <select id="h-format" class="mini-select" data-tip="Output encoding" aria-label="Output encoding">
-            <option value="hex" selected>Hex</option>
-            <option value="base64">Base64</option>
-          </select>
-          <label class="c-check"><input type="checkbox" id="h-upper"> Uppercase</label>
-        </div>
-        <div class="gbar">
-          <span class="q-label">Expected</span>
-          <input id="h-expect" placeholder="paste a checksum to check it against the input" spellcheck="false" autocomplete="off" aria-label="Expected checksum">
-          <span class="v-status" id="h-verdict"></span>
-        </div>
-        <div class="preview-scroll" id="preview-scroll">
-          <article id="preview" class="markdown-body json-body"></article>
-        </div>
+      <section class="diff-pane">
+        <div class="pane-head"><span class="pane-label">Changed</span></div>
+        <textarea id="d-b" class="editor" spellcheck="false" placeholder="Paste the changed version here…"></textarea>
       </section>
-    </main>
+    </div>
+    <section class="diff-result">
+      <div class="pane-head">
+        <span class="pane-label">Differences</span>
+        <span class="d-stat" id="d-stat"></span>
+      </div>
+      <div class="diff-scroll"><div id="d-out"></div></div>
+    </section>
   </div>
 
   <footer class="statusbar">
-    <span id="st-mode">text</span>
-    <span class="dot">·</span>
-    <span id="st-chars">0 characters</span>
-    <span class="dot">·</span>
-    <span id="st-size">0 B</span>
+    <span class="privacy">Line diff with word-level detail inside changed lines</span>
     <div class="spacer"></div>
-    <span id="st-pos">Ln 1, Col 1</span>
   </footer>
 </div>
 
-<div class="drop-overlay" id="drop-overlay"><div><svg class="ico"><use href="#i-folder"/></svg><p>Drop a file to checksum it</p></div></div>
-<input type="file" id="file-input"  hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <div class="modal" id="modal-help" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Help">
-    <header><h2>Hashing &amp; shortcuts</h2><button class="icon-btn" data-close data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></header>
+    <header><h2>Diff viewer</h2><button class="icon-btn" data-close data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></header>
     <div class="modal-body">
       <div class="help-cols">
         <section>
-          <h3>Escape produces</h3>
+          <h3>Reading the result</h3>
           <table class="kbd-table">
-            <tr><td><strong>JSON string</strong></td><td>Quoted and escaped, ready to paste into JSON or JavaScript</td></tr>
-            <tr><td><strong>HTML entities</strong></td><td>Safe to place in markup as text</td></tr>
-            <tr><td><strong>URL</strong></td><td>Component (<code>encodeURIComponent</code>) and full URL (<code>encodeURI</code>)</td></tr>
-            <tr><td><strong>Base64</strong></td><td>Standard and URL-safe, over UTF-8 bytes</td></tr>
-            <tr><td><strong>Hex / Unicode</strong></td><td>Bytes as hex, or non-ASCII as unicode escapes</td></tr>
-            <tr><td><strong>Backslash</strong></td><td>C-style, for a string literal in most languages</td></tr>
-            <tr><td><strong>Regex / SQL</strong></td><td>Metacharacters escaped; single quotes doubled</td></tr>
+            <tr><td><strong>Side by side</strong></td><td>Original on the left, changed on the right, aligned line for line</td></tr>
+            <tr><td><strong>Unified</strong></td><td>One column, the familiar <code>−</code> and <code>+</code> form</td></tr>
+            <tr><td><strong>Word detail</strong></td><td>When a line was edited rather than replaced, the exact words that changed are highlighted within it</td></tr>
+            <tr><td><strong>Counts</strong></td><td>Added, removed, and how many lines were modified rather than wholly new</td></tr>
           </table>
         </section>
         <section>
-          <h3>Unescape</h3>
+          <h3>Options</h3>
           <table class="kbd-table">
-            <tr><td>Every decoder at once</td><td>Paste something encoded and each decoder that applies shows its result — useful when you do not know what you are looking at</td></tr>
-            <tr><td><strong>Use</strong></td><td>Replaces the input with that result, so you can decode twice (say Base64 then JSON)</td></tr>
-            <tr><td><strong>Copy</strong></td><td>Puts just that one result on the clipboard</td></tr>
-            <tr><td>Safety</td><td>HTML is parsed as inert markup — nothing in it is executed or loaded</td></tr>
+            <tr><td><strong>Ignore whitespace</strong></td><td>Collapses runs of spaces and tabs, so re-indentation stops drowning the real changes</td></tr>
+            <tr><td><strong>Ignore case</strong></td><td>Compares case-insensitively</td></tr>
+            <tr><td><strong>Files</strong></td><td>Drop a file onto either side to load it</td></tr>
+            <tr><td><strong>Algorithm</strong></td><td>Myers, with the common start and end trimmed first. Very different inputs are reported rather than ground through</td></tr>
           </table>
         </section>
       </div>
-            <p class="help-foot">Everything updates as you type. A dropped file replaces the text until you type again or choose "Use the text instead".</p>
+      <p class="help-foot">The comparison updates as you type. Print gives you the diff alone, without the two input panes.</p>
       <p class="help-about">Built and maintained by <strong>SALPE Global Tech</strong>.</p>
     </div>
   </div>
 </div>
 
-<script type="text/plain" id="sample-doc">The quick brown fox jumps over the lazy dog</script>
 <script src="../assets/js/shell.js"></script>
-<script src="../assets/js/data-tools.js"></script>
-<script src="../assets/js/hashes.js"></script>
-<script src="../assets/js/hash.js"></script>
+<script src="../assets/js/diff.js"></script>
+<script>
+  document.getElementById('btn-help').addEventListener('click', function () {
+    document.getElementById('modal-help').hidden = false;
+  });
+  document.getElementById('modal-help').addEventListener('click', function (e) {
+    if (e.target.id === 'modal-help' || e.target.closest('[data-close]')) e.currentTarget.hidden = true;
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') document.getElementById('modal-help').hidden = true;
+  });
+</script>
 </body>
 </html>

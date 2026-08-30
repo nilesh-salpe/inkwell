@@ -31,7 +31,27 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nilesh-salpe.github.io/inkwell/jwt/</loc>
+    <loc>https://nilesh-salpe.github.io/inkwell/diff/</loc>
+    <lastmod>2026-08-30</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nilesh-salpe.github.io/inkwell/regex/</loc>
+    <lastmod>2026-08-30</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nilesh-salpe.github.io/inkwell/text/</loc>
+    <lastmod>2026-08-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nilesh-salpe.github.io/inkwell/base/</loc>
+    <lastmod>2026-08-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nilesh-salpe.github.io/inkwell/color/</loc>
     <lastmod>2026-08-30</lastmod>
     <priority>0.8</priority>
   </url>
@@ -41,12 +61,22 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nilesh-salpe.github.io/inkwell/escape/</loc>
+    <loc>https://nilesh-salpe.github.io/inkwell/jwt/</loc>
     <lastmod>2026-08-30</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://nilesh-salpe.github.io/inkwell/hash/</loc>
+    <lastmod>2026-08-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nilesh-salpe.github.io/inkwell/aes/</loc>
+    <lastmod>2026-08-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nilesh-salpe.github.io/inkwell/escape/</loc>
     <lastmod>2026-08-30</lastmod>
     <priority>0.8</priority>
   </url>

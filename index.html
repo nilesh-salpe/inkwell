@@ -10,8 +10,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
 <!-- End Google Tag Manager -->
-<title>Inkwell — developer tools for Markdown, JSON, YAML, XML, CSV, JWT and more</title>
-<meta name="description" content="Free developer tools: a Markdown editor with live preview and PDF export, plus JSON, YAML, XML and CSV tools, a JWT decoder, an ID generator, a string escaper and a hash tool. Works offline.">
+<title>Inkwell — 15 developer tools: Markdown, JSON, YAML, XML, CSV, diff, regex and more</title>
+<meta name="description" content="Free developer tools: a Markdown editor with live preview and PDF export, plus JSON, YAML, XML and CSV tools, a diff viewer, regex tester, text utilities, base and colour converters, ID generator, JWT decoder, hash and AES tools. Works offline.">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Inkwell — Markdown, JSON &amp; YAML tools">
 <meta property="og:description" content="A Markdown editor with PDF export, plus JSON and YAML formatters. Offline-capable and free.">
@@ -163,6 +163,84 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li>Drop a file to verify a download's checksum</li>
           <li>HMAC — what webhook signatures are built on</li>
           <li>Paste an expected digest and the matching algorithm is named</li>
+        </ul>
+        <span class="hub-go">Open the tool →</span>
+      </a>
+
+      <a class="hub-card" href="diff/">
+        <span class="hub-icon hub-icon-diff">±</span>
+        <h2>Diff viewer</h2>
+        <p>Compare two texts line by line, with the exact words that changed highlighted inside each edited line.</p>
+        <ul>
+          <li>Side-by-side or unified</li>
+          <li>Word-level detail within changed lines</li>
+          <li>Ignore whitespace or case</li>
+          <li>Drop a file onto either side</li>
+        </ul>
+        <span class="hub-go">Open the viewer →</span>
+      </a>
+
+      <a class="hub-card" href="regex/">
+        <span class="hub-icon hub-icon-regex">.*</span>
+        <h2>Regex tester</h2>
+        <p>Build a pattern against real text, with matches highlighted as you type and every capture group listed.</p>
+        <ul>
+          <li>Live highlighting, numbered and named groups</li>
+          <li>Replacement preview with <code>$1</code> and <code>$&lt;name&gt;</code></li>
+          <li>All six flags</li>
+          <li>Runaway patterns are stopped, not left to freeze the page</li>
+        </ul>
+        <span class="hub-go">Open the tester →</span>
+      </a>
+
+      <a class="hub-card" href="text/">
+        <span class="hub-icon hub-icon-text">T</span>
+        <h2>Text utilities</h2>
+        <p>Case conversion, line operations and a proper read on how long a piece of writing actually is.</p>
+        <ul>
+          <li>camelCase, snake_case, kebab-case, slugify and more</li>
+          <li>Sort naturally, deduplicate, trim, renumber</li>
+          <li>Words, sentences, paragraphs, reading time</li>
+          <li>Most-used words, filler excluded</li>
+        </ul>
+        <span class="hub-go">Open the tools →</span>
+      </a>
+
+      <a class="hub-card" href="base/">
+        <span class="hub-icon hub-icon-base">01</span>
+        <h2>Number bases</h2>
+        <p>Binary, octal, decimal and hex at once, with bitwise operations and two's complement.</p>
+        <ul>
+          <li><code>0x</code>, <code>0b</code> and <code>0o</code> understood automatically</li>
+          <li>AND, OR, XOR, NOT, shifts and arithmetic</li>
+          <li>8, 16, 32 or 64-bit widths</li>
+          <li>BigInt throughout — no silent precision loss</li>
+        </ul>
+        <span class="hub-go">Open the converter →</span>
+      </a>
+
+      <a class="hub-card" href="color/">
+        <span class="hub-icon hub-icon-color">◐</span>
+        <h2>Colour converter</h2>
+        <p>Convert between hex, RGB, HSL and OKLCH, and check contrast before it fails an audit.</p>
+        <ul>
+          <li>Every format for each colour, with one-click copy</li>
+          <li>WCAG AA and AAA against any background</li>
+          <li>OKLCH, so lightness changes keep the hue</li>
+          <li>Paste a whole palette at once</li>
+        </ul>
+        <span class="hub-go">Open the converter →</span>
+      </a>
+
+      <a class="hub-card" href="aes/">
+        <span class="hub-icon hub-icon-aes">🔒</span>
+        <h2>AES encrypt</h2>
+        <p>Encrypt a message with a passphrase, and decrypt one you have been sent.</p>
+        <ul>
+          <li>AES-256-GCM, so tampering is detected</li>
+          <li>PBKDF2-SHA256 key derivation</li>
+          <li>Fresh salt and IV, carried in the message</li>
+          <li>Nothing typed is written to storage</li>
         </ul>
         <span class="hub-go">Open the tool →</span>
       </a>

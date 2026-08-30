@@ -1,10 +1,9 @@
 # Inkwell — developer tools on one static site
 
-Nine developer tools on one static site, built for GitHub Pages: a **Markdown
-editor** with live preview and real PDF export; **JSON**, **YAML** and **XML**
-tools with validation, tree views and JSONPath queries; a **CSV** viewer and
-converter; a **JWT decoder** with signature verification; an **ID generator**;
-a **string escaper**; and a **hash and HMAC** tool.
+Fifteen developer tools on one static site, built for GitHub Pages — a Markdown
+editor with real PDF export, data tools for JSON, YAML, XML and CSV, a diff
+viewer, a regex tester, text and number utilities, a colour converter, and a
+set of crypto-adjacent tools (IDs, JWT, hashing, AES).
 
 **Live:** <https://nilesh-salpe.github.io/inkwell/>
 
@@ -26,6 +25,12 @@ analytics; it records page views, not document contents.
 | `/id/` | Generate UUID v1–v7, ULID, NanoID, ObjectId and tokens; identify any ID |
 | `/escape/` | Escape and unescape strings across JSON, HTML, URL, Base64, hex, Unicode, backslash, regex and SQL |
 | `/hash/` | MD5, SHA-1/256/384/512, CRC32 and HMAC over text or a dropped file |
+| `/diff/` | Compare two texts, side-by-side or unified, with word-level detail |
+| `/regex/` | Test a pattern live, with groups and a replacement preview |
+| `/text/` | Case conversion, line operations, counts and reading time |
+| `/base/` | Binary, octal, decimal, hex and bitwise operations |
+| `/color/` | hex, RGB, HSL, OKLCH and WCAG contrast |
+| `/aes/` | Encrypt and decrypt with a passphrase (AES-256-GCM) |
 | `/guides/` | How-to articles: Markdown to PDF, JSON to CSV, choosing a UUID version |
 
 ### Markdown
@@ -114,6 +119,9 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 - `assets/js/escape.js` — the encoders, decoders and the plausibility check that stops plain words decoding as Base64
 - `assets/js/hashes.js` — synchronous MD5, SHA-1 and CRC32, shared by the ID generator and the hash tool
 - `assets/js/hash.js` — the hash and HMAC page (SHA-2 comes from WebCrypto)
+- `assets/js/diff.js` — Myers diff with prefix/suffix trimming and word-level detail
+- `assets/js/regex.js`, `assets/js/regex-worker.js` — pattern matching in a worker with a deadline
+- `assets/js/text.js`, `assets/js/base.js`, `assets/js/color.js`, `assets/js/aes.js`
 - `assets/css/app.css` — theme tokens, layout, and the print stylesheet used for PDF export
 - `guides/` — content pages, sharing the hub's layout
 - `sitemap.xml`, `robots.txt` — so the tool pages are discoverable
@@ -145,6 +153,30 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 | **Other** | ULID, ObjectId, NanoID and random hex/base64url tokens — the only formats where a length is yours to choose. A UUID is always 128 bits |
 | **Inspect** | Paste any identifier and it is named, with its variant and creation time where one is encoded |
 | **Privacy** | v1/v6 use a random node with the multicast bit set, so no MAC address leaks. Generated values are not persisted |
+
+### Diff and regex
+
+| | |
+|---|---|
+| **Diff** | Myers' algorithm with the common start and end trimmed first. Changed lines are paired and diffed again at word level, so an edit shows the words that moved rather than two whole red and green lines |
+| **Regex** | The pattern runs in a Web Worker with a 1.5 second deadline, so a catastrophically backtracking expression such as `(a+)+b` is terminated instead of freezing the tab |
+
+### Numbers, text and colour
+
+| | |
+|---|---|
+| **Base** | BigInt throughout, so values past 2^53 keep every digit; bitwise ops honour a chosen width and show two's complement |
+| **Text** | Case conversion detects word boundaries from capitals as well as punctuation, so `HTTPServer` splits correctly |
+| **Colour** | hex, RGB, HSL and OKLCH, with WCAG contrast. Achromatic colours report hue 0 rather than an arbitrary angle |
+
+### AES
+
+| | |
+|---|---|
+| **Cipher** | AES-256-GCM — authenticated, so a tampered message fails to decrypt rather than producing garbage |
+| **Key** | PBKDF2-SHA256 with a configurable iteration count, stored in the message so it can be decrypted later |
+| **Format** | Magic bytes, iterations, salt and IV prepended to the ciphertext, base64 encoded. Specific to this tool |
+| **Scope** | A shared passphrase between two people. Not key management, and not for storing passwords |
 
 ### Hashing
 

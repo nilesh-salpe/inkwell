@@ -1,7 +1,7 @@
 /* Inkwell service worker — makes the editor work with no network.
    Strategy: network-first for the app shell (so updates land quickly),
    cache-first for immutable CDN libraries and fonts. */
-const VERSION = 'inkwell-v14';
+const VERSION = 'inkwell-v15';
 const CORE = [
   './',
   './index.html',
@@ -23,6 +23,18 @@ const CORE = [
   './escape/index.html',
   './hash/',
   './hash/index.html',
+  './diff/',
+  './diff/index.html',
+  './regex/',
+  './regex/index.html',
+  './text/',
+  './text/index.html',
+  './base/',
+  './base/index.html',
+  './color/',
+  './color/index.html',
+  './aes/',
+  './aes/index.html',
   './guides/',
   './guides/index.html',
   './guides/markdown-to-pdf/',
@@ -38,6 +50,13 @@ const CORE = [
   './assets/js/csv.js',
   './assets/js/ids.js',
   './assets/js/escape.js',
+  './assets/js/diff.js',
+  './assets/js/regex.js',
+  './assets/js/regex-worker.js',
+  './assets/js/text.js',
+  './assets/js/base.js',
+  './assets/js/color.js',
+  './assets/js/aes.js',
   './assets/js/hash.js',
   './assets/js/hashes.js',
   './assets/js/data-tools.js',

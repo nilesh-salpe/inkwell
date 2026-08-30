@@ -1,7 +1,8 @@
-# Inkwell — Markdown editor, viewer & PDF exporter
+# Inkwell — browser-only Markdown & JSON tools
 
-A single-page, zero-backend Markdown workspace built for GitHub Pages.
-Write on the left, read on the right, export a real PDF when you're done.
+Two zero-backend developer tools on one static site, built for GitHub Pages:
+a **Markdown editor** with live preview and real PDF export, and a **JSON
+formatter** with validation, a tree view and JSONPath queries.
 
 **Live:** <https://nilesh-salpe.github.io/inkwell/>
 
@@ -10,13 +11,30 @@ and after the first visit the editor runs offline. The page itself loads Google
 Tag Manager (`GTM-N5QTT4NV`) for visit analytics; it sees page views, not the
 Markdown you write.
 
-## What it does
+## The tools
+
+| Page | What it does |
+|---|---|
+| `/` | Hub — picks a tool |
+| `/markdown/` | View, edit and export Markdown (PDF, HTML, `.md`, share links) |
+| `/json/` | Validate, format, minify, sort, explore and **query** JSON |
+
+### Markdown
 
 | | |
 |---|---|
 | **View** | GitHub-flavoured Markdown: tables, task lists, footnotes, callouts, autolinks |
 | **Edit** | Split editor with formatting toolbar, shortcuts, list auto-continuation, find & replace, wrap-aware line numbers |
 | **Export** | **PDF** (print-quality, selectable text), `.md`, standalone styled HTML, rich-text clipboard, share links |
+
+### JSON
+
+| | |
+|---|---|
+| **Validate** | Exact line and column of the fault, with the offending line marked — located by our own scanner, since browsers word (and often omit) JSON errors inconsistently |
+| **Query** | JSONPath: `$.a.b`, `$..deep`, `[*]`, `[0]`, `[-1]`, `[1:3]`, `[0,2]`, `[?(@.price < 10)]`, `[?(@.isbn)]` |
+| **View** | Collapsible tree, typed colouring, click any key to copy its path |
+| **Edit** | Format (2/4 space), minify, sort keys recursively, repair (strips comments and trailing commas), escape/unescape |
 
 ### Beyond markdownlivepreview.com
 
@@ -69,10 +87,17 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 
 ## How it's built
 
-- `index.html` — shell, icon sprite, and the welcome document (in a `text/markdown` script tag)
-- `assets/js/app.js` — editor, Markdown pipeline, preview enhancement, exports (no framework)
+- `index.html` — the hub
+- `markdown/index.html`, `json/index.html` — one page per tool, each with its own sprite and sample document
+- `assets/js/shell.js` — everything language-agnostic: layout, documents, storage, theme, splitter, gutter, scroll sync, find & replace, exports, shortcuts
+- `assets/js/markdown.js` — Markdown pipeline and preview enhancement
+- `assets/js/json.js` — JSON scanner, JSONPath engine and tree renderer
 - `assets/css/app.css` — theme tokens, layout, and the print stylesheet used for PDF export
-- `sw.js` — offline cache (same-origin + jsdelivr only; the analytics tag is never cached)
+- `sw.js` — offline cache
+
+A tool supplies a `render` function and a set of toolbar commands; the shell
+owns everything else. That is why both tools have identical keyboard
+shortcuts, autosave and theming without duplicating any of it. (same-origin + jsdelivr only; the analytics tag is never cached)
 
 Markdown is parsed with [marked](https://marked.js.org/) **block by block**, so every
 top-level element carries the source line it came from — that is what powers the

@@ -163,8 +163,14 @@ window.Shell = (function () {
     );
     const savePrefs = () => lsSet(LS.prefs, prefs);
 
-    let docs = lsGet(LS.docs, []);
-    let activeId = lsGet(LS.active, null);
+    /* A tool handling credentials (see the JWT page) opts out of persistence:
+       its documents live in memory for the session and are never written to disk. */
+    const persist = config.persist !== false;
+    const saveDocs = () => { if (persist) lsSet(LS.docs, docs); };
+    const saveActive = () => { if (persist) lsSet(LS.active, activeId); };
+
+    let docs = persist ? lsGet(LS.docs, []) : [];
+    let activeId = persist ? lsGet(LS.active, null) : null;
 
     /* ---------- render loop ---------- */
     let renderTimer = null;
@@ -329,8 +335,8 @@ window.Shell = (function () {
         if (document.activeElement !== el.title) el.title.value = doc.title;
       }
       docs.sort((a, b) => b.updated - a.updated);
-      lsSet(LS.docs, docs);
-      lsSet(LS.active, activeId);
+      saveDocs();
+      saveActive();
       el.saveState.textContent = 'Saved';
       el.saveState.classList.remove('dirty');
       renderDocList();
@@ -362,7 +368,7 @@ window.Shell = (function () {
       activeId = id;
       el.editor.value = doc.content;
       el.title.value = doc.title || 'Untitled';
-      lsSet(LS.active, activeId);
+      saveActive();
       metricsDirty = true;
       buildMetrics();
       render();
@@ -382,7 +388,7 @@ window.Shell = (function () {
         updated: Date.now()
       };
       docs.unshift(doc);
-      lsSet(LS.docs, docs);
+      saveDocs();
       openDoc(doc.id, true);
       saveNow();
       return doc;
@@ -393,7 +399,7 @@ window.Shell = (function () {
       if (!doc) return;
       if (!confirm('Delete “' + (doc.title || 'Untitled') + '”? This cannot be undone.')) return;
       docs = docs.filter((d) => d.id !== id);
-      lsSet(LS.docs, docs);
+      saveDocs();
       if (activeId === id) {
         if (docs.length) openDoc(docs[0].id);
         else newDoc(config.blank, 'Untitled');

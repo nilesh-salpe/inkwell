@@ -730,3 +730,44 @@ body.hub-page { overflow: auto; background: var(--bg); }
   font: 800 13px var(--sans);
 }
 .hub-icon-yaml { background: linear-gradient(140deg, #f59e0b, #d97706); font: 800 17px var(--sans); }
+
+/* ---------- JWT ---------- */
+.brand-jwt { background: linear-gradient(140deg, #ec4899, #db2777); font: 800 9.5px var(--sans); letter-spacing: 0; }
+.hub-icon-jwt { background: linear-gradient(140deg, #ec4899, #db2777); font: 800 13px var(--sans); }
+
+.jwt-block { margin-bottom: 26px; font-family: var(--sans); }
+.jwt-block h3 {
+  display: flex; align-items: center; gap: 9px;
+  margin: 0 0 10px; font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .07em; color: var(--text-mute);
+}
+.jwt-alg {
+  font: 600 11px var(--mono); text-transform: none; letter-spacing: 0;
+  color: var(--accent); background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 20px; padding: 1px 8px;
+}
+.jwt-detail { margin: 0 0 10px; font-size: 13px; color: var(--text-dim); }
+.jwt-claims { border-collapse: collapse; margin: 0 0 12px; font-size: 12.5px; width: 100%; }
+.jwt-claims td { padding: 5px 10px 5px 0; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+.jwt-claims td:first-child { width: 1%; white-space: nowrap; }
+.jwt-claims td:nth-child(2) { color: var(--text-mute); white-space: nowrap; }
+.jwt-claims code { font: 12px var(--mono); background: var(--code-bg); padding: 1px 6px; border-radius: 5px; }
+.jwt-rel { color: var(--text-mute); }
+.jwt-sig {
+  margin: 0 0 8px; padding: 10px 12px; border-radius: 8px;
+  background: var(--code-bg); border: 1px solid var(--border-soft);
+  font: 12px var(--mono); word-break: break-all; white-space: pre-wrap;
+}
+.jwt-warn {
+  font-family: var(--sans); font-size: 13px; line-height: 1.6;
+  margin: 0 0 22px; padding: 12px 14px; border-radius: 10px;
+  border: 1px solid var(--danger); border-left-width: 3px;
+  background: color-mix(in srgb, var(--danger) 8%, transparent);
+}
+.jwt-warn strong { font: 600 12.5px var(--mono); }
+
+.v-status { font-size: 11.5px; font-weight: 600; white-space: nowrap; color: var(--text-mute); }
+.v-status.is-ok { color: var(--ok); }
+.v-status.is-bad { color: var(--danger); }
+.v-status.is-warn { color: var(--warn); }

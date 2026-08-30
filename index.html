@@ -10,8 +10,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
 <!-- End Google Tag Manager -->
-<title>Inkwell — Markdown, JSON &amp; YAML tools</title>
-<meta name="description" content="Free developer tools: a Markdown editor with live preview and PDF export, plus JSON and YAML formatters with validation, tree views and JSONPath queries. Works offline.">
+<title>Inkwell — Markdown, JSON, YAML &amp; JWT tools</title>
+<meta name="description" content="Free developer tools: a Markdown editor with live preview and PDF export, plus JSON and YAML formatters and a JWT decoder. Works offline.">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Inkwell — Markdown, JSON &amp; YAML tools">
 <meta property="og:description" content="A Markdown editor with PDF export, plus JSON and YAML formatters. Offline-capable and free.">
@@ -84,6 +84,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li>Same tree view and JSONPath queries as the JSON tool</li>
         </ul>
         <span class="hub-go">Open the formatter →</span>
+      </a>
+
+      <a class="hub-card" href="jwt/">
+        <span class="hub-icon hub-icon-jwt">JWT</span>
+        <h2>JWT decoder</h2>
+        <p>Decode a token, read its claims and find out whether it has actually expired — with the signature checked.</p>
+        <ul>
+          <li>Header and payload as a readable tree</li>
+          <li><code>exp</code>, <code>nbf</code>, <code>iat</code> shown as real dates, with expiry status</li>
+          <li>Signature verification — HS, RS, PS and ES</li>
+          <li>Tokens are never written to storage</li>
+        </ul>
+        <span class="hub-go">Open the decoder →</span>
       </a>
     </div>
 

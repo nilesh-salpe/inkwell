@@ -1,8 +1,9 @@
-# Inkwell — Markdown, JSON & YAML tools
+# Inkwell — Markdown, JSON, YAML & JWT tools
 
-Three zero-backend developer tools on one static site, built for GitHub Pages:
-a **Markdown editor** with live preview and real PDF export, and **JSON** and
-**YAML** tools with validation, tree views and JSONPath queries.
+Four developer tools on one static site, built for GitHub Pages: a **Markdown
+editor** with live preview and real PDF export, **JSON** and **YAML** tools with
+validation, tree views and JSONPath queries, and a **JWT decoder** with
+signature verification.
 
 **Live:** <https://nilesh-salpe.github.io/inkwell/>
 
@@ -18,6 +19,7 @@ analytics; it records page views, not document contents.
 | `/markdown/` | View, edit and export Markdown (PDF, HTML, `.md`, share links) |
 | `/json/` | Validate, format, minify, sort, explore and **query** JSON |
 | `/yaml/` | Validate, format, sort, explore and **query** YAML; convert to and from JSON |
+| `/jwt/` | Decode a JSON Web Token, read its claims, check expiry, verify the signature |
 
 ### Markdown
 
@@ -98,8 +100,18 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 - `assets/js/data-tools.js` — tree renderer, structure statistics and the JSONPath engine, shared by JSON and YAML
 - `assets/js/json.js` — JSON scanner and transforms
 - `assets/js/yaml.js` — YAML parsing (js-yaml), formatting and conversion
+- `assets/js/jwt.js` — JWT decoding, claim reading and WebCrypto signature verification
 - `assets/css/app.css` — theme tokens, layout, and the print stylesheet used for PDF export
 - `sw.js` — offline cache
+
+### JWT
+
+| | |
+|---|---|
+| **Decode** | Header and payload as a readable tree; `exp`, `nbf`, `iat` and `auth_time` shown as real dates with how far away they are |
+| **Expiry** | A single badge — Not expired / Expired / Not yet valid / No expiry — instead of making you read epoch seconds |
+| **Verify** | `HS256/384/512` with a shared secret; `RS`, `PS` and `ES` with a PEM public key, via WebCrypto |
+| **Safety** | `alg: none` is flagged. Tokens are credentials, so this page passes `persist: false` to the shell: nothing is written to storage, and it has no share link |
 
 A tool supplies a `render` function and a set of toolbar commands; the shell
 owns everything else. That is why all three tools have identical keyboard

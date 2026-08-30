@@ -1,7 +1,7 @@
 /* Inkwell service worker — makes the editor work with no network.
    Strategy: network-first for the app shell (so updates land quickly),
    cache-first for immutable CDN libraries and fonts. */
-const VERSION = 'inkwell-v9';
+const VERSION = 'inkwell-v10';
 const CORE = [
   './',
   './index.html',
@@ -13,12 +13,18 @@ const CORE = [
   './yaml/index.html',
   './jwt/',
   './jwt/index.html',
+  './xml/',
+  './xml/index.html',
+  './csv/',
+  './csv/index.html',
   './assets/css/app.css',
   './assets/js/shell.js',
   './assets/js/markdown.js',
   './assets/js/json.js',
   './assets/js/yaml.js',
   './assets/js/jwt.js',
+  './assets/js/xml.js',
+  './assets/js/csv.js',
   './assets/js/data-tools.js',
   'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js',
   'https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js',

@@ -771,3 +771,52 @@ body.hub-page { overflow: auto; background: var(--bg); }
 .v-status.is-ok { color: var(--ok); }
 .v-status.is-bad { color: var(--danger); }
 .v-status.is-warn { color: var(--warn); }
+
+.brand-xml { background: linear-gradient(140deg, #38bdf8, #0284c7); font: 800 12px var(--mono); }
+.hub-icon-xml { background: linear-gradient(140deg, #38bdf8, #0284c7); font: 800 15px var(--mono); }
+
+/* ---------- CSV ---------- */
+.brand-csv { background: linear-gradient(140deg, #22c55e, #16a34a); font: 800 9.5px var(--sans); }
+.hub-icon-csv { background: linear-gradient(140deg, #22c55e, #16a34a); font: 800 13px var(--sans); }
+
+.c-check {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--text-dim); white-space: nowrap; cursor: pointer;
+}
+.c-check input { accent-color: var(--accent); cursor: pointer; }
+
+.csv-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+/* beats the generic .markdown-body table rule, which is display:block/max-content */
+.markdown-body .csv-table {
+  display: table; border-collapse: collapse; font: 12.5px var(--sans);
+  width: 100%; max-width: none; margin: 0;
+}
+.csv-table th, .csv-table td {
+  border-right: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft);
+  padding: 6px 10px; text-align: left; white-space: nowrap; max-width: 320px;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.csv-table thead th {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--bg-sunken); font-weight: 650;
+  border-bottom: 1px solid var(--border);
+}
+.csv-table tbody tr:hover td { background: var(--accent-soft); }
+.csv-num { color: var(--text-mute); text-align: right !important; font: 11px var(--mono); background: var(--bg-sunken); width: 1%; }
+.csv-num-cell { text-align: right; font-variant-numeric: tabular-nums; }
+.csv-missing { color: var(--text-mute); font-style: italic; }
+.csv-extra { color: var(--warn); font-size: 11px; }
+.csv-note {
+  font-family: var(--sans); font-size: 13px; line-height: 1.6;
+  margin: 0 0 16px; padding: 11px 14px; border-radius: 10px;
+  border: 1px solid var(--warn); border-left-width: 3px;
+  background: color-mix(in srgb, var(--warn) 8%, transparent);
+}
+.json-body:has(.csv-wrap) { max-width: none; }
+.preview-scroll[data-w="normal"] .json-body:has(.csv-wrap),
+.preview-scroll[data-w="wide"] .json-body:has(.csv-wrap) { max-width: none; }
+
+@media print {
+  .csv-wrap { overflow: visible; }
+  .csv-table thead th { position: static; }
+}

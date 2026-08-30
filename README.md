@@ -1,9 +1,9 @@
-# Inkwell — Markdown, JSON, YAML & JWT tools
+# Inkwell — developer tools on one static site
 
-Four developer tools on one static site, built for GitHub Pages: a **Markdown
-editor** with live preview and real PDF export, **JSON** and **YAML** tools with
-validation, tree views and JSONPath queries, and a **JWT decoder** with
-signature verification.
+Six developer tools on one static site, built for GitHub Pages: a **Markdown
+editor** with live preview and real PDF export; **JSON**, **YAML** and **XML**
+tools with validation, tree views and JSONPath queries; a **CSV** viewer and
+converter; and a **JWT decoder** with signature verification.
 
 **Live:** <https://nilesh-salpe.github.io/inkwell/>
 
@@ -20,6 +20,8 @@ analytics; it records page views, not document contents.
 | `/json/` | Validate, format, minify, sort, explore and **query** JSON |
 | `/yaml/` | Validate, format, sort, explore and **query** YAML; convert to and from JSON |
 | `/jwt/` | Decode a JSON Web Token, read its claims, check expiry, verify the signature |
+| `/xml/` | Check well-formedness, format, minify, explore and convert XML to JSON |
+| `/csv/` | View CSV as a table, catch ragged rows, filter, convert to and from JSON |
 
 ### Markdown
 
@@ -101,8 +103,27 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 - `assets/js/json.js` — JSON scanner and transforms
 - `assets/js/yaml.js` — YAML parsing (js-yaml), formatting and conversion
 - `assets/js/jwt.js` — JWT decoding, claim reading and WebCrypto signature verification
+- `assets/js/xml.js` — XML parsing via DOMParser, formatting and the XML-to-value mapping
+- `assets/js/csv.js` — RFC 4180 parser, delimiter sniffing, table rendering and JSON conversion
 - `assets/css/app.css` — theme tokens, layout, and the print stylesheet used for PDF export
 - `sw.js` — offline cache
+
+### XML
+
+| | |
+|---|---|
+| **Validate** | Well-formedness with the parser's own line and column. This is syntax only — no DTD or XSD validation |
+| **Format** | 2 or 4 space indent, or minify; elements holding one short text node stay on a single line |
+| **Explore** | Rendered through the shared tree by mapping attributes to `@name`, mixed text to `#text` and repeated elements to arrays — which also makes JSONPath work over XML |
+
+### CSV
+
+| | |
+|---|---|
+| **Check** | Ragged rows and unterminated quotes reported by row number — the usual reason an import fails |
+| **Parse** | RFC 4180 quoting, with the delimiter sniffed from the first lines (comma, semicolon, tab, pipe) and overridable |
+| **View** | A real table with a sticky header, right-aligned numbers, and a row filter |
+| **Convert** | CSV → JSON with type coercion, and JSON arrays back to CSV |
 
 ### JWT
 

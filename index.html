@@ -10,8 +10,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
 <!-- End Google Tag Manager -->
-<title>Inkwell — Markdown, JSON, YAML &amp; JWT tools</title>
-<meta name="description" content="Free developer tools: a Markdown editor with live preview and PDF export, plus JSON and YAML formatters and a JWT decoder. Works offline.">
+<title>Inkwell — Markdown, JSON, YAML, JWT, XML &amp; CSV tools</title>
+<meta name="description" content="Free developer tools: a Markdown editor with live preview and PDF export, plus JSON, YAML, XML and CSV tools and a JWT decoder. Works offline.">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Inkwell — Markdown, JSON &amp; YAML tools">
 <meta property="og:description" content="A Markdown editor with PDF export, plus JSON and YAML formatters. Offline-capable and free.">
@@ -43,7 +43,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h1 class="hub-title">Small tools that get out of your way</h1>
     <p class="hub-sub">
       No account, no sign-up, no trial. Open a tool, do the work, take the result with
-      you — Markdown to PDF, JSON and YAML to a readable tree.
+      you — Markdown to PDF, JSON, YAML and XML to a readable tree, CSV to a real table.
     </p>
 
     <div class="hub-cards">
@@ -97,6 +97,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li>Tokens are never written to storage</li>
         </ul>
         <span class="hub-go">Open the decoder →</span>
+      </a>
+
+      <a class="hub-card" href="xml/">
+        <span class="hub-icon hub-icon-xml">&lt;&gt;</span>
+        <h2>XML formatter</h2>
+        <p>Check that a document is well-formed, re-indent it, and read it as a tree instead of a wall of tags.</p>
+        <ul>
+          <li>Exact line and column when it is not well-formed</li>
+          <li>Format at 2 or 4 spaces, or minify</li>
+          <li>XML → JSON, with attributes as <code>@name</code></li>
+          <li>JSONPath queries over the converted shape</li>
+        </ul>
+        <span class="hub-go">Open the formatter →</span>
+      </a>
+
+      <a class="hub-card" href="csv/">
+        <span class="hub-icon hub-icon-csv">CSV</span>
+        <h2>CSV viewer</h2>
+        <p>See a delimited file as a real table, and find the row that breaks your import before it breaks it.</p>
+        <ul>
+          <li>Ragged rows and unterminated quotes reported by row number</li>
+          <li>Delimiter detected automatically — comma, semicolon, tab, pipe</li>
+          <li>CSV ↔ JSON in both directions</li>
+          <li>Filter rows, and print the table straight to PDF</li>
+        </ul>
+        <span class="hub-go">Open the viewer →</span>
       </a>
     </div>
 

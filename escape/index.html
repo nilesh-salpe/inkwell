@@ -80,8 +80,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="app" id="app">
   <header class="topbar">
-    <button class="icon-btn" id="btn-sidebar" title="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
-    <a class="brand" href="../" title="All tools">
+    <button class="icon-btn" id="btn-sidebar" data-tip="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
+    <a class="brand" href="../" data-tip="All tools" aria-label="All tools">
       <span class="brand-mark brand-esc">\</span>
       <span class="brand-name">Escape</span>
     </a>
@@ -91,14 +91,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="viewmodes" role="group" aria-label="View mode">
-      <button class="vm" data-mode="editor" title="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
-      <button class="vm is-active" data-mode="split" title="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
-      <button class="vm" data-mode="preview" title="Result only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Result</span></button>
+      <button class="vm" data-mode="editor" data-tip="Editor only (Ctrl+1)" aria-label="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
+      <button class="vm is-active" data-mode="split" data-tip="Split view (Ctrl+2)" aria-label="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
+      <button class="vm" data-mode="preview" data-tip="Result only (Ctrl+3)" aria-label="Result only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Result</span></button>
     </div>
 
     <div class="spacer"></div>
 
-    <button class="btn btn-ghost" id="btn-open" title="Open a text file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
+    <button class="btn btn-ghost" id="btn-open" data-tip="Open a text file" aria-label="Open a text file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
     <div class="menu-wrap">
       <button class="btn btn-ghost" id="btn-export" aria-haspopup="true" aria-expanded="false"><svg class="ico"><use href="#i-download"/></svg><span>Export</span></button>
       <div class="menu" id="menu-export" role="menu" hidden>
@@ -109,10 +109,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button role="menuitem" data-export="copy-source"><svg class="ico"><use href="#i-copy"/></svg>Copy the input</button>
       </div>
     </div>
-    <button class="btn btn-ghost" id="btn-copy" title="Copy the whole document"><svg class="ico"><use href="#i-copy"/></svg><span>Copy</span></button>
+    <button class="btn btn-ghost" id="btn-copy" data-tip="Copy the whole document" aria-label="Copy the whole document"><svg class="ico"><use href="#i-copy"/></svg><span>Copy</span></button>
     
-    <button class="icon-btn" id="btn-theme" title="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
-    <button class="icon-btn" id="btn-help" title="Help"><svg class="ico"><use href="#i-help"/></svg></button>
+    <button class="icon-btn" id="btn-theme" data-tip="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
+    <button class="icon-btn" id="btn-help" data-tip="Help" aria-label="Help"><svg class="ico"><use href="#i-help"/></svg></button>
   </header>
 
   <div class="body">
@@ -135,10 +135,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="pane editor-pane" id="editor-pane">
         <div class="pane-head">
           <div class="toolbar" id="toolbar">
-            <button class="tb" data-cmd="clear" title="Clear"><svg class="ico"><use href="#i-trash"/></svg></button>
-            <button class="tb" data-cmd="swap" title="Switch between escaping and unescaping"><svg class="ico"><use href="#i-sync"/></svg></button>
+            <button class="tb" data-cmd="clear" data-tip="Clear" aria-label="Clear"><svg class="ico"><use href="#i-trash"/></svg></button>
+            <button class="tb" data-cmd="swap" data-tip="Switch between escaping and unescaping" aria-label="Switch between escaping and unescaping"><svg class="ico"><use href="#i-sync"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="find" title="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
+            <button class="tb" data-cmd="find" data-tip="Find &amp; replace (Ctrl+F)" aria-label="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
           </div>
         </div>
 
@@ -147,11 +147,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <input id="find-input" placeholder="Find" spellcheck="false">
           <input id="replace-input" placeholder="Replace with" spellcheck="false">
           <span class="find-count" id="find-count">0/0</span>
-          <button class="mini" id="find-prev" title="Previous">↑</button>
-          <button class="mini" id="find-next" title="Next">↓</button>
-          <button class="mini" id="replace-one">Replace</button>
-          <button class="mini" id="replace-all">All</button>
-          <button class="mini" id="find-close" title="Close"><svg class="ico"><use href="#i-x"/></svg></button>
+          <button class="mini" id="find-prev" data-tip="Previous" aria-label="Previous">↑</button>
+          <button class="mini" id="find-next" data-tip="Next" aria-label="Next">↓</button>
+          <button class="mini" id="replace-one" data-tip="Replace this match and find the next">Replace</button>
+          <button class="mini" id="replace-all" data-tip="Replace every match">All</button>
+          <button class="mini" id="find-close" data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button>
         </div>
 
         <div class="editor-wrap">
@@ -167,7 +167,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="pane-head preview-head">
           <span class="pane-label">Result</span>
           <div class="spacer"></div>
-          <select id="pv-width" class="mini-select" title="Width" aria-label="Width">
+          <select id="pv-width" class="mini-select" data-tip="Width" aria-label="Width">
             <option value="narrow">Narrow</option>
             <option value="normal" selected>Normal</option>
             <option value="wide">Wide</option>
@@ -204,7 +204,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="modal" id="modal-help" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Help">
-    <header><h2>Escaping &amp; shortcuts</h2><button class="icon-btn" data-close><svg class="ico"><use href="#i-x"/></svg></button></header>
+    <header><h2>Escaping &amp; shortcuts</h2><button class="icon-btn" data-close data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></header>
     <div class="modal-body">
       <div class="help-cols">
         <section>

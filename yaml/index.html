@@ -80,8 +80,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="app" id="app">
   <header class="topbar">
-    <button class="icon-btn" id="btn-sidebar" title="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
-    <a class="brand" href="../" title="All tools">
+    <button class="icon-btn" id="btn-sidebar" data-tip="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
+    <a class="brand" href="../" data-tip="All tools" aria-label="All tools">
       <span class="brand-mark brand-yaml">Y</span>
       <span class="brand-name">YAML</span>
     </a>
@@ -91,14 +91,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="viewmodes" role="group" aria-label="View mode">
-      <button class="vm" data-mode="editor" title="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
-      <button class="vm is-active" data-mode="split" title="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
-      <button class="vm" data-mode="preview" title="Tree only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Tree</span></button>
+      <button class="vm" data-mode="editor" data-tip="Editor only (Ctrl+1)" aria-label="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
+      <button class="vm is-active" data-mode="split" data-tip="Split view (Ctrl+2)" aria-label="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
+      <button class="vm" data-mode="preview" data-tip="Tree only (Ctrl+3)" aria-label="Tree only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Tree</span></button>
     </div>
 
     <div class="spacer"></div>
 
-    <button class="btn btn-ghost" id="btn-open" title="Open a .yaml file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
+    <button class="btn btn-ghost" id="btn-open" data-tip="Open a .yaml file" aria-label="Open a .yaml file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
     <div class="menu-wrap">
       <button class="btn btn-ghost" id="btn-export" aria-haspopup="true" aria-expanded="false"><svg class="ico"><use href="#i-download"/></svg><span>Export</span></button>
       <div class="menu" id="menu-export" role="menu" hidden>
@@ -112,10 +112,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button role="menuitem" data-export="share"><svg class="ico"><use href="#i-share"/></svg>Copy share link</button>
       </div>
     </div>
-    <button class="btn btn-ghost" id="btn-copy" title="Copy the whole document"><svg class="ico"><use href="#i-copy"/></svg><span>Copy</span></button>
-    <button class="btn btn-primary" id="btn-format" title="Format (Ctrl+B)"><svg class="ico"><use href="#i-braces"/></svg><span>Format</span></button>
-    <button class="icon-btn" id="btn-theme" title="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
-    <button class="icon-btn" id="btn-help" title="Help"><svg class="ico"><use href="#i-help"/></svg></button>
+    <button class="btn btn-ghost" id="btn-copy" data-tip="Copy the whole document" aria-label="Copy the whole document"><svg class="ico"><use href="#i-copy"/></svg><span>Copy</span></button>
+    <button class="btn btn-primary" id="btn-format" data-tip="Format (Ctrl+B)" aria-label="Format (Ctrl+B)"><svg class="ico"><use href="#i-braces"/></svg><span>Format</span></button>
+    <button class="icon-btn" id="btn-theme" data-tip="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
+    <button class="icon-btn" id="btn-help" data-tip="Help" aria-label="Help"><svg class="ico"><use href="#i-help"/></svg></button>
   </header>
 
   <div class="body">
@@ -138,14 +138,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="pane editor-pane" id="editor-pane">
         <div class="pane-head">
           <div class="toolbar" id="toolbar">
-            <button class="tb" data-cmd="format2" title="Format, 2-space indent (Ctrl+B)"><svg class="ico"><use href="#i-list"/></svg></button>
-            <button class="tb" data-cmd="format4" title="Format, 4-space indent"><svg class="ico"><use href="#i-codeblock"/></svg></button>
-            <button class="tb" data-cmd="sort" title="Sort keys A→Z"><svg class="ico"><use href="#i-sort"/></svg></button>
+            <button class="tb" data-cmd="format2" data-tip="Format, 2-space indent (Ctrl+B)" aria-label="Format, 2-space indent (Ctrl+B)"><svg class="ico"><use href="#i-list"/></svg></button>
+            <button class="tb" data-cmd="format4" data-tip="Format, 4-space indent" aria-label="Format, 4-space indent"><svg class="ico"><use href="#i-codeblock"/></svg></button>
+            <button class="tb" data-cmd="sort" data-tip="Sort keys A→Z" aria-label="Sort keys A→Z"><svg class="ico"><use href="#i-sort"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="toJson" title="Convert to JSON (Ctrl+J)"><svg class="ico"><use href="#i-braces"/></svg></button>
-            <button class="tb" data-cmd="fromJson" title="Convert JSON in the editor to YAML"><svg class="ico"><use href="#i-undo"/></svg></button>
+            <button class="tb" data-cmd="toJson" data-tip="Convert to JSON (Ctrl+J)" aria-label="Convert to JSON (Ctrl+J)"><svg class="ico"><use href="#i-braces"/></svg></button>
+            <button class="tb" data-cmd="fromJson" data-tip="Convert JSON in the editor to YAML" aria-label="Convert JSON in the editor to YAML"><svg class="ico"><use href="#i-undo"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="find" title="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
+            <button class="tb" data-cmd="find" data-tip="Find &amp; replace (Ctrl+F)" aria-label="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
           </div>
         </div>
 
@@ -154,11 +154,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <input id="find-input" placeholder="Find" spellcheck="false">
           <input id="replace-input" placeholder="Replace with" spellcheck="false">
           <span class="find-count" id="find-count">0/0</span>
-          <button class="mini" id="find-prev" title="Previous">↑</button>
-          <button class="mini" id="find-next" title="Next">↓</button>
-          <button class="mini" id="replace-one">Replace</button>
-          <button class="mini" id="replace-all">All</button>
-          <button class="mini" id="find-close" title="Close"><svg class="ico"><use href="#i-x"/></svg></button>
+          <button class="mini" id="find-prev" data-tip="Previous" aria-label="Previous">↑</button>
+          <button class="mini" id="find-next" data-tip="Next" aria-label="Next">↓</button>
+          <button class="mini" id="replace-one" data-tip="Replace this match and find the next">Replace</button>
+          <button class="mini" id="replace-all" data-tip="Replace every match">All</button>
+          <button class="mini" id="find-close" data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button>
         </div>
 
         <div class="editor-wrap">
@@ -173,10 +173,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="pane preview-pane" id="preview-pane">
         <div class="pane-head preview-head">
           <span class="pane-label">Tree</span>
-          <button class="tb" data-cmd="expandAll" title="Expand the whole tree"><svg class="ico"><use href="#i-expand"/></svg></button>
-          <button class="tb" data-cmd="collapseAll" title="Collapse the tree"><svg class="ico"><use href="#i-collapse"/></svg></button>
+          <button class="tb" data-cmd="expandAll" data-tip="Expand the whole tree" aria-label="Expand the whole tree"><svg class="ico"><use href="#i-expand"/></svg></button>
+          <button class="tb" data-cmd="collapseAll" data-tip="Collapse the tree" aria-label="Collapse the tree"><svg class="ico"><use href="#i-collapse"/></svg></button>
           <div class="spacer"></div>
-          <select id="pv-width" class="mini-select" title="Width" aria-label="Tree width">
+          <select id="pv-width" class="mini-select" data-tip="Width" aria-label="Tree width">
             <option value="narrow">Narrow</option>
             <option value="normal" selected>Normal</option>
             <option value="wide">Wide</option>
@@ -186,8 +186,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="q-label">JSONPath</span>
           <input id="q-input" placeholder="$..image   or   $.services.web.ports[0]" spellcheck="false" autocomplete="off" aria-label="JSONPath query">
           <span class="q-count" id="q-count"></span>
-          <button class="mini" id="q-copy" title="Copy the matched values as JSON">Copy</button>
-          <button class="mini" id="q-clear" title="Clear the query">Clear</button>
+          <button class="mini" id="q-copy" data-tip="Copy the matched values as JSON" aria-label="Copy the matched values as JSON">Copy</button>
+          <button class="mini" id="q-clear" data-tip="Clear the query" aria-label="Clear the query">Clear</button>
         </div>
         <div class="preview-scroll" id="preview-scroll">
           <article id="preview" class="markdown-body json-body"></article>
@@ -215,7 +215,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="modal" id="modal-help" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Help">
-    <header><h2>YAML tools &amp; shortcuts</h2><button class="icon-btn" data-close><svg class="ico"><use href="#i-x"/></svg></button></header>
+    <header><h2>YAML tools &amp; shortcuts</h2><button class="icon-btn" data-close data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></header>
     <div class="modal-body">
       <div class="help-cols">
         <section>

@@ -1,10 +1,10 @@
 # Inkwell — developer tools on one static site
 
-Eight developer tools on one static site, built for GitHub Pages: a **Markdown
+Nine developer tools on one static site, built for GitHub Pages: a **Markdown
 editor** with live preview and real PDF export; **JSON**, **YAML** and **XML**
 tools with validation, tree views and JSONPath queries; a **CSV** viewer and
 converter; a **JWT decoder** with signature verification; an **ID generator**;
-and a **string escaper**.
+a **string escaper**; and a **hash and HMAC** tool.
 
 **Live:** <https://nilesh-salpe.github.io/inkwell/>
 
@@ -25,6 +25,7 @@ analytics; it records page views, not document contents.
 | `/csv/` | View CSV as a table, catch ragged rows, filter, convert to and from JSON |
 | `/id/` | Generate UUID v1–v7, ULID, NanoID, ObjectId and tokens; identify any ID |
 | `/escape/` | Escape and unescape strings across JSON, HTML, URL, Base64, hex, Unicode, backslash, regex and SQL |
+| `/hash/` | MD5, SHA-1/256/384/512, CRC32 and HMAC over text or a dropped file |
 
 ### Markdown
 
@@ -110,6 +111,8 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 - `assets/js/csv.js` — RFC 4180 parser, delimiter sniffing, table rendering and JSON conversion
 - `assets/js/ids.js` — UUID versions with hand-written MD5 and SHA-1, ULID, NanoID and the ID inspector
 - `assets/js/escape.js` — the encoders, decoders and the plausibility check that stops plain words decoding as Base64
+- `assets/js/hashes.js` — synchronous MD5, SHA-1 and CRC32, shared by the ID generator and the hash tool
+- `assets/js/hash.js` — the hash and HMAC page (SHA-2 comes from WebCrypto)
 - `assets/css/app.css` — theme tokens, layout, and the print stylesheet used for PDF export
 - `sw.js` — offline cache
 
@@ -139,6 +142,16 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 | **Other** | ULID, ObjectId, NanoID and random hex/base64url tokens — the only formats where a length is yours to choose. A UUID is always 128 bits |
 | **Inspect** | Paste any identifier and it is named, with its variant and creation time where one is encoded |
 | **Privacy** | v1/v6 use a random node with the multicast bit set, so no MAC address leaks. Generated values are not persisted |
+
+### Hashing
+
+| | |
+|---|---|
+| **Algorithms** | MD5, SHA-1, SHA-256, SHA-384, SHA-512 and CRC32 computed together; hex or Base64 output |
+| **HMAC** | Enter a key and every SHA digest becomes an HMAC — the primitive behind webhook signatures |
+| **Files** | Drop a file to checksum its bytes, which is how you verify a download |
+| **Verify** | Paste an expected checksum and the matching algorithm is named, instead of comparing 64 hex characters by eye |
+| **Not encoding** | Hashing is one-way; there is no decode. Reversible transforms live on the escape page |
 
 ### Escaping
 

@@ -77,8 +77,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="app" id="app">
 
   <header class="topbar">
-    <button class="icon-btn" id="btn-sidebar" title="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
-    <a class="brand" href="../" title="All tools">
+    <button class="icon-btn" id="btn-sidebar" data-tip="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
+    <a class="brand" href="../" data-tip="All tools" aria-label="All tools">
       <span class="brand-mark">M<span>↓</span></span>
       <span class="brand-name">Inkwell</span>
     </a>
@@ -88,14 +88,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="viewmodes" role="group" aria-label="View mode">
-      <button class="vm" data-mode="editor" title="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
-      <button class="vm is-active" data-mode="split" title="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
-      <button class="vm" data-mode="preview" title="Preview only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Read</span></button>
+      <button class="vm" data-mode="editor" data-tip="Editor only (Ctrl+1)" aria-label="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
+      <button class="vm is-active" data-mode="split" data-tip="Split view (Ctrl+2)" aria-label="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
+      <button class="vm" data-mode="preview" data-tip="Preview only (Ctrl+3)" aria-label="Preview only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Read</span></button>
     </div>
 
     <div class="spacer"></div>
 
-    <button class="btn btn-ghost" id="btn-open" title="Open a .md file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
+    <button class="btn btn-ghost" id="btn-open" data-tip="Open a .md file" aria-label="Open a .md file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
     <div class="menu-wrap">
       <button class="btn btn-ghost" id="btn-export" aria-haspopup="true" aria-expanded="false"><svg class="ico"><use href="#i-download"/></svg><span>Export</span></button>
       <div class="menu" id="menu-export" role="menu" hidden>
@@ -108,9 +108,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button role="menuitem" data-export="share"><svg class="ico"><use href="#i-share"/></svg>Copy share link</button>
       </div>
     </div>
-    <button class="btn btn-primary" id="btn-pdf" title="Export as PDF (Ctrl+P)"><svg class="ico"><use href="#i-pdf"/></svg><span>PDF</span></button>
-    <button class="icon-btn" id="btn-theme" title="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
-    <button class="icon-btn" id="btn-help" title="Markdown cheatsheet &amp; shortcuts"><svg class="ico"><use href="#i-help"/></svg></button>
+    <button class="btn btn-primary" id="btn-pdf" data-tip="Export as PDF (Ctrl+P)" aria-label="Export as PDF (Ctrl+P)"><svg class="ico"><use href="#i-pdf"/></svg><span>PDF</span></button>
+    <button class="icon-btn" id="btn-theme" data-tip="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
+    <button class="icon-btn" id="btn-help" data-tip="Markdown cheatsheet &amp; shortcuts" aria-label="Markdown cheatsheet &amp; shortcuts"><svg class="ico"><use href="#i-help"/></svg></button>
   </header>
 
   <div class="body">
@@ -137,28 +137,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="pane editor-pane" id="editor-pane">
         <div class="pane-head">
           <div class="toolbar" id="toolbar">
-            <button class="tb" data-cmd="bold" title="Bold (Ctrl+B)"><svg class="ico"><use href="#i-bold"/></svg></button>
-            <button class="tb" data-cmd="italic" title="Italic (Ctrl+I)"><svg class="ico"><use href="#i-italic"/></svg></button>
-            <button class="tb" data-cmd="strike" title="Strikethrough"><svg class="ico"><use href="#i-strike"/></svg></button>
+            <button class="tb" data-cmd="bold" data-tip="Bold (Ctrl+B)" aria-label="Bold (Ctrl+B)"><svg class="ico"><use href="#i-bold"/></svg></button>
+            <button class="tb" data-cmd="italic" data-tip="Italic (Ctrl+I)" aria-label="Italic (Ctrl+I)"><svg class="ico"><use href="#i-italic"/></svg></button>
+            <button class="tb" data-cmd="strike" data-tip="Strikethrough" aria-label="Strikethrough"><svg class="ico"><use href="#i-strike"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="h1" title="Heading 1"><svg class="ico"><use href="#i-h1"/></svg></button>
-            <button class="tb" data-cmd="h2" title="Heading 2"><svg class="ico"><use href="#i-h2"/></svg></button>
-            <button class="tb" data-cmd="h3" title="Heading 3"><svg class="ico"><use href="#i-h3"/></svg></button>
+            <button class="tb" data-cmd="h1" data-tip="Heading 1" aria-label="Heading 1"><svg class="ico"><use href="#i-h1"/></svg></button>
+            <button class="tb" data-cmd="h2" data-tip="Heading 2" aria-label="Heading 2"><svg class="ico"><use href="#i-h2"/></svg></button>
+            <button class="tb" data-cmd="h3" data-tip="Heading 3" aria-label="Heading 3"><svg class="ico"><use href="#i-h3"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="ul" title="Bullet list"><svg class="ico"><use href="#i-ul"/></svg></button>
-            <button class="tb" data-cmd="ol" title="Numbered list"><svg class="ico"><use href="#i-ol"/></svg></button>
-            <button class="tb" data-cmd="task" title="Task list"><svg class="ico"><use href="#i-task"/></svg></button>
-            <button class="tb" data-cmd="quote" title="Blockquote"><svg class="ico"><use href="#i-quote"/></svg></button>
+            <button class="tb" data-cmd="ul" data-tip="Bullet list" aria-label="Bullet list"><svg class="ico"><use href="#i-ul"/></svg></button>
+            <button class="tb" data-cmd="ol" data-tip="Numbered list" aria-label="Numbered list"><svg class="ico"><use href="#i-ol"/></svg></button>
+            <button class="tb" data-cmd="task" data-tip="Task list" aria-label="Task list"><svg class="ico"><use href="#i-task"/></svg></button>
+            <button class="tb" data-cmd="quote" data-tip="Blockquote" aria-label="Blockquote"><svg class="ico"><use href="#i-quote"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="link" title="Link (Ctrl+K)"><svg class="ico"><use href="#i-link"/></svg></button>
-            <button class="tb" data-cmd="image" title="Image"><svg class="ico"><use href="#i-image"/></svg></button>
-            <button class="tb" data-cmd="code" title="Inline code"><svg class="ico"><use href="#i-code"/></svg></button>
-            <button class="tb" data-cmd="codeblock" title="Code block"><svg class="ico"><use href="#i-codeblock"/></svg></button>
-            <button class="tb" data-cmd="table" title="Table"><svg class="ico"><use href="#i-table"/></svg></button>
-            <button class="tb" data-cmd="math" title="Math block"><svg class="ico"><use href="#i-math"/></svg></button>
-            <button class="tb" data-cmd="hr" title="Horizontal rule"><svg class="ico"><use href="#i-hr"/></svg></button>
+            <button class="tb" data-cmd="link" data-tip="Link (Ctrl+K)" aria-label="Link (Ctrl+K)"><svg class="ico"><use href="#i-link"/></svg></button>
+            <button class="tb" data-cmd="image" data-tip="Image" aria-label="Image"><svg class="ico"><use href="#i-image"/></svg></button>
+            <button class="tb" data-cmd="code" data-tip="Inline code" aria-label="Inline code"><svg class="ico"><use href="#i-code"/></svg></button>
+            <button class="tb" data-cmd="codeblock" data-tip="Code block" aria-label="Code block"><svg class="ico"><use href="#i-codeblock"/></svg></button>
+            <button class="tb" data-cmd="table" data-tip="Table" aria-label="Table"><svg class="ico"><use href="#i-table"/></svg></button>
+            <button class="tb" data-cmd="math" data-tip="Math block" aria-label="Math block"><svg class="ico"><use href="#i-math"/></svg></button>
+            <button class="tb" data-cmd="hr" data-tip="Horizontal rule" aria-label="Horizontal rule"><svg class="ico"><use href="#i-hr"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="find" title="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
+            <button class="tb" data-cmd="find" data-tip="Find &amp; replace (Ctrl+F)" aria-label="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
           </div>
         </div>
 
@@ -167,11 +167,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <input id="find-input" placeholder="Find" spellcheck="false">
           <input id="replace-input" placeholder="Replace with" spellcheck="false">
           <span class="find-count" id="find-count">0/0</span>
-          <button class="mini" id="find-prev" title="Previous (Shift+Enter)">↑</button>
-          <button class="mini" id="find-next" title="Next (Enter)">↓</button>
-          <button class="mini" id="replace-one">Replace</button>
-          <button class="mini" id="replace-all">All</button>
-          <button class="mini" id="find-close" title="Close (Esc)"><svg class="ico"><use href="#i-x"/></svg></button>
+          <button class="mini" id="find-prev" data-tip="Previous (Shift+Enter)" aria-label="Previous (Shift+Enter)">↑</button>
+          <button class="mini" id="find-next" data-tip="Next (Enter)" aria-label="Next (Enter)">↓</button>
+          <button class="mini" id="replace-one" data-tip="Replace this match and find the next">Replace</button>
+          <button class="mini" id="replace-all" data-tip="Replace every match">All</button>
+          <button class="mini" id="find-close" data-tip="Close (Esc)" aria-label="Close (Esc)"><svg class="ico"><use href="#i-x"/></svg></button>
         </div>
 
         <div class="editor-wrap">
@@ -187,8 +187,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="pane-head preview-head">
           <span class="pane-label">Preview</span>
           <div class="spacer"></div>
-          <button class="tb" id="btn-sync" title="Sync scrolling" aria-pressed="true"><svg class="ico"><use href="#i-sync"/></svg></button>
-          <select id="pv-width" class="mini-select" title="Preview width" aria-label="Preview width">
+          <button class="tb" id="btn-sync" data-tip="Sync scrolling" aria-pressed="true" aria-label="Sync scrolling"><svg class="ico"><use href="#i-sync"/></svg></button>
+          <select id="pv-width" class="mini-select" data-tip="Preview width" aria-label="Preview width">
             <option value="narrow">Narrow</option>
             <option value="normal" selected>Normal</option>
             <option value="wide">Wide</option>
@@ -220,7 +220,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="modal" id="modal-help" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Help">
-    <header><h2>Cheatsheet &amp; shortcuts</h2><button class="icon-btn" data-close><svg class="ico"><use href="#i-x"/></svg></button></header>
+    <header><h2>Cheatsheet &amp; shortcuts</h2><button class="icon-btn" data-close data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></header>
     <div class="modal-body">
       <div class="help-cols">
         <section>

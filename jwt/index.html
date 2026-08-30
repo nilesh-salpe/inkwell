@@ -80,8 +80,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="app" id="app">
   <header class="topbar">
-    <button class="icon-btn" id="btn-sidebar" title="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
-    <a class="brand" href="../" title="All tools">
+    <button class="icon-btn" id="btn-sidebar" data-tip="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
+    <a class="brand" href="../" data-tip="All tools" aria-label="All tools">
       <span class="brand-mark brand-jwt">JWT</span>
       <span class="brand-name">JWT</span>
     </a>
@@ -91,14 +91,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="viewmodes" role="group" aria-label="View mode">
-      <button class="vm" data-mode="editor" title="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
-      <button class="vm is-active" data-mode="split" title="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
-      <button class="vm" data-mode="preview" title="Decoded only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Decoded</span></button>
+      <button class="vm" data-mode="editor" data-tip="Editor only (Ctrl+1)" aria-label="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
+      <button class="vm is-active" data-mode="split" data-tip="Split view (Ctrl+2)" aria-label="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
+      <button class="vm" data-mode="preview" data-tip="Decoded only (Ctrl+3)" aria-label="Decoded only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Decoded</span></button>
     </div>
 
     <div class="spacer"></div>
 
-    <button class="btn btn-ghost" id="btn-open" title="Open a token from a file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
+    <button class="btn btn-ghost" id="btn-open" data-tip="Open a token from a file" aria-label="Open a token from a file"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
     <div class="menu-wrap">
       <button class="btn btn-ghost" id="btn-export" aria-haspopup="true" aria-expanded="false"><svg class="ico"><use href="#i-download"/></svg><span>Export</span></button>
       <div class="menu" id="menu-export" role="menu" hidden>
@@ -110,10 +110,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button role="menuitem" data-cmd="copyPayload"><svg class="ico"><use href="#i-copy"/></svg>Copy payload JSON</button>
       </div>
     </div>
-    <button class="btn btn-ghost" id="btn-copy" title="Copy the raw token"><svg class="ico"><use href="#i-copy"/></svg><span>Copy token</span></button>
-    <button class="btn btn-primary" id="btn-copy-payload" title="Copy the decoded payload (Ctrl+D)"><svg class="ico"><use href="#i-copy"/></svg><span>Copy payload</span></button>
-    <button class="icon-btn" id="btn-theme" title="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
-    <button class="icon-btn" id="btn-help" title="Help"><svg class="ico"><use href="#i-help"/></svg></button>
+    <button class="btn btn-ghost" id="btn-copy" data-tip="Copy the raw token" aria-label="Copy the raw token"><svg class="ico"><use href="#i-copy"/></svg><span>Copy token</span></button>
+    <button class="btn btn-primary" id="btn-copy-payload" data-tip="Copy the decoded payload (Ctrl+D)" aria-label="Copy the decoded payload (Ctrl+D)"><svg class="ico"><use href="#i-copy"/></svg><span>Copy payload</span></button>
+    <button class="icon-btn" id="btn-theme" data-tip="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
+    <button class="icon-btn" id="btn-help" data-tip="Help" aria-label="Help"><svg class="ico"><use href="#i-help"/></svg></button>
   </header>
 
   <div class="body">
@@ -136,12 +136,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="pane editor-pane" id="editor-pane">
         <div class="pane-head">
           <div class="toolbar" id="toolbar">
-            <button class="tb" data-cmd="copyHeader" title="Copy the decoded header"><svg class="ico"><use href="#i-braces"/></svg></button>
-            <button class="tb" data-cmd="copyPayload" title="Copy the decoded payload (Ctrl+D)"><svg class="ico"><use href="#i-copy"/></svg></button>
+            <button class="tb" data-cmd="copyHeader" data-tip="Copy the decoded header" aria-label="Copy the decoded header"><svg class="ico"><use href="#i-braces"/></svg></button>
+            <button class="tb" data-cmd="copyPayload" data-tip="Copy the decoded payload (Ctrl+D)" aria-label="Copy the decoded payload (Ctrl+D)"><svg class="ico"><use href="#i-copy"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="clear" title="Clear the token"><svg class="ico"><use href="#i-trash"/></svg></button>
+            <button class="tb" data-cmd="clear" data-tip="Clear the token" aria-label="Clear the token"><svg class="ico"><use href="#i-trash"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="find" title="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
+            <button class="tb" data-cmd="find" data-tip="Find &amp; replace (Ctrl+F)" aria-label="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
           </div>
         </div>
 
@@ -150,11 +150,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <input id="find-input" placeholder="Find" spellcheck="false">
           <input id="replace-input" placeholder="Replace with" spellcheck="false">
           <span class="find-count" id="find-count">0/0</span>
-          <button class="mini" id="find-prev" title="Previous">↑</button>
-          <button class="mini" id="find-next" title="Next">↓</button>
-          <button class="mini" id="replace-one">Replace</button>
-          <button class="mini" id="replace-all">All</button>
-          <button class="mini" id="find-close" title="Close"><svg class="ico"><use href="#i-x"/></svg></button>
+          <button class="mini" id="find-prev" data-tip="Previous" aria-label="Previous">↑</button>
+          <button class="mini" id="find-next" data-tip="Next" aria-label="Next">↓</button>
+          <button class="mini" id="replace-one" data-tip="Replace this match and find the next">Replace</button>
+          <button class="mini" id="replace-all" data-tip="Replace every match">All</button>
+          <button class="mini" id="find-close" data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button>
         </div>
 
         <div class="editor-wrap">
@@ -169,10 +169,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="pane preview-pane" id="preview-pane">
         <div class="pane-head preview-head">
           <span class="pane-label">Decoded</span>
-          <button class="tb" data-cmd="expandAll" title="Expand the whole tree"><svg class="ico"><use href="#i-expand"/></svg></button>
-          <button class="tb" data-cmd="collapseAll" title="Collapse the tree"><svg class="ico"><use href="#i-collapse"/></svg></button>
+          <button class="tb" data-cmd="expandAll" data-tip="Expand the whole tree" aria-label="Expand the whole tree"><svg class="ico"><use href="#i-expand"/></svg></button>
+          <button class="tb" data-cmd="collapseAll" data-tip="Collapse the tree" aria-label="Collapse the tree"><svg class="ico"><use href="#i-collapse"/></svg></button>
           <div class="spacer"></div>
-          <select id="pv-width" class="mini-select" title="Width" aria-label="Width">
+          <select id="pv-width" class="mini-select" data-tip="Width" aria-label="Width">
             <option value="narrow">Narrow</option>
             <option value="normal" selected>Normal</option>
             <option value="wide">Wide</option>
@@ -209,7 +209,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="modal" id="modal-help" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Help">
-    <header><h2>JWT decoder &amp; shortcuts</h2><button class="icon-btn" data-close><svg class="ico"><use href="#i-x"/></svg></button></header>
+    <header><h2>JWT decoder &amp; shortcuts</h2><button class="icon-btn" data-close data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></header>
     <div class="modal-body">
       <div class="help-cols">
         <section>

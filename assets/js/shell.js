@@ -133,6 +133,68 @@ window.Shell = (function () {
     return new TextDecoder().decode(bytes);
   }
 
+
+  /* ---------- tooltips ----------
+     Native title= waits about a second and cannot escape an overflow:auto
+     ancestor, which is exactly where the toolbar buttons live. One fixed
+     element, delegated, so it also covers controls rendered later. */
+  function initTooltips() {
+    if (!document.body || document.getElementById('shell-tip')) return;
+    const tip = document.createElement('div');
+    tip.id = 'shell-tip';
+    tip.className = 'tip';
+    tip.setAttribute('role', 'tooltip');
+    document.body.appendChild(tip);
+
+    let timer = null, current = null;
+
+    function place(el) {
+      tip.textContent = el.getAttribute('data-tip') || '';
+      if (!tip.textContent) return;
+      tip.style.visibility = 'hidden';
+      tip.classList.add('show');
+      const r = el.getBoundingClientRect();
+      const t = tip.getBoundingClientRect();
+      let left = r.left + r.width / 2 - t.width / 2;
+      left = Math.max(6, Math.min(left, window.innerWidth - t.width - 6));
+      let top = r.bottom + 7;
+      if (top + t.height > window.innerHeight - 6) top = r.top - t.height - 7;
+      tip.style.left = Math.round(left) + 'px';
+      tip.style.top = Math.round(top) + 'px';
+      tip.style.visibility = '';
+    }
+    function hide() {
+      clearTimeout(timer);
+      current = null;
+      tip.classList.remove('show');
+    }
+
+    document.addEventListener('mouseover', (e) => {
+      const el = e.target.closest && e.target.closest('[data-tip]');
+      if (!el || el === current) return;
+      current = el;
+      clearTimeout(timer);
+      timer = setTimeout(() => { if (current === el) place(el); }, 200);
+    });
+    document.addEventListener('mouseout', (e) => {
+      const el = e.target.closest && e.target.closest('[data-tip]');
+      if (el && el === current) hide();
+    });
+    document.addEventListener('focusin', (e) => {
+      const el = e.target.closest && e.target.closest('[data-tip]');
+      if (!el) return;
+      current = el;
+      place(el);
+    });
+    document.addEventListener('focusout', hide);
+    document.addEventListener('click', hide, true);
+    window.addEventListener('scroll', hide, true);
+    window.addEventListener('blur', hide);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initTooltips);
+  else initTooltips();
+
   /* ============================================================
      create(config) — wires a full editor page
      ============================================================ */
@@ -352,7 +414,7 @@ window.Shell = (function () {
         li.innerHTML =
           '<div class="doc-meta"><span class="doc-name"></span>' +
           '<span class="doc-sub">' + relTime(d.updated) + ' · ' + config.docSummary(d.content) + '</span></div>' +
-          '<button class="doc-del" title="Delete"><svg class="ico"><use href="#i-trash"/></svg></button>';
+          '<button class="doc-del" data-tip="Delete this document" aria-label="Delete this document"><svg class="ico"><use href="#i-trash"/></svg></button>';
         li.querySelector('.doc-name').textContent = d.title || 'Untitled';
         li.addEventListener('click', (ev) => { if (!ev.target.closest('.doc-del')) openDoc(d.id); });
         li.querySelector('.doc-del').addEventListener('click', (ev) => { ev.stopPropagation(); removeDoc(d.id); });
@@ -682,6 +744,7 @@ window.Shell = (function () {
     /* ---------- import ---------- */
     function importFile(file) {
       if (!file) return;
+      if (config.onFile) return config.onFile(file, api);   /* e.g. hashing wants bytes, not text */
       if (file.size > 5 * 1024 * 1024) { toast('That file is larger than 5 MB'); return; }
       const reader = new FileReader();
       reader.onload = () => {
@@ -862,6 +925,6 @@ window.Shell = (function () {
 
   return {
     $: $, $$: $$, create, toast, escapeHtml, download, copyText, loadScript,
-    lsGet, lsSet, effectiveTheme, onTheme, initTheme, safeFilename, relTime
+    lsGet, lsSet, effectiveTheme, onTheme, initTheme, safeFilename, relTime, initTooltips
   };
 })();

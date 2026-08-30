@@ -10,15 +10,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
 <!-- End Google Tag Manager -->
-<title>UUID &amp; ID Generator — Inkwell</title>
-<meta name="description" content="Generate UUID v1, v3, v4, v5, v6 and v7, plus ULID, NanoID, ObjectId and random tokens of any length — and identify any ID you paste in.">
+<title>Hash &amp; HMAC Generator — Inkwell</title>
+<meta name="description" content="Compute MD5, SHA-1, SHA-256, SHA-384, SHA-512 and CRC32 of text or a file, generate HMACs with a key, and check a digest against an expected checksum.">
 <meta name="color-scheme" content="light dark">
-<meta property="og:title" content="UUID &amp; ID Generator">
-<meta property="og:description" content="Generate UUIDs and other identifiers, and decode the ones you already have.">
+<meta property="og:title" content="Hash &amp; HMAC Generator">
+<meta property="og:description" content="MD5, SHA-1, SHA-256, SHA-384, SHA-512, CRC32 and HMAC — for text or a file.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/id/">
-<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/id/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%237c3aed'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='white' text-anchor='middle'%3EID%3C/text%3E%3C/svg%3E">
+<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/hash/">
+<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/hash/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230891b2'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='white' text-anchor='middle'%3E%23%3C/text%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -82,8 +82,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <header class="topbar">
     <button class="icon-btn" id="btn-sidebar" data-tip="Toggle sidebar (Ctrl+\)" aria-label="Toggle sidebar"><svg class="ico"><use href="#i-sidebar"/></svg></button>
     <a class="brand" href="../" data-tip="All tools" aria-label="All tools">
-      <span class="brand-mark brand-id">ID</span>
-      <span class="brand-name">IDs</span>
+      <span class="brand-mark brand-hash">#</span>
+      <span class="brand-name">Hash</span>
     </a>
     <div class="doc-title-wrap">
       <input id="doc-title" class="doc-title" value="Untitled" spellcheck="false" aria-label="Document title">
@@ -93,24 +93,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="viewmodes" role="group" aria-label="View mode">
       <button class="vm" data-mode="editor" data-tip="Editor only (Ctrl+1)" aria-label="Editor only (Ctrl+1)"><svg class="ico"><use href="#i-edit"/></svg><span>Edit</span></button>
       <button class="vm is-active" data-mode="split" data-tip="Split view (Ctrl+2)" aria-label="Split view (Ctrl+2)"><svg class="ico"><use href="#i-split"/></svg><span>Split</span></button>
-      <button class="vm" data-mode="preview" data-tip="Details only (Ctrl+3)" aria-label="Details only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Details</span></button>
+      <button class="vm" data-mode="preview" data-tip="Digests only (Ctrl+3)" aria-label="Digests only (Ctrl+3)"><svg class="ico"><use href="#i-eye"/></svg><span>Digests</span></button>
     </div>
 
     <div class="spacer"></div>
 
-    <button class="btn btn-ghost" id="btn-open" data-tip="Open a list of IDs" aria-label="Open a list of IDs"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
+    <button class="btn btn-ghost" id="btn-open" data-tip="Open a file to checksum" aria-label="Open a file to checksum"><svg class="ico"><use href="#i-folder"/></svg><span>Open</span></button>
     <div class="menu-wrap">
       <button class="btn btn-ghost" id="btn-export" aria-haspopup="true" aria-expanded="false"><svg class="ico"><use href="#i-download"/></svg><span>Export</span></button>
       <div class="menu" id="menu-export" role="menu" hidden>
-        <button role="menuitem" data-export="source"><svg class="ico"><use href="#i-download"/></svg>Text file<kbd>Ctrl S</kbd></button>
-        <button role="menuitem" data-export="pdf"><svg class="ico"><use href="#i-pdf"/></svg>PDF of the details<kbd>Ctrl P</kbd></button>
+        <button role="menuitem" data-export="source"><svg class="ico"><use href="#i-download"/></svg>Input as text<kbd>Ctrl S</kbd></button>
+        <button role="menuitem" data-export="pdf"><svg class="ico"><use href="#i-pdf"/></svg>PDF of the digests<kbd>Ctrl P</kbd></button>
         <button role="menuitem" data-export="html"><svg class="ico"><use href="#i-download"/></svg>Standalone HTML</button>
         <hr>
-        <button role="menuitem" data-export="copy-source"><svg class="ico"><use href="#i-copy"/></svg>Copy all values</button>
+        <button role="menuitem" data-export="copy-source"><svg class="ico"><use href="#i-copy"/></svg>Copy the input</button>
       </div>
     </div>
     <button class="btn btn-ghost" id="btn-copy" data-tip="Copy the whole document" aria-label="Copy the whole document"><svg class="ico"><use href="#i-copy"/></svg><span>Copy</span></button>
-    <button class="btn btn-primary" id="btn-generate" data-tip="Generate (Ctrl+G)" aria-label="Generate (Ctrl+G)"><svg class="ico"><use href="#i-sync"/></svg><span>Generate</span></button>
+    
     <button class="icon-btn" id="btn-theme" data-tip="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
     <button class="icon-btn" id="btn-help" data-tip="Help" aria-label="Help"><svg class="ico"><use href="#i-help"/></svg></button>
   </header>
@@ -123,7 +123,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="side-panel" id="panel-docs">
         <button class="new-doc" id="btn-new"><svg class="ico"><use href="#i-plus"/></svg>New document</button>
         <ul class="doc-list" id="doc-list"></ul>
-        <p class="side-note">Generated values are not saved. Copy or download anything you need.</p>
+        <p class="side-note">Documents are saved on this device. Export anything you want to keep.</p>
       </div>
       <div class="side-foot">
         <strong>SALPE Global Tech</strong>
@@ -135,13 +135,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="pane editor-pane" id="editor-pane">
         <div class="pane-head">
           <div class="toolbar" id="toolbar">
-            <button class="tb" data-cmd="generate" data-tip="Generate (Ctrl+G)" aria-label="Generate (Ctrl+G)"><svg class="ico"><use href="#i-sync"/></svg></button>
-            <button class="tb" data-cmd="clear" data-tip="Clear" aria-label="Clear"><svg class="ico"><use href="#i-trash"/></svg></button>
+            <button class="tb" data-cmd="clear" data-tip="Clear the input" aria-label="Clear the input"><svg class="ico"><use href="#i-trash"/></svg></button>
+            <button class="tb" id="h-file" data-tip="Checksum a file instead" aria-label="Checksum a file instead"><svg class="ico"><use href="#i-folder"/></svg></button>
             <span class="tb-sep"></span>
-            <button class="tb" data-cmd="sort" data-tip="Sort the list" aria-label="Sort the list"><svg class="ico"><use href="#i-sort"/></svg></button>
-            <button class="tb" data-cmd="dedupe" data-tip="Remove duplicates" aria-label="Remove duplicates"><svg class="ico"><use href="#i-minify"/></svg></button>
-            <span class="tb-sep"></span>
-            <button class="tb" data-cmd="find" data-tip="Find &amp; replace (Ctrl+F)" aria-label="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
+            <button class="tb" data-cmd="find" data-tip="Find &amp; replace (Ctrl+F)" aria-label="Find and replace"><svg class="ico"><use href="#i-search"/></svg></button>
           </div>
         </div>
 
@@ -160,7 +157,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="editor-wrap">
           <div class="gutter" id="gutter" aria-hidden="true"></div>
           <textarea id="editor" class="editor" spellcheck="false" autocomplete="off" autocapitalize="off"
-            placeholder="Generated values appear here — or paste an ID to identify it"></textarea>
+            placeholder="Type text to hash, or drop a file anywhere…"></textarea>
         </div>
       </section>
 
@@ -168,7 +165,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <section class="pane preview-pane" id="preview-pane">
         <div class="pane-head preview-head">
-          <span class="pane-label">Details</span>
+          <span class="pane-label">Digests</span>
           <div class="spacer"></div>
           <select id="pv-width" class="mini-select" data-tip="Width" aria-label="Width">
             <option value="narrow">Narrow</option>
@@ -177,38 +174,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </select>
         </div>
         <div class="gbar">
-          <select id="g-type" class="mini-select" aria-label="Identifier type">
-            <optgroup label="UUID — 128 bits, fixed length">
-              <option value="v4" selected>v4 — random</option>
-              <option value="v7">v7 — time-ordered (recommended for new work)</option>
-              <option value="v1">v1 — time + node</option>
-              <option value="v6">v6 — v1 reordered to sort</option>
-              <option value="v5">v5 — name-based, SHA-1</option>
-              <option value="v3">v3 — name-based, MD5</option>
-            </optgroup>
-            <optgroup label="Other identifiers">
-              <option value="ulid">ULID — 26 chars, sortable</option>
-              <option value="objectid">ObjectId — 24 hex</option>
-            </optgroup>
-            <optgroup label="Length is yours to choose">
-              <option value="nanoid">NanoID</option>
-              <option value="hex">Random hex</option>
-              <option value="base64">Random base64url</option>
-            </optgroup>
+          <span class="q-label">HMAC key</span>
+          <input id="h-key" type="text" placeholder="leave empty for a plain hash" spellcheck="false" autocomplete="off" aria-label="HMAC key">
+          <select id="h-format" class="mini-select" data-tip="Output encoding" aria-label="Output encoding">
+            <option value="hex" selected>Hex</option>
+            <option value="base64">Base64</option>
           </select>
-          <label class="c-check">Count <input type="number" id="g-count" value="10" min="1" max="10000"></label>
-          <label class="c-check" id="g-len-wrap" hidden>Length <input type="number" id="g-len" value="21" min="1" max="256"></label>
-          <label class="c-check"><input type="checkbox" id="g-hyphens" checked> Hyphens</label>
-          <label class="c-check"><input type="checkbox" id="g-upper"> Uppercase</label>
+          <label class="c-check"><input type="checkbox" id="h-upper"> Uppercase</label>
         </div>
-        <div class="gbar" id="g-name-wrap" hidden>
-          <span class="q-label">Namespace</span>
-          <input id="g-ns" value="6ba7b810-9dad-11d1-80b4-00c04fd430c8" spellcheck="false" aria-label="Namespace UUID">
-          <button class="mini" data-ns="DNS" data-tip="Standard DNS namespace">DNS</button>
-          <button class="mini" data-ns="URL" data-tip="Standard URL namespace">URL</button>
-          <button class="mini" data-ns="OID" data-tip="Standard OID namespace">OID</button>
-          <button class="mini" data-ns="X500" data-tip="Standard X.500 namespace">X500</button>
-          <input id="g-name" value="www.example.com" spellcheck="false" placeholder="Name" aria-label="Name">
+        <div class="gbar">
+          <span class="q-label">Expected</span>
+          <input id="h-expect" placeholder="paste a checksum to check it against the input" spellcheck="false" autocomplete="off" aria-label="Expected checksum">
+          <span class="v-status" id="h-verdict"></span>
         </div>
         <div class="preview-scroll" id="preview-scroll">
           <article id="preview" class="markdown-body json-body"></article>
@@ -218,9 +195,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <footer class="statusbar">
-    <span id="st-valid" class="badge">Empty</span>
+    <span id="st-mode">text</span>
     <span class="dot">·</span>
-    <span id="st-count">0 values</span>
+    <span id="st-chars">0 characters</span>
     <span class="dot">·</span>
     <span id="st-size">0 B</span>
     <div class="spacer"></div>
@@ -228,48 +205,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </footer>
 </div>
 
-<div class="drop-overlay" id="drop-overlay"><div><svg class="ico"><use href="#i-folder"/></svg><p>Drop a file of IDs to inspect</p></div></div>
-<input type="file" id="file-input" accept=".txt,.csv,text/plain" hidden>
+<div class="drop-overlay" id="drop-overlay"><div><svg class="ico"><use href="#i-folder"/></svg><p>Drop a file to checksum it</p></div></div>
+<input type="file" id="file-input"  hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <div class="modal" id="modal-help" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Help">
-    <header><h2>Identifiers &amp; shortcuts</h2><button class="icon-btn" data-close data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></header>
+    <header><h2>Hashing &amp; shortcuts</h2><button class="icon-btn" data-close data-tip="Close" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></header>
     <div class="modal-body">
       <div class="help-cols">
         <section>
-          <h3>Which one should I use?</h3>
+          <h3>Escape produces</h3>
           <table class="kbd-table">
-            <tr><td><strong>v4</strong></td><td>The default. 122 random bits — use it unless you have a reason not to</td></tr>
-            <tr><td><strong>v7</strong></td><td>Time-ordered, so it indexes far better as a database key. The modern choice for new systems</td></tr>
-            <tr><td><strong>v1 / v6</strong></td><td>Time plus a node id. v6 reorders v1's fields so the value sorts by time</td></tr>
-            <tr><td><strong>v3 / v5</strong></td><td>Derived from a namespace and a name, so the same input always gives the same UUID. v5 (SHA-1) is preferred over v3 (MD5)</td></tr>
-            <tr><td><strong>ULID</strong></td><td>26 sortable characters, no hyphens, case-insensitive</td></tr>
-            <tr><td><strong>NanoID</strong></td><td>When you want it short — length is yours to pick</td></tr>
+            <tr><td><strong>JSON string</strong></td><td>Quoted and escaped, ready to paste into JSON or JavaScript</td></tr>
+            <tr><td><strong>HTML entities</strong></td><td>Safe to place in markup as text</td></tr>
+            <tr><td><strong>URL</strong></td><td>Component (<code>encodeURIComponent</code>) and full URL (<code>encodeURI</code>)</td></tr>
+            <tr><td><strong>Base64</strong></td><td>Standard and URL-safe, over UTF-8 bytes</td></tr>
+            <tr><td><strong>Hex / Unicode</strong></td><td>Bytes as hex, or non-ASCII as unicode escapes</td></tr>
+            <tr><td><strong>Backslash</strong></td><td>C-style, for a string literal in most languages</td></tr>
+            <tr><td><strong>Regex / SQL</strong></td><td>Metacharacters escaped; single quotes doubled</td></tr>
           </table>
         </section>
         <section>
-          <h3>Good to know</h3>
+          <h3>Unescape</h3>
           <table class="kbd-table">
-            <tr><td><kbd>Ctrl/⌘ G</kbd></td><td>Generate again</td></tr>
-            <tr><td><kbd>Ctrl/⌘ S</kbd></td><td>Download the list</td></tr>
-            <tr><td>Length</td><td>A UUID is always 128 bits — 36 characters with hyphens. Only NanoID and the random tokens take a length</td></tr>
-            <tr><td>Node id</td><td>v1 and v6 would normally embed a MAC address. These are generated with a random node and the multicast bit set, so no hardware address leaks</td></tr>
-            <tr><td>Inspect</td><td>Paste any ID on the left and the panel names its format, and decodes the timestamp when it has one</td></tr>
-            <tr><td>Randomness</td><td><code>crypto.getRandomValues</code> — cryptographically strong, not <code>Math.random</code></td></tr>
+            <tr><td>Every decoder at once</td><td>Paste something encoded and each decoder that applies shows its result — useful when you do not know what you are looking at</td></tr>
+            <tr><td><strong>Use</strong></td><td>Replaces the input with that result, so you can decode twice (say Base64 then JSON)</td></tr>
+            <tr><td><strong>Copy</strong></td><td>Puts just that one result on the clipboard</td></tr>
+            <tr><td>Safety</td><td>HTML is parsed as inert markup — nothing in it is executed or loaded</td></tr>
           </table>
         </section>
       </div>
-            <p class="help-foot">Generated values are not saved to storage — they are gone when you close the tab, so copy or download anything you need.</p>
+            <p class="help-foot">Everything updates as you type. A dropped file replaces the text until you type again or choose "Use the text instead".</p>
       <p class="help-about">Built and maintained by <strong>SALPE Global Tech</strong>.</p>
     </div>
   </div>
 </div>
 
-
+<script type="text/plain" id="sample-doc">The quick brown fox jumps over the lazy dog</script>
 <script src="../assets/js/shell.js"></script>
 <script src="../assets/js/data-tools.js"></script>
 <script src="../assets/js/hashes.js"></script>
-<script src="../assets/js/ids.js"></script>
+<script src="../assets/js/hash.js"></script>
 </body>
 </html>

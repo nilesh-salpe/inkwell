@@ -11,10 +11,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
 <!-- End Google Tag Manager -->
 <title>JSON Formatter, Validator &amp; Viewer — Inkwell</title>
-<meta name="description" content="Format, validate, minify and explore JSON in your browser. Precise error locations, a collapsible tree view, key sorting and PDF export. Nothing is uploaded.">
+<meta name="description" content="Format, validate, minify and explore JSON. Precise error locations, a collapsible tree view, JSONPath queries, key sorting and PDF export.">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="JSON Formatter, Validator &amp; Viewer">
-<meta property="og:description" content="Format, validate and explore JSON entirely in your browser.">
+<meta property="og:description" content="Format, validate, query and explore JSON.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/json/">
 <link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/json/">
@@ -111,6 +111,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button role="menuitem" data-export="share"><svg class="ico"><use href="#i-share"/></svg>Copy share link</button>
       </div>
     </div>
+    <button class="btn btn-ghost" id="btn-copy" title="Copy the whole document"><svg class="ico"><use href="#i-copy"/></svg><span>Copy</span></button>
     <button class="btn btn-primary" id="btn-format" title="Format (Ctrl+B)"><svg class="ico"><use href="#i-braces"/></svg><span>Format</span></button>
     <button class="icon-btn" id="btn-theme" title="Theme" aria-label="Toggle theme"><svg class="ico ico-sun"><use href="#i-sun"/></svg><svg class="ico ico-moon"><use href="#i-moon"/></svg></button>
     <button class="icon-btn" id="btn-help" title="Help"><svg class="ico"><use href="#i-help"/></svg></button>
@@ -124,7 +125,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="side-panel" id="panel-docs">
         <button class="new-doc" id="btn-new"><svg class="ico"><use href="#i-plus"/></svg>New document</button>
         <ul class="doc-list" id="doc-list"></ul>
-        <p class="side-note">Documents are stored only in this browser (localStorage). Nothing is uploaded.</p>
+        <p class="side-note">Documents are saved on this device. Export anything you want to keep.</p>
       </div>
       <div class="side-foot">
         <strong>SALPE Global Tech</strong>
@@ -145,9 +146,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <span class="tb-sep"></span>
             <button class="tb" data-cmd="escape" title="Escape as a JSON string"><svg class="ico"><use href="#i-quotes"/></svg></button>
             <button class="tb" data-cmd="unescape" title="Unescape a JSON string"><svg class="ico"><use href="#i-code"/></svg></button>
-            <span class="tb-sep"></span>
-            <button class="tb" data-cmd="expandAll" title="Expand the whole tree"><svg class="ico"><use href="#i-expand"/></svg></button>
-            <button class="tb" data-cmd="collapseAll" title="Collapse the tree"><svg class="ico"><use href="#i-collapse"/></svg></button>
             <span class="tb-sep"></span>
             <button class="tb" data-cmd="find" title="Find &amp; replace (Ctrl+F)"><svg class="ico"><use href="#i-search"/></svg></button>
           </div>
@@ -177,6 +175,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="pane preview-pane" id="preview-pane">
         <div class="pane-head preview-head">
           <span class="pane-label">Tree</span>
+          <button class="tb" data-cmd="expandAll" title="Expand the whole tree"><svg class="ico"><use href="#i-expand"/></svg></button>
+          <button class="tb" data-cmd="collapseAll" title="Collapse the tree"><svg class="ico"><use href="#i-collapse"/></svg></button>
           <div class="spacer"></div>
           <select id="pv-width" class="mini-select" title="Width" aria-label="Tree width">
             <option value="narrow">Narrow</option>
@@ -208,8 +208,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span id="st-lines">1 line</span>
     <div class="spacer"></div>
     <span id="st-pos">Ln 1, Col 1</span>
-    <span class="dot">·</span>
-    <span class="privacy">Your data never leaves this browser</span>
   </footer>
 </div>
 
@@ -258,7 +256,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </table>
       </section>
       <p class="help-foot">Invalid JSON? The tree pane shows the exact line and column, with the offending line marked.</p>
-      <p class="help-about">Built and maintained by <strong>SALPE Global Tech</strong>. Your data stays in this browser — we never see it.</p>
+      <p class="help-about">Built and maintained by <strong>SALPE Global Tech</strong>.</p>
     </div>
   </div>
 </div>

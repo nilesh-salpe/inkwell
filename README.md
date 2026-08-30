@@ -1,4 +1,4 @@
-# Inkwell — browser-only Markdown, JSON & YAML tools
+# Inkwell — Markdown, JSON & YAML tools
 
 Three zero-backend developer tools on one static site, built for GitHub Pages:
 a **Markdown editor** with live preview and real PDF export, and **JSON** and
@@ -6,10 +6,9 @@ a **Markdown editor** with live preview and real PDF export, and **JSON** and
 
 **Live:** <https://nilesh-salpe.github.io/inkwell/>
 
-Your documents are never uploaded — they live in your browser's `localStorage`,
-and after the first visit the editor runs offline. The page itself loads Google
-Tag Manager (`GTM-N5QTT4NV`) for visit analytics; it sees page views, not the
-Markdown you write.
+Documents are saved on the device, and after the first visit the tools work
+offline. The page loads Google Tag Manager (`GTM-N5QTT4NV`) for visit
+analytics; it records page views, not document contents.
 
 ## The tools
 
@@ -113,7 +112,7 @@ DOMPurify before it reaches the DOM.
 
 ## Printing notes
 
-PDF export uses the browser's own print engine, so text stays selectable and
+PDF export goes through a real print pipeline, so text stays selectable and
 searchable and fonts stay sharp. In the dialog choose **Save as PDF** and enable
 **Background graphics** if you want code blocks and callouts shaded.
 

@@ -481,14 +481,22 @@ window.Shell = (function () {
       setRange(0, el.editor.value.length, text, 0, 0);
     }
 
-    /* ---------- toolbar ---------- */
-    const toolbar = $('#toolbar');
-    if (toolbar) toolbar.addEventListener('click', (e) => {
+    /* ---------- commands ----------
+       Delegated from the whole app so a command button can sit wherever it
+       makes sense — the editor toolbar, or the header of the pane it acts on. */
+    el.app.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-cmd]');
       if (!btn) return;
       if (btn.dataset.cmd === 'find') return toggleFind(true);
       const fn = config.commands[btn.dataset.cmd];
       if (fn) fn(api);
+    });
+
+    /* one-click copy of the current document */
+    const btnCopy = $('#btn-copy');
+    if (btnCopy) btnCopy.addEventListener('click', async () => {
+      const ok = await copyText(el.editor.value);
+      toast(ok ? 'Copied ' + config.ext.toUpperCase() + ' to the clipboard' : 'Copy failed');
     });
 
     /* ---------- editor keys ---------- */

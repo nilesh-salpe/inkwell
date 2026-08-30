@@ -1,7 +1,7 @@
 /* Inkwell service worker — makes the editor work with no network.
    Strategy: network-first for the app shell (so updates land quickly),
    cache-first for immutable CDN libraries and fonts. */
-const VERSION = 'inkwell-v12';
+const VERSION = 'inkwell-v13';
 const CORE = [
   './',
   './index.html',
@@ -23,6 +23,11 @@ const CORE = [
   './escape/index.html',
   './hash/',
   './hash/index.html',
+  './guides/',
+  './guides/index.html',
+  './guides/markdown-to-pdf/',
+  './guides/json-to-csv/',
+  './guides/uuid-versions/',
   './assets/css/app.css',
   './assets/js/shell.js',
   './assets/js/markdown.js',

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
+<!-- End Google Tag Manager -->
+<title>Converting JSON to CSV: the decisions and the traps — Inkwell</title>
+<meta name="description" content="How to flatten nested JSON into CSV, handle arrays and missing keys, quote correctly per RFC 4180, and avoid the spreadsheet traps.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Converting JSON to CSV: the decisions and the traps — Inkwell">
+<meta property="og:description" content="How to flatten nested JSON into CSV, handle arrays and missing keys, quote correctly per RFC 4180, and avoid the spreadsheet traps.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/guides/json-to-csv/">
+<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/guides/json-to-csv/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236366f1'/%3E%3Cpath d='M7 23V9h4l5 6 5-6h4v14h-4v-8l-5 6-5-6v8z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/css/app.css">
+</head>
+<body class="hub-page">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5QTT4NV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="hub">
+  <header class="hub-top">
+    <a class="brand" href="../../">
+      <span class="brand-mark">M<span>&#8595;</span></span>
+      <span class="brand-name">Inkwell</span>
+    </a>
+    <nav class="hub-nav">
+      <a href="../../">Tools</a>
+      <a href="../../guides/">Guides</a>
+      <button class="icon-btn" id="btn-theme" data-tip="Toggle theme" aria-label="Toggle theme"><svg class="ico ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2 6 6M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg><svg class="ico ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button>
+    </nav>
+  </header>
+
+  <main class="hub-main guide guide-main">
+      <p class="guide-kicker">Guide</p>
+      <h1 class="hub-title">Converting JSON to CSV</h1>
+      <p class="guide-lead">JSON is a tree and CSV is a grid, so the conversion always involves a
+      decision. Here is what to decide, and the spreadsheet traps waiting at the other end.</p>
+
+      <article class="markdown-body">
+        <h2>The only shape that converts cleanly</h2>
+        <p>A flat array of objects maps onto a table with no ambiguity — keys become the header, each
+        object becomes a row:</p>
+        <pre><code>[
+  { "id": 1, "name": "Ada",   "role": "Engineer" },
+  { "id": 2, "name": "Grace", "role": "Architect" }
+]</code></pre>
+        <p>Anything else requires you to choose how to lose information.</p>
+
+        <h2>Nested objects</h2>
+        <p>A row cannot contain a row, so nested objects get flattened, conventionally with dotted
+        keys:</p>
+        <pre><code>{ "user": { "name": "Ada", "team": { "id": 7 } } }
+&rarr;  user.name,user.team.id
+       Ada,7</code></pre>
+        <p>This is fine two levels deep and unreadable at five. If the nesting is deep, the honest
+        answer is that the data is not tabular and a CSV will mislead whoever opens it.</p>
+
+        <h2>Arrays inside a row</h2>
+        <p>Three defensible options, and the right one depends on the reader:</p>
+        <ul>
+          <li><strong>Join</strong> — <code>read,write</code> in one cell. Human-readable, but you have
+          just put your delimiter inside a field, so the quoting had better be right.</li>
+          <li><strong>Explode</strong> — one row per array element, other columns repeated. Correct for
+          analysis; changes the row count, which surprises people.</li>
+          <li><strong>Re-encode</strong> — put the raw JSON in the cell. Lossless and ugly.</li>
+        </ul>
+
+        <h2>Objects that do not share keys</h2>
+        <p>Real data is rarely uniform. Take the union of every key across every object, and leave a
+        cell empty where an object lacks it. The alternative — using the first object's keys as the
+        header — silently drops fields, which is how data goes missing without anyone noticing.</p>
+
+        <h2>Quoting, properly</h2>
+        <p>RFC 4180 is short and worth knowing. A field must be quoted if it contains the delimiter, a
+        double quote, or a line break. A literal quote inside a quoted field is written twice:</p>
+        <pre><code>id,name,note
+1,&quot;Hamilton, Margaret&quot;,&quot;She said &quot;&quot;ship it&quot;&quot;&quot;
+2,Ada,&quot;line one
+line two&quot;</code></pre>
+        <p>Both of those rows are valid and both break naive splitting on commas. If you are writing a
+        parser, handle quotes before you handle delimiters.</p>
+
+        <h2>Then someone opens it in Excel</h2>
+        <p>Most CSV pain happens after the conversion:</p>
+        <ul>
+          <li><strong>UTF-8 needs a BOM.</strong> Without one at the start of the file, Excel on Windows
+          mangles accented characters and anything non-Latin.</li>
+          <li><strong>Leading zeros vanish.</strong> <code>007</code> becomes <code>7</code>, so
+          postcodes and product codes get quietly corrupted.</li>
+          <li><strong>Long numbers lose precision.</strong> Anything past 15 digits — a tweet id, a
+          bigint primary key — is rounded. Treat those as text.</li>
+          <li><strong>Dates are reinterpreted</strong> according to locale, so <code>03/04</code>
+          changes meaning depending on who opens it. ISO 8601 is the only safe format.</li>
+          <li><strong>The delimiter is regional.</strong> Locales that use a comma as the decimal
+          separator expect semicolon-delimited CSV.</li>
+          <li><strong>Formula injection is a real vulnerability.</strong> A field starting with
+          <code>=</code>, <code>+</code>, <code>-</code> or <code>@</code> is executed as a formula when
+          the file is opened. If the data came from users, prefix such fields with an apostrophe.</li>
+        </ul>
+
+        <h2>A checklist</h2>
+        <ol>
+          <li>Is the JSON a flat array of objects? If not, decide consciously what to flatten or drop.</li>
+          <li>Build the header from the union of all keys, not the first row.</li>
+          <li>Quote per RFC 4180 and escape embedded quotes by doubling.</li>
+          <li>Write ISO dates, and keep ids and codes as text.</li>
+          <li>Add a BOM if a spreadsheet is the destination.</li>
+          <li>Open the result and read the last row — truncation hides at the bottom.</li>
+        </ol>
+      </article>
+
+      <a class="guide-cta" href="../../csv/">
+        <strong>Try it — CSV viewer and converter</strong>
+        <span>Convert in both directions, and see ragged rows and quoting problems reported by row number.</span>
+      </a>
+  </main>
+
+  <footer class="hub-foot">
+    <div>
+      <strong>SALPE Global Tech</strong>
+      <span>Built and maintained by us</span>
+    </div>
+  </footer>
+</div>
+
+<script src="../../assets/js/shell.js"></script>
+<script>Shell.initTheme();</script>
+</body>
+</html>

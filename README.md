@@ -26,6 +26,7 @@ analytics; it records page views, not document contents.
 | `/id/` | Generate UUID v1–v7, ULID, NanoID, ObjectId and tokens; identify any ID |
 | `/escape/` | Escape and unescape strings across JSON, HTML, URL, Base64, hex, Unicode, backslash, regex and SQL |
 | `/hash/` | MD5, SHA-1/256/384/512, CRC32 and HMAC over text or a dropped file |
+| `/guides/` | How-to articles: Markdown to PDF, JSON to CSV, choosing a UUID version |
 
 ### Markdown
 
@@ -114,6 +115,8 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 - `assets/js/hashes.js` — synchronous MD5, SHA-1 and CRC32, shared by the ID generator and the hash tool
 - `assets/js/hash.js` — the hash and HMAC page (SHA-2 comes from WebCrypto)
 - `assets/css/app.css` — theme tokens, layout, and the print stylesheet used for PDF export
+- `guides/` — content pages, sharing the hub's layout
+- `sitemap.xml`, `robots.txt` — so the tool pages are discoverable
 - `sw.js` — offline cache
 
 ### XML

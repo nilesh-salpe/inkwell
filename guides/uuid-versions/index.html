@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
+<!-- End Google Tag Manager -->
+<title>Which UUID Version Should You Use? v1 to v7 compared — Inkwell</title>
+<meta name="description" content="UUID v1, v3, v4, v5, v6 and v7 compared, why v7 is better for database keys, and how ULID and NanoID differ.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Which UUID Version Should You Use? v1 to v7 compared — Inkwell">
+<meta property="og:description" content="UUID v1, v3, v4, v5, v6 and v7 compared, why v7 is better for database keys, and how ULID and NanoID differ.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/guides/uuid-versions/">
+<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/guides/uuid-versions/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236366f1'/%3E%3Cpath d='M7 23V9h4l5 6 5-6h4v14h-4v-8l-5 6-5-6v8z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/css/app.css">
+</head>
+<body class="hub-page">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5QTT4NV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="hub">
+  <header class="hub-top">
+    <a class="brand" href="../../">
+      <span class="brand-mark">M<span>&#8595;</span></span>
+      <span class="brand-name">Inkwell</span>
+    </a>
+    <nav class="hub-nav">
+      <a href="../../">Tools</a>
+      <a href="../../guides/">Guides</a>
+      <button class="icon-btn" id="btn-theme" data-tip="Toggle theme" aria-label="Toggle theme"><svg class="ico ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2 6 6M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg><svg class="ico ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button>
+    </nav>
+  </header>
+
+  <main class="hub-main guide guide-main">
+      <p class="guide-kicker">Guide</p>
+      <h1 class="hub-title">Which UUID version should you use?</h1>
+      <p class="guide-lead">There are eight, most guidance stops at v4, and the one that matters most
+      for databases is the newest. A short tour and a straight recommendation.</p>
+
+      <article class="markdown-body">
+        <h2>What a UUID actually is</h2>
+        <p>128 bits, written as 32 hexadecimal characters in five hyphenated groups. Two of those bits
+        are fixed as the <em>variant</em>, and four identify the <em>version</em> — the first character
+        of the third group. So this is a v4:</p>
+        <pre><code>f47ac10b-58cc-<strong>4</strong>372-<strong>a</strong>567-0e02b2c3d479
+              version ^    ^ variant</code></pre>
+        <p>That leaves 122 bits for everything else. The versions differ only in how those bits are
+        filled, and RFC 9562 replaced the older RFC 4122 in 2024, adding v6, v7 and v8.</p>
+
+        <h2>v4 — random</h2>
+        <p>122 bits from a cryptographic random source. No structure, no information leaked, trivially
+        correct. The right default, and the reason most people never think about the others.</p>
+        <p>Collisions are not a practical concern: you would need to generate on the order of a
+        quintillion values before the probability becomes worth discussing. The realistic failure mode
+        is not collision, it is a weak random source — <code>Math.random()</code> instead of
+        <code>crypto.getRandomValues</code>.</p>
+
+        <h2>v7 — time-ordered, and probably what you want for a database</h2>
+        <p>The first 48 bits are the Unix timestamp in milliseconds; the rest is random. Because the
+        timestamp leads, sorting the values sorts them by creation time.</p>
+        <p>That property matters more than it sounds. A random primary key writes into a random place in
+        the index on every insert, so the database keeps splitting pages and the working set becomes the
+        whole index. A time-ordered key appends to one end, which is dramatically kinder to a B-tree —
+        this is why so many teams used to keep an auto-increment column alongside their UUID.</p>
+        <p>One caveat: inside a single millisecond the ordering falls back to the random tail, so a batch
+        generated in a tight loop is not sorted unless the generator adds a monotonic counter. The RFC
+        describes how; a good generator does it.</p>
+
+        <h2>v1 and v6 — timestamp plus node</h2>
+        <p>v1 combines a 60-bit timestamp with a clock sequence and a node id, historically the machine's
+        MAC address. Two consequences: it can leak which machine generated it, and its timestamp fields
+        are stored in an order that does <em>not</em> sort. v6 is the same data with the fields
+        rearranged so it does.</p>
+        <p>If you are choosing today, v7 does this job better. v6 exists mainly so systems already on v1
+        have somewhere to go.</p>
+
+        <h2>v3 and v5 — derived from a name</h2>
+        <p>These hash a namespace UUID together with a name, so the same input always produces the same
+        UUID — useful for deriving a stable id for something that already has a natural key.</p>
+        <pre><code>v5(DNS, "www.example.com")
+  = 2ed6657d-e927-568b-95e1-2665a8aea6a2   (always)</code></pre>
+        <p>v5 uses SHA-1, v3 uses MD5. Prefer v5. Neither is a secret — anyone with the namespace and
+        name can recompute the value, so never use one as a token or capability.</p>
+
+        <h2>ULID, and the alternatives</h2>
+        <p>ULID solves the same problem as v7 with a different encoding: 128 bits rendered as 26
+        Crockford base32 characters, sortable, no hyphens, case-insensitive, URL-friendly. It is shorter
+        and prettier than a UUID but is not one, so a column typed as <code>uuid</code> will reject it.
+        NanoID is different again — configurable length, no timestamp, for when you just want a short
+        opaque id.</p>
+
+        <h2>Choosing</h2>
+        <ul>
+          <li><strong>Database primary key</strong> — v7. The index locality is worth it.</li>
+          <li><strong>General purpose id</strong> — v4. Boring and correct.</li>
+          <li><strong>Deterministic from an existing key</strong> — v5.</li>
+          <li><strong>Already on v1</strong> — stay, or move to v6 if you need sorting.</li>
+          <li><strong>Short id in a URL</strong> — NanoID or ULID, not a UUID.</li>
+          <li><strong>Security token</strong> — none of these. Use random bytes of the length your threat
+          model calls for.</li>
+        </ul>
+
+        <h2>A caution about length</h2>
+        <p>A UUID is 128 bits by definition, so it has no length setting. If a tool offers to generate a
+        "16-character UUID" it is generating something else. Length is a real choice for NanoID and raw
+        tokens, and only for those.</p>
+      </article>
+
+      <a class="guide-cta" href="../../id/">
+        <strong>Try it — ID generator and inspector</strong>
+        <span>Generate v1 through v7, ULID and NanoID, or paste an existing id to see its version and creation time.</span>
+      </a>
+  </main>
+
+  <footer class="hub-foot">
+    <div>
+      <strong>SALPE Global Tech</strong>
+      <span>Built and maintained by us</span>
+    </div>
+  </footer>
+</div>
+
+<script src="../../assets/js/shell.js"></script>
+<script>Shell.initTheme();</script>
+</body>
+</html>

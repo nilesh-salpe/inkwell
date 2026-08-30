@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N5QTT4NV');</script>
+<!-- End Google Tag Manager -->
+<title>How to Convert Markdown to PDF Properly — Inkwell</title>
+<meta name="description" content="Three ways to turn Markdown into a PDF, and how to control page breaks, code blocks, widows and fonts so the result looks deliberate.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="How to Convert Markdown to PDF Properly — Inkwell">
+<meta property="og:description" content="Three ways to turn Markdown into a PDF, and how to control page breaks, code blocks, widows and fonts so the result looks deliberate.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nilesh-salpe.github.io/inkwell/guides/markdown-to-pdf/">
+<link rel="canonical" href="https://nilesh-salpe.github.io/inkwell/guides/markdown-to-pdf/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236366f1'/%3E%3Cpath d='M7 23V9h4l5 6 5-6h4v14h-4v-8l-5 6-5-6v8z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/css/app.css">
+</head>
+<body class="hub-page">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5QTT4NV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="hub">
+  <header class="hub-top">
+    <a class="brand" href="../../">
+      <span class="brand-mark">M<span>&#8595;</span></span>
+      <span class="brand-name">Inkwell</span>
+    </a>
+    <nav class="hub-nav">
+      <a href="../../">Tools</a>
+      <a href="../../guides/">Guides</a>
+      <button class="icon-btn" id="btn-theme" data-tip="Toggle theme" aria-label="Toggle theme"><svg class="ico ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2 6 6M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg><svg class="ico ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button>
+    </nav>
+  </header>
+
+  <main class="hub-main guide guide-main">
+      <p class="guide-kicker">Guide</p>
+      <h1 class="hub-title">Converting Markdown to PDF</h1>
+      <p class="guide-lead">Three approaches, what each one gets wrong, and how to control page breaks,
+      code blocks and fonts so the result looks deliberate rather than dumped.</p>
+
+      <article class="markdown-body">
+        <h2>Why this is harder than it looks</h2>
+        <p>Markdown has no concept of a page. It describes a document as a stream of blocks, and every
+        block is as tall as its content. A PDF is the opposite: a fixed grid of pages that content must
+        be poured into. Everything awkward about the conversion comes from that mismatch — a heading
+        stranded alone at the bottom of a page, a code block sliced in half, a table that runs off the
+        right margin.</p>
+        <p>So the real question is not "which converter" but "which converter lets me control
+        pagination".</p>
+
+        <h2>Option 1 — Print from a browser</h2>
+        <p>Render the Markdown to HTML, then use the browser's own print pipeline with a print
+        stylesheet. This is what the editor on this site does.</p>
+        <p><strong>Good:</strong> text stays selectable and searchable, fonts stay sharp at any zoom,
+        links remain clickable, and the file is small because nothing is rasterised. You also get the
+        full CSS paged-media model, which is the only reason fine control is possible at all.</p>
+        <p><strong>Watch out:</strong> you must enable <em>Background graphics</em> in the print dialog
+        or shaded code blocks and callouts come out white. Headers and footers are the browser's, not
+        yours, unless you turn them off.</p>
+
+        <h2>Option 2 — Pandoc with a LaTeX engine</h2>
+        <pre><code>pandoc notes.md -o notes.pdf --pdf-engine=xelatex \
+  -V geometry:margin=25mm -V mainfont="Iowan Old Style"</code></pre>
+        <p><strong>Good:</strong> genuinely typeset output — real hyphenation, ligatures, proper widow
+        and orphan control, cross-references, bibliographies. If the document is long or academic,
+        nothing else comes close.</p>
+        <p><strong>Watch out:</strong> a full TeX distribution is several gigabytes, error messages are
+        famously cryptic, and styling means learning a template language. Overkill for a two-page
+        README.</p>
+
+        <h2>Option 3 — An editor extension</h2>
+        <p>VS Code extensions and similar tools usually wrap a headless browser, so the output matches
+        option 1. Convenient inside an existing workflow; less controllable, because the print
+        stylesheet is someone else's.</p>
+
+        <h2>Controlling the output</h2>
+        <h3>Force a page break</h3>
+        <p>There is no Markdown syntax for this, so converters invent one. Here, a line containing only
+        <code>\pagebreak</code> starts a new page. In CSS terms every approach ends up at the same
+        property:</p>
+        <pre><code>.pagebreak { break-after: page; }</code></pre>
+
+        <h3>Stop headings being stranded</h3>
+        <p>A heading at the very bottom of a page, with its text overleaf, is the most common flaw in
+        generated PDFs. One line fixes it:</p>
+        <pre><code>h1, h2, h3, h4 { break-after: avoid; }
+p, li { orphans: 3; widows: 3; }</code></pre>
+
+        <h3>Keep code blocks whole</h3>
+        <p>Long code samples split across pages are hard to read. Ask for them to stay together, and to
+        wrap rather than run off the edge — a PDF has no horizontal scrollbar:</p>
+        <pre><code>pre, table, blockquote, figure { break-inside: avoid; }
+pre { white-space: pre-wrap; word-wrap: break-word; }</code></pre>
+
+        <h3>Show link targets</h3>
+        <p>A hyperlink is useless on paper unless the reader can see where it goes:</p>
+        <pre><code>a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; }</code></pre>
+
+        <h3>Choose print fonts deliberately</h3>
+        <p>Screen and paper want different things. A serif face at 11pt reads better in print than the
+        sans-serif you use on screen; keep sans for headings so the hierarchy stays obvious.</p>
+
+        <h2>A practical recipe</h2>
+        <ol>
+          <li>Write in Markdown, previewing as you go.</li>
+          <li>Insert <code>\pagebreak</code> where a section genuinely must start fresh.</li>
+          <li>Export to PDF and choose <strong>Save as PDF</strong> as the destination.</li>
+          <li>Turn on <strong>Background graphics</strong>, turn off headers and footers.</li>
+          <li>Skim for stranded headings and split tables. Adjust and repeat.</li>
+        </ol>
+        <p>For a README, a proposal, meeting notes or a one-pager, that is the whole job. Reach for
+        pandoc when you need a table of contents that numbers itself, footnote-heavy academic text, or a
+        hundred pages.</p>
+      </article>
+
+      <a class="guide-cta" href="../../markdown/">
+        <strong>Try it — Markdown editor with PDF export</strong>
+        <span>Live preview, page-break control, and print styling already set up. Nothing to install.</span>
+      </a>
+  </main>
+
+  <footer class="hub-foot">
+    <div>
+      <strong>SALPE Global Tech</strong>
+      <span>Built and maintained by us</span>
+    </div>
+  </footer>
+</div>
+
+<script src="../../assets/js/shell.js"></script>
+<script>Shell.initTheme();</script>
+</body>
+</html>

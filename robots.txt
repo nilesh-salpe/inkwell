@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nilesh-salpe.github.io/inkwell/sitemap.xml

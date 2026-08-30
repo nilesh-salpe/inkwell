@@ -822,22 +822,29 @@ window.Shell = (function () {
       share: shareLink
     };
 
+    /* every .menu-wrap in the header behaves the same way */
     function closeMenus() {
-      el.menuExport.hidden = true;
-      $('#btn-export').setAttribute('aria-expanded', 'false');
+      $$('.menu').forEach((m) => {
+        m.hidden = true;
+        const btn = m.parentElement.querySelector('button[aria-haspopup]');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
     }
+    $$('.menu-wrap > button[aria-haspopup]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const menu = btn.parentElement.querySelector('.menu');
+        const willOpen = menu.hidden;
+        closeMenus();
+        if (willOpen) { menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+      });
+    });
     el.menuExport.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-export]');
       if (!btn) return;
       closeMenus();
       const fn = exporters[btn.dataset.export] || (config.exporters && config.exporters[btn.dataset.export]);
       if (fn) fn(api);
-    });
-    $('#btn-export').addEventListener('click', (e) => {
-      e.stopPropagation();
-      const willOpen = el.menuExport.hidden;
-      closeMenus();
-      if (willOpen) { el.menuExport.hidden = false; $('#btn-export').setAttribute('aria-expanded', 'true'); }
     });
     document.addEventListener('click', closeMenus);
     const btnPdf = $('#btn-pdf');

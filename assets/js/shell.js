@@ -686,13 +686,22 @@ window.Shell = (function () {
     }
     $$('.vm').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
 
-    function setSidebar(on) {
-      prefs.sidebar = on; savePrefs();
+    const NARROW = () => window.innerWidth <= 760;
+
+    function setSidebar(on, remember) {
+      if (remember !== false) { prefs.sidebar = on; savePrefs(); }
       el.app.classList.toggle('no-sidebar', !on);
       metricsDirty = true;
       requestAnimationFrame(buildMetrics);
     }
-    $('#btn-sidebar').addEventListener('click', () => setSidebar(!prefs.sidebar));
+    $('#btn-sidebar').addEventListener('click', () => setSidebar(el.app.classList.contains('no-sidebar')));
+
+    /* on a phone the sidebar floats over the editor, so tapping away closes it */
+    el.app.addEventListener('click', (e) => {
+      if (!NARROW() || el.app.classList.contains('no-sidebar')) return;
+      if (e.target.closest('#sidebar') || e.target.closest('#btn-sidebar')) return;
+      setSidebar(false, false);
+    });
 
     $$('.side-tab').forEach((tab) => tab.addEventListener('click', () => {
       $$('.side-tab').forEach((t) => t.classList.toggle('is-active', t === tab));
@@ -830,15 +839,42 @@ window.Shell = (function () {
         if (btn) btn.setAttribute('aria-expanded', 'false');
       });
     }
+    /* Menus are right-aligned to their button, which works for a button near
+       the right of the bar and hangs off-screen for one near the left. Clamp
+       to the viewport after opening, and cap the height on short windows. */
+    function positionMenu(menu, btn) {
+      menu.style.left = '';
+      menu.style.right = '';
+      menu.style.maxHeight = '';
+      const wrap = btn.parentElement.getBoundingClientRect();
+      const margin = 8;
+      const width = menu.offsetWidth;
+      let left = wrap.right - width;                       /* the default alignment */
+      if (left + width > window.innerWidth - margin) left = window.innerWidth - margin - width;
+      if (left < margin) left = margin;
+      menu.style.left = (left - wrap.left) + 'px';
+      menu.style.right = 'auto';
+      const room = window.innerHeight - menu.getBoundingClientRect().top - margin;
+      if (menu.offsetHeight > room) {
+        menu.style.maxHeight = Math.max(160, room) + 'px';
+        menu.style.overflowY = 'auto';
+      }
+    }
+
     $$('.menu-wrap > button[aria-haspopup]').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const menu = btn.parentElement.querySelector('.menu');
         const willOpen = menu.hidden;
         closeMenus();
-        if (willOpen) { menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+        if (willOpen) {
+          menu.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+          positionMenu(menu, btn);
+        }
       });
     });
+    window.addEventListener('resize', closeMenus);
     el.menuExport.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-export]');
       if (!btn) return;
@@ -888,7 +924,8 @@ window.Shell = (function () {
 
     /* ---------- boot ---------- */
     setMode(prefs.mode || 'split');
-    setSidebar(prefs.sidebar !== false);
+    /* don't let a phone visit overwrite the desktop preference */
+    setSidebar(prefs.sidebar !== false && !NARROW(), !NARROW());
     el.editorPane.style.flexBasis = (prefs.split || 50) + '%';
     el.pvScroll.dataset.w = prefs.pvWidth || 'normal';
     if (pvWidth) pvWidth.value = prefs.pvWidth || 'normal';

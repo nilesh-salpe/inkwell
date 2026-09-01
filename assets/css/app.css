@@ -1254,3 +1254,6 @@ tr:hover .row-copy, .esc-card:hover .stats-copy, .id-card:hover .row-copy,
 }
 .recent-chip:hover { border-color: var(--accent); background: var(--accent-soft); }
 .recent-when { color: var(--text-mute); font-size: 11.5px; font-weight: 400; }
+.csv-head { display: flex; justify-content: flex-end; margin-bottom: 6px; }
+.table-copy { font-size: 11px; padding: 3px 9px; }
+.try-example { margin-top: 10px; font-size: 12px; padding: 4px 11px; }

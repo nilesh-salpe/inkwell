@@ -524,7 +524,24 @@ window.Shell = (function () {
       catch (e) {
         el.preview.innerHTML = '<p class="md-error">' + escapeHtml(e.message) + '</p>';
       }
+      offerExample();
       el.pvScroll.scrollTop = keepTop;
+    }
+
+    /* An empty result panel is where someone new is looking, so put the
+       example there rather than only in the toolbar. */
+    function offerExample() {
+      if (el.editor.value.trim()) return;
+      const empty = $('#preview .j-empty');
+      const sample = $('#sample-doc');
+      if (!empty || !sample || !sample.textContent.trim() || $('#preview .try-example')) return;
+      const btn = document.createElement('button');
+      btn.className = 'mini try-example';
+      btn.type = 'button';
+      btn.textContent = 'Load an example';
+      btn.addEventListener('click', loadExample);
+      empty.appendChild(document.createElement('br'));
+      empty.appendChild(btn);
     }
 
     /* ---------- line metrics: exact, wrap-aware ---------- */

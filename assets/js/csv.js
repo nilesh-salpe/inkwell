@@ -106,7 +106,10 @@
     if (fCount) fCount.textContent = filter ? body.length + ' of ' + r.body.length + ' rows' : '';
 
     const shown = body.slice(0, MAX_ROWS);
-    let html = '<div class="csv-wrap"><table class="csv-table"><thead><tr><th class="csv-num"></th>' +
+    let html = '<div class="csv-head"><button class="mini table-copy" data-tip="Copy the rows shown, as CSV" ' +
+      'aria-label="Copy the rows shown, as CSV">Copy ' + (filter ? 'these ' + body.length + ' rows' : 'the table') +
+      '</button></div>';
+    html += '<div class="csv-wrap"><table class="csv-table"><thead><tr><th class="csv-num"></th>' +
       r.header.map((h) => '<th>' + escapeHtml(h || '') + '</th>').join('') + '</tr></thead><tbody>';
     shown.forEach((row, i) => {
       html += '<tr><td class="csv-num">' + (i + 1) + '</td>';
@@ -265,6 +268,18 @@
         Shell.toast(ok ? 'Copied as JSON' : 'Copy failed');
       }
     }
+  });
+
+  /* the filter means what you see is not always what the source holds */
+  api.el.preview.addEventListener('click', async (e) => {
+    if (!e.target.closest('.table-copy')) return;
+    const r = analyse(api.source);
+    if (r.empty) return;
+    const filter = fInput ? fInput.value.trim().toLowerCase() : '';
+    let rows = r.body;
+    if (filter) rows = rows.filter((row) => row.some((c) => String(c).toLowerCase().indexOf(filter) > -1));
+    const text = toCsv(r.header, rows, r.delim);
+    Shell.toast(await Shell.copyText(text) ? 'Copied ' + rows.length + ' rows' : 'Copy failed');
   });
 
   [dInput, hInput].forEach((node) => {

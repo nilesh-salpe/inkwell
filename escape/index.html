@@ -89,21 +89,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="menu-wrap">
       <button class="btn btn-ghost" id="btn-tools" aria-haspopup="true" aria-expanded="false" data-tip="Switch to another tool" aria-label="Switch to another tool"><svg class="ico"><use href="#i-grid"/></svg><span>Tools</span></button>
       <div class="menu menu-tools" id="menu-tools" role="menu" hidden>
-        <a href="../markdown/"><span class="tool-name">Markdown</span><span class="tool-blurb">Editor &amp; PDF export</span></a>
-        <a href="../json/"><span class="tool-name">JSON</span><span class="tool-blurb">Format, validate, query</span></a>
-        <a href="../yaml/"><span class="tool-name">YAML</span><span class="tool-blurb">Format, validate, convert</span></a>
-        <a href="../xml/"><span class="tool-name">XML</span><span class="tool-blurb">Format, validate, convert</span></a>
-        <a href="../csv/"><span class="tool-name">CSV</span><span class="tool-blurb">Table view &amp; conversion</span></a>
-        <a href="../diff/"><span class="tool-name">Diff</span><span class="tool-blurb">Compare two texts</span></a>
-        <a href="../regex/"><span class="tool-name">Regex</span><span class="tool-blurb">Test patterns live</span></a>
-        <a href="../text/"><span class="tool-name">Text</span><span class="tool-blurb">Case, sort, count</span></a>
-        <a href="../base/"><span class="tool-name">Base</span><span class="tool-blurb">Binary, hex, bitwise</span></a>
-        <a href="../color/"><span class="tool-name">Colour</span><span class="tool-blurb">hex, RGB, OKLCH, contrast</span></a>
-        <a href="../id/"><span class="tool-name">IDs</span><span class="tool-blurb">UUID, ULID, NanoID</span></a>
-        <a href="../jwt/"><span class="tool-name">JWT</span><span class="tool-blurb">Decode &amp; verify tokens</span></a>
-        <a href="../hash/"><span class="tool-name">Hash</span><span class="tool-blurb">MD5, SHA, HMAC</span></a>
-        <a href="../aes/"><span class="tool-name">AES</span><span class="tool-blurb">Encrypt with a passphrase</span></a>
-        <a href="../escape/" class="is-current" aria-current="page"><span class="tool-name">Escape</span><span class="tool-blurb">Escape &amp; unescape</span></a>
+        <a href="../markdown/"><span class="brand-mark-sm mark-md">M</span><span class="tool-name">Markdown</span><span class="tool-blurb">Editor &amp; PDF export</span></a>
+        <a href="../json/"><span class="brand-mark-sm mark-json">{}</span><span class="tool-name">JSON</span><span class="tool-blurb">Format, validate, query</span></a>
+        <a href="../yaml/"><span class="brand-mark-sm mark-yaml">Y</span><span class="tool-name">YAML</span><span class="tool-blurb">Format, validate, convert</span></a>
+        <a href="../xml/"><span class="brand-mark-sm mark-xml">&lt;&gt;</span><span class="tool-name">XML</span><span class="tool-blurb">Format, validate, convert</span></a>
+        <a href="../csv/"><span class="brand-mark-sm mark-csv">CSV</span><span class="tool-name">CSV</span><span class="tool-blurb">Table view &amp; conversion</span></a>
+        <a href="../diff/"><span class="brand-mark-sm mark-diff">±</span><span class="tool-name">Diff</span><span class="tool-blurb">Compare two texts</span></a>
+        <a href="../regex/"><span class="brand-mark-sm mark-regex">.*</span><span class="tool-name">Regex</span><span class="tool-blurb">Test patterns live</span></a>
+        <a href="../text/"><span class="brand-mark-sm mark-text">T</span><span class="tool-name">Text</span><span class="tool-blurb">Case, sort, count</span></a>
+        <a href="../base/"><span class="brand-mark-sm mark-base">01</span><span class="tool-name">Base</span><span class="tool-blurb">Binary, hex, bitwise</span></a>
+        <a href="../color/"><span class="brand-mark-sm mark-color">◐</span><span class="tool-name">Colour</span><span class="tool-blurb">hex, RGB, OKLCH, contrast</span></a>
+        <a href="../id/"><span class="brand-mark-sm mark-id">ID</span><span class="tool-name">IDs</span><span class="tool-blurb">UUID, ULID, NanoID</span></a>
+        <a href="../jwt/"><span class="brand-mark-sm mark-jwt">JWT</span><span class="tool-name">JWT</span><span class="tool-blurb">Decode &amp; verify tokens</span></a>
+        <a href="../hash/"><span class="brand-mark-sm mark-hash">#</span><span class="tool-name">Hash</span><span class="tool-blurb">MD5, SHA, HMAC</span></a>
+        <a href="../aes/"><span class="brand-mark-sm mark-aes">🔒</span><span class="tool-name">AES</span><span class="tool-blurb">Encrypt with a passphrase</span></a>
+        <a href="../escape/" class="is-current" aria-current="page"><span class="brand-mark-sm mark-esc">\</span><span class="tool-name">Escape</span><span class="tool-blurb">Escape &amp; unescape</span></a>
         <hr>
         <a href="../guides/"><span class="tool-name">Guides</span><span class="tool-blurb">How-to articles</span></a>
         <p class="palette-tip">Press <kbd>Ctrl</kbd> <kbd>K</kbd> to search every tool and command</p>
@@ -131,6 +131,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button role="menuitem" data-export="html"><svg class="ico"><use href="#i-download"/></svg>Standalone HTML</button>
         <hr>
         <button role="menuitem" data-export="copy-source"><svg class="ico"><use href="#i-copy"/></svg>Copy the input</button>
+        <button role="menuitem" data-export="share"><svg class="ico"><use href="#i-share"/></svg>Copy share link</button>
       </div>
     </div>
     <button class="btn btn-ghost" id="btn-copy" data-tip="Copy the whole document" aria-label="Copy the whole document"><svg class="ico"><use href="#i-copy"/></svg><span>Copy</span></button>

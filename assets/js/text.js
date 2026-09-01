@@ -122,7 +122,8 @@
     render: (src, preview) => {
       if (!src) { preview.innerHTML = '<p class="j-empty">Type or paste text on the left.</p>'; return; }
       const s = stats(src);
-      let html = '<section class="esc-card"><div class="esc-head"><span class="esc-label">Counts</span></div>' +
+      let html = '<section class="esc-card"><div class="esc-head"><span class="esc-label">Counts</span>' +
+        '<button class="mini stats-copy" data-tip="Copy every statistic" aria-label="Copy every statistic">Copy</button></div>' +
         '<table class="jwt-claims"><tbody>' +
         row('Characters', s.chars.toLocaleString()) +
         row('Characters (no spaces)', s.noSpace.toLocaleString()) +
@@ -158,6 +159,15 @@
       '<style>body{font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:700px;margin:0 auto;padding:48px 24px}' +
       'table{border-collapse:collapse;margin-bottom:24px}td{border-bottom:1px solid #eee;padding:5px 14px 5px 0}</style>\n' +
       '</head>\n<body>\n' + body + '\n</body>\n</html>\n'
+  });
+
+  api.el.preview.addEventListener('click', async (e) => {
+    if (!e.target.closest('.stats-copy')) return;
+    const lines = Shell.$$('#preview .jwt-claims tr').map((tr) => {
+      const td = tr.querySelectorAll('td');
+      return td[0].textContent + ': ' + td[1].textContent;
+    });
+    Shell.toast(await Shell.copyText(lines.join('\n')) ? 'Statistics copied' : 'Copy failed');
   });
 
   /* the chip row applies an operation to the whole document */

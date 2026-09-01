@@ -184,9 +184,13 @@
     blank: '',
     sampleTitle: 'Example palette',
     swPath: '../sw.js',
+    focusControl: '#c-bg',
     commands: { clear: (a) => { a.replaceAllText(''); a.el.editor.focus(); } },
     shortcuts: {},
-    deriveTitle: (c) => c.trim().split('\n')[0].slice(0, 40) || 'Untitled',
+    deriveTitle: (c) => {
+      const n = c.split('\n').filter((l) => l.trim()).length;
+      return n === 0 ? 'Untitled' : n === 1 ? c.trim().split('\n')[0].slice(0, 40) : n + ' colours';
+    },
     docSummary: (c) => c.split('\n').filter((l) => l.trim()).length + ' colours',
     updateStatus: (v) => {
       const list = v.split('\n').filter((l) => l.trim());

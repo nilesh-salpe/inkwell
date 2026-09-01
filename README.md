@@ -212,6 +212,9 @@ Bump `VERSION` in `sw.js` when you ship changes so visitors pick them up immedia
 | **Command palette** | `Ctrl/⌘ K` searches every tool and every command on the page. It is built by scanning the DOM for `[data-cmd]`, `[data-export]` and the tool menu, so it cannot drift out of step with the buttons that exist |
 | **Remembered controls** | Any control marked `data-remember` keeps its value between visits — the regex pattern, CSV delimiter, base and width, contrast background. Never applied to a passphrase, HMAC key or JWT secret |
 | **Cross-tool handoff** | "Send to …" passes the buffer through `sessionStorage`. Where the sender or receiver owns a converter, the data is converted on the way — JSON to CSV arrives as a table, not as raw JSON |
+| **Shared help** | The universal shortcut list is injected into every help modal from one place, so it cannot drift between tools |
+| **Load the example** | Every tool's sample document stays reachable after the first visit, from the toolbar and the palette |
+| **Small screens** | Control rows beyond the first collapse behind an Options toggle, and the pane holding them stays on screen in edit mode |
 
 A tool supplies a `render` function and a set of toolbar commands; the shell
 owns everything else. That is why all three tools have identical keyboard

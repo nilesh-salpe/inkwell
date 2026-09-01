@@ -426,6 +426,32 @@ window.Shell = (function () {
     });
   }
 
+
+  /* Every tool inherits the same navigation and export keys, so the list
+     lives here rather than being copied into fifteen help modals. */
+  const UNIVERSAL = [
+    ['Ctrl/⌘ K', 'Search every tool and command'],
+    ['Ctrl/⌘ F', 'Find and replace'],
+    ['Ctrl/⌘ S', 'Download the document'],
+    ['Ctrl/⌘ P', 'Export as PDF'],
+    ['Ctrl/⌘ 1 2 3', 'Editor / split / result'],
+    ['Ctrl/⌘ \\', 'Show or hide the sidebar'],
+    ['Esc', 'Close a menu, dialog or the find bar']
+  ];
+
+  function injectUniversalHelp() {
+    const body = $('.modal-body');
+    if (!body || $('.help-universal')) return;
+    const sec = document.createElement('section');
+    sec.className = 'help-universal';
+    sec.innerHTML = '<h3>The same everywhere</h3><table class="kbd-table">' +
+      UNIVERSAL.map((r) => '<tr><td><kbd>' + r[0] + '</kbd></td><td>' + r[1] + '</td></tr>').join('') +
+      '</table>';
+    const foot = $('.help-foot');
+    if (foot) body.insertBefore(sec, foot);
+    else body.appendChild(sec);
+  }
+
   /* ============================================================
      create(config) — wires a full editor page
      ============================================================ */
@@ -807,12 +833,17 @@ window.Shell = (function () {
       const btn = e.target.closest('[data-cmd]');
       if (!btn) return;
       if (btn.dataset.cmd === 'find') return toggleFind(true);
+      if (btn.dataset.cmd === 'example') return loadExample();
       const fn = config.commands[btn.dataset.cmd];
       if (fn) fn(api);
     });
 
     initMenus();
     initPalette();
+    injectUniversalHelp();
+    initExampleButton();
+    initOptionRows();
+    recordVisit();
     initControls();
 
     /* one-click copy of the current document */
@@ -1151,12 +1182,69 @@ window.Shell = (function () {
       if (k === '1') { e.preventDefault(); setMode('editor'); return; }
       if (k === '2') { e.preventDefault(); setMode('split'); return; }
       if (k === '3') { e.preventDefault(); setMode('preview'); return; }
+      /* Ctrl+B focuses the tool's main control when it has one and no
+         other meaning — regex pattern, contrast background, and so on */
+      if (k === 'b' && config.focusControl && !(config.shortcuts && config.shortcuts.b)) {
+        const node = $(config.focusControl);
+        if (node) { e.preventDefault(); node.focus(); node.select && node.select(); return; }
+      }
       if (document.activeElement !== el.editor) return;
       if (config.shortcuts && config.shortcuts[k]) { e.preventDefault(); config.shortcuts[k](api); }
     });
 
     window.addEventListener('beforeunload', saveNow);
     document.addEventListener('visibilitychange', () => { if (document.hidden) saveNow(); });
+
+
+    /* On a phone three stacked control rows leave no room for the result,
+       so everything after the first goes behind an Options toggle. */
+    function initOptionRows() {
+      const rows = $$('.preview-pane .gbar, .preview-pane .qbar, .editor-pane .gbar');
+      if (rows.length < 2) return;
+      rows.slice(1).forEach((r) => r.classList.add('gbar-extra'));
+      const btn = document.createElement('button');
+      btn.className = 'mini options-toggle';
+      btn.type = 'button';
+      btn.textContent = 'Options';
+      btn.setAttribute('data-tip', 'Show the other controls');
+      btn.setAttribute('aria-label', 'Show the other controls');
+      btn.addEventListener('click', () => {
+        const on = el.app.classList.toggle('show-options');
+        btn.textContent = on ? 'Fewer' : 'Options';
+      });
+      rows[0].appendChild(btn);
+    }
+
+    /* Every tool ships a sample document; make it reachable after the
+       first visit, when the editor is empty and the panel says nothing. */
+    function initExampleButton() {
+      const sample = $('#sample-doc');
+      const toolbar = $('#toolbar');
+      if (!sample || !toolbar || !sample.textContent.trim()) return;
+      const btn = document.createElement('button');
+      btn.className = 'tb';
+      btn.type = 'button';
+      btn.setAttribute('data-cmd', 'example');
+      btn.setAttribute('data-tip', 'Load the example');
+      btn.setAttribute('aria-label', 'Load the example');
+      btn.innerHTML = '<svg class="ico"><use href="#i-help"/></svg>';
+      toolbar.appendChild(btn);
+    }
+
+    function loadExample() {
+      const sample = $('#sample-doc');
+      if (!sample) return;
+      replaceAllText(sample.textContent.trim() + '\n');
+      toast('Example loaded');
+    }
+
+    function recordVisit() {
+      try {
+        const list = lsGet('inkwell.recent', []).filter((x) => x.tool !== TOOL);
+        list.unshift({ tool: TOOL, at: Date.now() });
+        lsSet('inkwell.recent', list.slice(0, 6));
+      } catch (e) { /* not important enough to fail over */ }
+    }
 
     /* ---------- the object tools are handed ---------- */
     const api = {
@@ -1234,6 +1322,6 @@ window.Shell = (function () {
   return {
     $: $, $$: $$, create, toast, escapeHtml, download, copyText, loadScript,
     lsGet, lsSet, effectiveTheme, onTheme, initTheme, safeFilename, relTime, initTooltips,
-    initMenus, closeMenus, encodeShare, decodeShare, initPalette, openPalette, sendTo, takeHandoff
+    initMenus, closeMenus, encodeShare, decodeShare, initPalette, openPalette, sendTo, takeHandoff, injectUniversalHelp
   };
 })();

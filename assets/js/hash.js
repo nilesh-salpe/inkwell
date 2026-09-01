@@ -134,6 +134,7 @@
     blank: '',
     sampleTitle: 'Example text',
     swPath: '../sw.js',
+    focusControl: '#h-key',
     commands: {
       clear: (a) => { fileData = null; a.replaceAllText(''); a.el.editor.focus(); }
     },

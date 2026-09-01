@@ -287,7 +287,9 @@
     if (info.entropy) add('Entropy', escapeHtml(info.entropy));
     if (info.derived) add('Derived from', escapeHtml(info.derived));
     if (info.sortable) add('Sortable', 'Yes — lexicographic order matches creation order');
-    return '<section class="id-card"><div class="id-value">' + escapeHtml(value) + '</div>' +
+    return '<section class="id-card"><div class="id-value">' + escapeHtml(value) +
+      '<button class="mini row-copy" data-value="' + escapeHtml(value) +
+      '" data-tip="Copy this identifier" aria-label="Copy this identifier">Copy</button></div>' +
       '<table class="jwt-claims"><tbody>' + rows.join('') + '</tbody></table></section>';
   }
 

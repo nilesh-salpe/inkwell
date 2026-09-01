@@ -117,6 +117,7 @@
     blank: '',
     sampleTitle: 'Example text',
     swPath: '../sw.js',
+    focusControl: '#r-pattern',
     commands: { clear: (a) => { a.replaceAllText(''); a.el.editor.focus(); } },
     shortcuts: {},
     deriveTitle: () => 'Regex test',

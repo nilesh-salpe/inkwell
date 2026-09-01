@@ -49,6 +49,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       you — Markdown to PDF, JSON, YAML and XML to a readable tree, CSV to a real table.
     </p>
 
+    <section class="hub-recent" id="recent" hidden>
+      <h2>Pick up where you left off</h2>
+      <div class="recent-row" id="recent-row"></div>
+    </section>
+
     <div class="hub-cards">
       <a class="hub-card" href="markdown/">
         <span class="hub-icon hub-icon-md">M<span>↓</span></span>
@@ -286,6 +291,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="assets/js/shell.js"></script>
-<script>Shell.initTheme();</script>
+<script>
+  Shell.initTheme();
+  Shell.initPalette();
+  (function recent() {
+    var NAMES = {
+      markdown: ['Markdown', 'mark-md', 'M'], json: ['JSON', 'mark-json', '{}'],
+      yaml: ['YAML', 'mark-yaml', 'Y'], xml: ['XML', 'mark-xml', '<>'],
+      csv: ['CSV', 'mark-csv', 'CSV'], diff: ['Diff', 'mark-diff', '\u00b1'],
+      regex: ['Regex', 'mark-regex', '.*'], text: ['Text', 'mark-text', 'T'],
+      base: ['Base', 'mark-base', '01'], color: ['Colour', 'mark-color', '\u25d0'],
+      id: ['IDs', 'mark-id', 'ID'], jwt: ['JWT', 'mark-jwt', 'JWT'],
+      hash: ['Hash', 'mark-hash', '#'], aes: ['AES', 'mark-aes', '\ud83d\udd12'],
+      escape: ['Escape', 'mark-esc', '\\']
+    };
+    var list = Shell.lsGet('inkwell.recent', []).filter(function (x) { return NAMES[x.tool]; });
+    if (list.length < 2) return;
+    var row = document.getElementById('recent-row');
+    row.innerHTML = list.slice(0, 6).map(function (x) {
+      var n = NAMES[x.tool];
+      return '<a class="recent-chip" href="' + x.tool + '/">' +
+        '<span class="brand-mark-sm ' + n[1] + '">' + n[2] + '</span>' + n[0] +
+        '<span class="recent-when">' + Shell.relTime(x.at) + '</span></a>';
+    }).join('');
+    document.getElementById('recent').hidden = false;
+  })();
+</script>
 </body>
 </html>

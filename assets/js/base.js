@@ -77,7 +77,9 @@
   const OP_LABEL = { and: 'AND', or: 'OR', xor: 'XOR', not: 'NOT', shl: '<<', shr: '>>', add: '+', sub: '-', mul: '×' };
 
   function row(k, v, mono) {
-    return '<tr><td>' + escapeHtml(k) + '</td><td' + (mono ? ' class="b-mono"' : '') + '>' + escapeHtml(v) + '</td></tr>';
+    return '<tr><td>' + escapeHtml(k) + '</td><td' + (mono ? ' class="b-mono"' : '') + '>' +
+      escapeHtml(v) + '</td><td class="b-act"><button class="mini row-copy" data-value="' + escapeHtml(v) +
+      '" data-tip="Copy this value" aria-label="Copy this value">Copy</button></td></tr>';
   }
 
   function card(raw, r, bits) {
@@ -112,11 +114,15 @@
     blank: '',
     sampleTitle: 'Example numbers',
     swPath: '../sw.js',
+    focusControl: '#b-operand',
     commands: {
       clear: (a) => { a.replaceAllText(''); a.el.editor.focus(); }
     },
     shortcuts: {},
-    deriveTitle: (c) => c.trim().split('\n')[0].slice(0, 40) || 'Untitled',
+    deriveTitle: (c) => {
+      const n = c.split('\n').filter((l) => l.trim()).length;
+      return n === 0 ? 'Untitled' : n === 1 ? c.trim().split('\n')[0].slice(0, 40) : n + ' numbers';
+    },
     docSummary: (c) => c.split('\n').filter((l) => l.trim()).length + ' values',
     updateStatus: (v) => {
       const list = v.split('\n').filter((l) => l.trim());
@@ -174,6 +180,12 @@
       '<style>body{font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:760px;margin:0 auto;padding:48px 24px}' +
       'table{border-collapse:collapse;margin-bottom:24px}td{border-bottom:1px solid #eee;padding:5px 14px 5px 0}' +
       '.b-mono{font-family:ui-monospace,Menlo,Consolas,monospace}</style>\n</head>\n<body>\n' + body + '\n</body>\n</html>\n'
+  });
+
+  api.el.preview.addEventListener('click', async (e) => {
+    const b = e.target.closest('.row-copy');
+    if (!b) return;
+    Shell.toast(await Shell.copyText(b.dataset.value) ? 'Copied ' + b.dataset.value : 'Copy failed');
   });
 
   [els.base, els.op, els.operand, els.width].forEach((n) => {

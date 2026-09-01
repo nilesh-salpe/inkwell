@@ -985,12 +985,18 @@ body.hub-page { overflow: auto; background: var(--bg); }
   }
   .workspace { position: relative; }
 
-  /* one pane at a time — Split behaves as the editor, and Read shows output */
-  .app.mode-split .preview-pane,
+  /* One pane at a time — but the control rows (pattern, delimiter,
+     passphrase) live inside the preview pane, so hiding the whole pane
+     made them unreachable on a phone. Keep the pane, drop its results. */
+  .workspace { flex-direction: column; }
+  .editor-pane, .preview-pane { border-right: 0; }
   .app.mode-split .splitter { display: none; }
-  .app.mode-split .editor-pane {
-    flex: 1 1 auto !important; border-right: 0;
-  }
+  .app.mode-split .editor-pane { flex: 1 1 auto !important; }
+  .app.mode-split .preview-pane { flex: 0 0 auto; border-top: 1px solid var(--border); }
+  .app.mode-split .preview-pane .preview-scroll,
+  .app.mode-split .preview-pane .preview-head { display: none; }
+  .app.mode-split .preview-pane:not(:has(.gbar, .qbar)) { display: none; }
+  .app.mode-preview .preview-pane { flex: 1 1 auto; }
 
   .markdown-body { padding: 22px 16px 40vh; }
   .json-body { font-size: 12.5px; }
@@ -1185,3 +1191,66 @@ html[data-theme="dark"] .r-hit { background: #a16207; color: #fff; }
   font-size: 11px; color: var(--text-mute); line-height: 1.5;
 }
 .palette-tip kbd { font-size: 10px; }
+.help-universal { margin-top: 22px; }
+.help-universal h3 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-mute); }
+.b-act { width: 1%; text-align: right; }
+.row-copy, .stats-copy, .part-copy { opacity: 0; padding: 2px 8px; font-size: 11px; }
+tr:hover .row-copy, .esc-card:hover .stats-copy, .id-card:hover .row-copy,
+.jwt-block:hover .part-copy, .esc-head:hover .stats-copy { opacity: 1; }
+.id-value { display: flex; align-items: center; gap: 10px; }
+.id-value .row-copy { margin-left: auto; flex: none; }
+.jwt-block h3 .part-copy { margin-left: auto; text-transform: none; letter-spacing: 0; }
+
+/* ---------- tool marks in the switcher ---------- */
+.menu-tools a {
+  display: grid; grid-template-columns: 22px 1fr; column-gap: 10px;
+  align-items: center;
+}
+.menu-tools a .brand-mark-sm { grid-column: 1; grid-row: 1 / span 2; }
+.menu-tools a .tool-name, .menu-tools a .tool-blurb { grid-column: 2; }
+.brand-mark-sm {
+  width: 22px; height: 22px; border-radius: 6px;
+  display: grid; place-items: center; color: #fff;
+  font: 800 9px var(--sans); letter-spacing: -.3px; flex: none;
+}
+.mark-md    { background: linear-gradient(140deg, #6366f1, #4f46e5); font-size: 11px; }
+.mark-json  { background: linear-gradient(140deg, #14b8a6, #0d9488); font: 700 10px var(--mono); }
+.mark-yaml  { background: linear-gradient(140deg, #f59e0b, #d97706); font-size: 11px; }
+.mark-xml   { background: linear-gradient(140deg, #38bdf8, #0284c7); font: 700 9px var(--mono); }
+.mark-csv   { background: linear-gradient(140deg, #22c55e, #16a34a); font-size: 7.5px; }
+.mark-diff  { background: linear-gradient(140deg, #34d399, #059669); font: 800 12px var(--mono); }
+.mark-regex { background: linear-gradient(140deg, #fb923c, #c2410c); font: 800 10px var(--mono); }
+.mark-text  { background: linear-gradient(140deg, #2dd4bf, #0f766e); font: 800 11px var(--serif); }
+.mark-base  { background: linear-gradient(140deg, #94a3b8, #475569); font: 800 8.5px var(--mono); }
+.mark-color { background: linear-gradient(140deg, #f472b6, #be185d); font-size: 12px; }
+.mark-id    { background: linear-gradient(140deg, #a78bfa, #7c3aed); font-size: 8.5px; }
+.mark-jwt   { background: linear-gradient(140deg, #ec4899, #db2777); font-size: 7px; }
+.mark-hash  { background: linear-gradient(140deg, #22d3ee, #0891b2); font: 800 12px var(--mono); }
+.mark-aes   { background: linear-gradient(140deg, #38bdf8, #0369a1); font-size: 10px; }
+.mark-esc   { background: linear-gradient(140deg, #fb923c, #f97316); font: 800 11px var(--mono); }
+
+/* ---------- collapsed control rows on small screens ---------- */
+.options-toggle { display: none; margin-left: auto; }
+@media (max-width: 760px) {
+  .options-toggle { display: inline-flex; }
+  .gbar-extra { display: none !important; }
+  .app.show-options .gbar-extra { display: flex !important; }
+}
+
+/* ---------- recently used ---------- */
+.hub-recent { margin: 0 0 30px; }
+.hub-recent[hidden] { display: none; }
+.hub-recent h2 {
+  font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--text-mute); margin: 0 0 12px;
+}
+.recent-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.recent-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 13px 7px 9px; border-radius: 30px;
+  border: 1px solid var(--border); background: var(--panel);
+  text-decoration: none; color: var(--text);
+  font-size: 13.5px; font-weight: 550;
+}
+.recent-chip:hover { border-color: var(--accent); background: var(--accent-soft); }
+.recent-when { color: var(--text-mute); font-size: 11.5px; font-weight: 400; }

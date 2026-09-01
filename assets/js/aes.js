@@ -151,6 +151,7 @@
     blank: '',
     sampleTitle: 'Example message',
     swPath: '../sw.js',
+    focusControl: '#a-pass',
     persist: false,               /* plaintext and passphrases stay out of storage */
     commands: {
       clear: (a) => { a.replaceAllText(''); a.el.editor.focus(); },

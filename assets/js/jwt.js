@@ -138,12 +138,14 @@
     }
 
     html += '<section class="jwt-block">' +
-      '<h3>Header' + (alg ? '<span class="jwt-alg">' + escapeHtml(String(alg)) + '</span>' : '') + '</h3>' +
+      '<h3>Header' + (alg ? '<span class="jwt-alg">' + escapeHtml(String(alg)) + '</span>' : '') +
+      '<button class="mini part-copy" data-part="header" data-tip="Copy the header as JSON" aria-label="Copy the header as JSON">Copy</button></h3>' +
       DataTools.renderValue(r.header) + '</section>';
 
     html += '<section class="jwt-block">' +
       '<h3>Payload<span class="badge is-' + (v.state === 'ok' ? 'ok' : v.state === 'bad' ? 'bad' : 'warn') + '">' +
-      escapeHtml(v.label) + '</span></h3>' +
+      escapeHtml(v.label) + '</span>' +
+      '<button class="mini part-copy" data-part="payload" data-tip="Copy the payload as JSON" aria-label="Copy the payload as JSON">Copy</button></h3>' +
       (v.detail ? '<p class="jwt-detail">' + escapeHtml(v.detail) + '</p>' : '') +
       claimsTable(r.payload || {}) +
       DataTools.renderValue(r.payload) + '</section>';
@@ -305,6 +307,11 @@
 
   const btnCopyPayload = $('#btn-copy-payload');
   if (btnCopyPayload) btnCopyPayload.addEventListener('click', () => commands.copyPayload());
+
+  api.el.preview.addEventListener('click', (e) => {
+    const b = e.target.closest('.part-copy');
+    if (b) copyPart(b.dataset.part);
+  });
 
   /* claim keys copy their path, same as the JSON tool */
   api.el.preview.addEventListener('click', async (e) => {
